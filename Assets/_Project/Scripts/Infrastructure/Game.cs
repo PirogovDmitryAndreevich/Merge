@@ -4,6 +4,6 @@ public class Game
 
     public Game(ICoroutineRunner coroutineRunner)
     {
-        StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner));
+        StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), new AllServices());
     }
 }

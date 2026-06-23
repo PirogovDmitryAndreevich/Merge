@@ -6,12 +6,15 @@ public class GameStateMachine
     private Dictionary<Type, IExitingState> _states;
     private IExitingState _activeState;
 
-    public GameStateMachine(SceneLoader sceneLoader)
+    public GameStateMachine(SceneLoader sceneLoader, AllServices allServices)
     {
         _states = new Dictionary<Type, IExitingState>()
         {
-            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader),
-            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader)
+            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, allServices),
+            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader, allServices.Single<IGameFactory>()),
+            [typeof(LoadProgressState)] = new LoadProgressState(this,
+            allServices.Single<IProgressService>(),
+            allServices.Single<ISaveLoadService>())
         };
     }
 

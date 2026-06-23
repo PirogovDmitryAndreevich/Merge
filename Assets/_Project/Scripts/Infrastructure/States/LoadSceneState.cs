@@ -1,36 +1,27 @@
-using System;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class LoadSceneState : IPayloadState<string>
 {
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
+    private readonly IGameFactory _gameFactory;
 
-    public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader)
+    public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, IGameFactory gameFactory)
     {
         _gameStateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
+        _gameFactory = gameFactory;
     }
 
-    public void Enter(string sceneName)
-    {
+    public void Enter(string sceneName) => 
         _sceneLoader.Load(sceneName, onLoaded: OnLoaded);
-    }
 
-    private void OnLoaded()
-    {
+    private void OnLoaded() => 
         InitGameObject();
-    }
 
     private void InitGameObject()
     {
-        var mainCanvasPrefab = Resources.Load<GameObject>("MainCanvas/MainCanvas");
-
-        var mainCanvas = UnityEngine.Object.Instantiate(mainCanvasPrefab)
-            .GetComponent<MainCanvas>();
-
-        mainCanvas.Construct();
+        MainCanvas mainCanvas = _gameFactory.InstantiateMainCanvas();
     }
 
     public void Exit()

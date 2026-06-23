@@ -1,15 +1,16 @@
 public class BootstrapState : IState
 {
     private const string InitialSceneName = "Initial";
-    private const string MainSceneName = "Main";
 
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
+    private readonly AllServices _allServices;
 
-    public BootstrapState(GameStateMachine gameStateMachine, SceneLoader sceneLoader)
+    public BootstrapState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, AllServices allServices)
     {
         _gameStateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
+        _allServices = allServices;
         RegisterService();
     }
 
@@ -18,7 +19,7 @@ public class BootstrapState : IState
 
     private void EnterLoadLevel()
     {
-        _gameStateMachine.Enter<LoadSceneState, string>(MainSceneName);
+        _gameStateMachine.Enter<LoadProgressState>();
     }
 
     public void Exit()
@@ -28,6 +29,9 @@ public class BootstrapState : IState
 
     private void RegisterService()
     {
-        
+        _allServices.RegisterSingle<IProgressService>(new ProgressService());
+        _allServices.RegisterSingle<ISaveLoadService>(new SaveLoadService(_allServices.Single<IProgressService>()));
+        _allServices.RegisterSingle<IAssetsProvider>(new AssetsProvider());
+        _allServices.RegisterSingle<IGameFactory>(new GameFactory(_allServices.Single<IAssetsProvider>()));
     }
 }
