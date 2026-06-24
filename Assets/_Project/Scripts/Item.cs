@@ -1,57 +1,71 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Collider2D))]
-public class Item : MonoBehaviour, IDragHandler, IEndDragHandler
+public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    [SerializeField] private Image _image;
+    [SerializeField] private Button _button;
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private Collider2D _collider;
+    [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private ContactFilter2D _contactFilter;
-    [SerializeField] private ItemID _id;
-    [SerializeField] private ItemID _nextId;
 
-    private readonly Collider2D[] _overlapResults = new Collider2D[8];
     private bool _isMerged;
     private Canvas _canvas;
+    private ItemData _data;
+    private IMergeService _merge;
+    private float _profit;
 
-    public ItemID ID => _id;
+    public ItemID ID {  get; private set; }
+    public ItemID NextID {  get; private set; }
+    public Collider2D Collider => _collider;
+    public ContactFilter2D ContactFilter => _contactFilter;
 
-    public void Construct(Canvas canvas)
+    private void OnDestroy() => 
+        _button.onClick.RemoveListener(OnClicked);
+
+    private void Start() => 
+        _button.onClick.AddListener(OnClicked);
+
+    public void Construct(Canvas canvas, IMergeService mergeService)
     {
         _canvas = canvas;
+        _merge = mergeService;
     }
 
-    public void OnDrag(PointerEventData eventData) => 
+    public void Initialize(ItemData itemData)
+    {
+       _data = itemData;
+
+        ID = _data.ID;
+        NextID = _data.Next;
+        _image.sprite = _data.Sprite;
+        _profit = _data.Profit;
+
+        _isMerged = false;
+    }
+
+    public void OnBeginDrag(PointerEventData eventData) => 
+        _canvasGroup.alpha = 0.5f;
+
+    public void OnDrag(PointerEventData eventData) =>
         _rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;
 
-    public void OnEndDrag(PointerEventData eventData) => 
-        TryMerge();
-
-    private void TryMerge()
+    public void OnEndDrag(PointerEventData eventData)
     {
-        if (_isMerged)
-            return;
-
-        int count = _collider.OverlapCollider(_contactFilter, _overlapResults);
-
-        for (int i = 0; i < count; i++)
+        if (!_isMerged)
         {
-            if (_overlapResults[i].TryGetComponent(out Item other) == false)
-                continue;
-
-            if (other == this || other.ID != ID)
-                continue;
-
-            Merge(other);
-            return;
+            _isMerged = true;
+            _merge.TryMerge(this);
         }
+
+        _canvasGroup.alpha = 1;
     }
 
-
-    private void Merge(Item other)
+    private void OnClicked()
     {
-        Destroy(other.gameObject);
-        Destroy(gameObject);
+
     }
 }
