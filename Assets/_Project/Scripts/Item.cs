@@ -15,12 +15,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private bool _isMerged;
     private Canvas _canvas;
     private ItemData _data;
+    private ItemSaveData _saveData;
     private IMergeService _merge;
     private float _profit;
 
     public ItemID ID {  get; private set; }
     public ItemID NextID {  get; private set; }
     public Collider2D Collider => _collider;
+    public ItemSaveData SaveData => _saveData;
     public ContactFilter2D ContactFilter => _contactFilter;
 
     private void OnDestroy() => 
@@ -35,17 +37,22 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         _merge = mergeService;
     }
 
-    public void Initialize(ItemData itemData)
+    public void Initialize(ItemData itemData, ItemSaveData saveData)
     {
        _data = itemData;
+        _saveData = saveData;
 
         ID = _data.ID;
+        _saveData.ID = ID;
         NextID = _data.Next;
         _image.sprite = _data.Sprite;
         _profit = _data.Profit;
 
         _isMerged = false;
     }
+
+    public void SavePosition() => 
+        _saveData.Position = transform.position.AsVectorData();
 
     public void OnBeginDrag(PointerEventData eventData) => 
         _canvasGroup.alpha = 0.5f;
@@ -62,6 +69,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         }
 
         _canvasGroup.alpha = 1;
+        SavePosition();
     }
 
     private void OnClicked()

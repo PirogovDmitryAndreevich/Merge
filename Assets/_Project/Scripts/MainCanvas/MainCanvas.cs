@@ -11,8 +11,8 @@ public class MainCanvas : MonoBehaviour
     private IItemSpawnService _itemSpawn;
 
     public RectTransform SpawnFrame => _spawnFrame;
-    public Vector2 StartItemSpawnPoint => _spawnButton.transform.position;
     public Transform ParentForItems => _itemParent;
+    private Vector2 StartItemSpawnPoint => _spawnButton.transform.position;
 
     private void Awake() => 
         _spawnButton.ButtonClicked += OnButtonClicked;
@@ -24,5 +24,5 @@ public class MainCanvas : MonoBehaviour
         _itemSpawn = itemSpawn;
 
     private void OnButtonClicked() => 
-        _itemSpawn.Spawn();
+        _itemSpawn.Spawn(StartItemSpawnPoint);
 }

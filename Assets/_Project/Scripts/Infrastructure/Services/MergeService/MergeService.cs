@@ -3,11 +3,13 @@ using UnityEngine;
 public class MergeService : IMergeService
 {
     private readonly Collider2D[] _overlapResults = new Collider2D[8];
-    private IStaticData _staticData;
+    private readonly IStaticData _staticData;
+    private readonly IProgressService _progressService;
 
-    public MergeService(IStaticData staticData)
+    public MergeService(IStaticData staticData, IProgressService progressService)
     {
         _staticData = staticData;
+        _progressService = progressService;
     }
 
     public void TryMerge(Item item)
@@ -37,10 +39,12 @@ public class MergeService : IMergeService
             return;
         }
 
+        _progressService.Progress.Items.Items.Remove(item.SaveData);
         Object.Destroy(item.gameObject); // return to pool 
 
         ItemData nextItemData = _staticData.ForItem(nextItemID);
 
-        other.Initialize(nextItemData);
+        other.Initialize(nextItemData, other.SaveData);
+        other.SavePosition();
     }
 }

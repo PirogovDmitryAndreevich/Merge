@@ -5,29 +5,28 @@ public class ItemSpawnService : IItemSpawnService
 {
     private readonly IGameFactory _gameFactory;
     private readonly IStaticData _staticData;
+    private readonly IProgressService _progressService;
     private Vector3[] _corners = new Vector3[4];
-    private Vector2 _startPosition;
 
-    public ItemSpawnService(IGameFactory gameFactory, IStaticData staticData)
+    public ItemSpawnService(IGameFactory gameFactory, IStaticData staticData, IProgressService progressService)
     {
         _gameFactory = gameFactory;
         _staticData = staticData;
+        _progressService = progressService;
     }
 
-    public void SetSpawnFrame(RectTransform frame, Vector2 startSpawnPoint)
-    {
+    public void SetSpawnFrame(RectTransform frame) => 
         frame.GetWorldCorners(_corners);
-        _startPosition = startSpawnPoint;
-    }
 
-    public void Spawn()
+    public void Spawn(Vector3 startPosition)
     {
         Item item = _gameFactory.CreateItem();
 
         ItemData itemData = _staticData.ForItem(ItemID.Item_1); // Get Item ID
+        ItemSaveData itemSaveData = new ItemSaveData();
 
-        item.Initialize(itemData);
-        item.transform.position = _startPosition;
+        item.Initialize(itemData, itemSaveData);
+        item.transform.position = startPosition;
 
         Vector3 min = _corners[0];
         Vector3 max = _corners[2];
@@ -39,6 +38,12 @@ public class ItemSpawnService : IItemSpawnService
         item.transform.DOMove(targetPosition, 0.5f)
             .SetUpdate(true)
             .SetEase(Ease.OutCirc)
-            .Play();
+            .Play()
+            .OnComplete(() => SetItemPosition(item));
+
+        _progressService.Progress.Items.Items.Add(item.SaveData);
     }
+
+    private void SetItemPosition(Item item) => 
+        item.SavePosition();
 }

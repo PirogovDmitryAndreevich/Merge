@@ -12,13 +12,19 @@ public class GameStateMachine
         {
             [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, allServices),
 
-            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader,
-            allServices.Single<IGameFactory>(),
-            allServices.Single<IItemSpawnService>()),
-
             [typeof(LoadProgressState)] = new LoadProgressState(this,
-            allServices.Single<IProgressService>(),
-            allServices.Single<ISaveLoadService>())
+                allServices.Single<IProgressService>(),
+                allServices.Single<ISaveLoadService>()),
+
+            [typeof(LoadSceneState)] = new LoadSceneState(this, sceneLoader,
+                allServices.Single<IGameFactory>(),
+                allServices.Single<IItemSpawnService>(),
+                allServices.Single<IStaticData>(),
+                allServices.Single<IProgressService>()),
+
+            [typeof(GameLoopState)] = new GameLoopState(
+                coroutineRunner, 
+                allServices.Single<ISaveLoadService>()),
         };
     }
 

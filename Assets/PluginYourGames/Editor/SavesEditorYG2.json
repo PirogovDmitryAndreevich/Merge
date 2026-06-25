@@ -1,0 +1,33 @@
+{
+    "intExample": 5,
+    "strExample": "Hello!",
+    "boolExample": [
+        false,
+        false,
+        false,
+        false
+    ],
+    "idSave": 2,
+    "Saves": {
+        "Items": {
+            "Items": [
+                {
+                    "ID": 3,
+                    "Position": {
+                        "X": 649.4188232421875,
+                        "Y": 658.4739990234375,
+                        "Z": 0.0
+                    }
+                },
+                {
+                    "ID": 3,
+                    "Position": {
+                        "X": 493.14520263671877,
+                        "Y": 665.4140625,
+                        "Z": 0.0
+                    }
+                }
+            ]
+        }
+    }
+}

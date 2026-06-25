@@ -33,13 +33,15 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IProgressService>(new ProgressService());
         _allServices.RegisterSingle<ISaveLoadService>(new SaveLoadService(_allServices.Single<IProgressService>()));
         _allServices.RegisterSingle<IAssetsProvider>(new AssetsProvider());
-        _allServices.RegisterSingle<IMergeService>(new MergeService(_allServices.Single<IStaticData>()));
+
+        _allServices.RegisterSingle<IMergeService>(new MergeService(_allServices.Single<IStaticData>(),
+            _allServices.Single<IProgressService>()));
 
         _allServices.RegisterSingle<IGameFactory>(new GameFactory(_allServices.Single<IAssetsProvider>(),
             _allServices.Single <IMergeService>()));
 
         _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(_allServices.Single<IGameFactory>(),
-            _allServices.Single<IStaticData>()));
+            _allServices.Single<IStaticData>(), _allServices.Single<IProgressService>()));
     }
 
     private void RegisterStaticData()
