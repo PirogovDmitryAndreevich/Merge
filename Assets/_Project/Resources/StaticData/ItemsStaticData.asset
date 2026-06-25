@@ -16,15 +16,15 @@ MonoBehaviour:
   - ID: 1
     Next: 2
     Sprite: {fileID: 7482667652216324306, guid: bfb7401545ecfcd4a9f7bff0e9309357, type: 3}
-    Profit: 0
+    Profit: 10
     Price: 0
   - ID: 2
     Next: 3
     Sprite: {fileID: -2413806693520163455, guid: 5f20afdf41875a24bb23677d5e8ebe05, type: 3}
-    Profit: 0
+    Profit: 20
     Price: 0
   - ID: 3
     Next: 1000
     Sprite: {fileID: 7482667652216324306, guid: 0fbd5825bdedc7b459dfdfcbd4c8a58e, type: 3}
-    Profit: 0
+    Profit: 30
     Price: 0

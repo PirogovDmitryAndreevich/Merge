@@ -20,7 +20,8 @@ public class GameStateMachine
                 allServices.Single<IGameFactory>(),
                 allServices.Single<IItemSpawnService>(),
                 allServices.Single<IStaticData>(),
-                allServices.Single<IProgressService>()),
+                allServices.Single<IProgressService>(),
+                allServices.Single<IPoolService>()),
 
             [typeof(GameLoopState)] = new GameLoopState(
                 coroutineRunner, 

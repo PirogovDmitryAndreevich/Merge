@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public class LoadSceneState : IPayloadState<string>
@@ -8,10 +9,11 @@ public class LoadSceneState : IPayloadState<string>
     private readonly IItemSpawnService _itemSpawnService;
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
+    private readonly IPoolService _poolService;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         IGameFactory gameFactory, IItemSpawnService itemSpawnService,
-        IStaticData staticData, IProgressService progressService)
+        IStaticData staticData, IProgressService progressService, IPoolService poolService)
     {
         _gameStateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
@@ -19,6 +21,7 @@ public class LoadSceneState : IPayloadState<string>
         _itemSpawnService = itemSpawnService;
         _staticData = staticData;
         _progressService = progressService;
+        _poolService = poolService;
     }
 
     public void Enter(string sceneName) => 
@@ -38,6 +41,7 @@ public class LoadSceneState : IPayloadState<string>
     private void InitGameObject()
     {
         InitMainCanvas();
+        RegisterPoolFunc();
         LoadItemsOnScene();
     }
 
@@ -54,11 +58,17 @@ public class LoadSceneState : IPayloadState<string>
 
         foreach (ItemSaveData item in items)
         {
-            Item loadItem = _gameFactory.CreateItem();
+            Item loadItem = _poolService.Get<Item>();
             ItemData itemData = _staticData.ForItem(item.ID);
 
             loadItem.Initialize(itemData, item);
             loadItem.transform.position = item.Position.AsUnityVector();
         }
+    }
+
+    private void RegisterPoolFunc()
+    {
+        _poolService.RegisterFactory(() => _gameFactory.CreateItem());
+        _poolService.RegisterFactory(() => _gameFactory.CreateProfit());
     }
 }

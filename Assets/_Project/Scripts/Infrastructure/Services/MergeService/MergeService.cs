@@ -5,11 +5,13 @@ public class MergeService : IMergeService
     private readonly Collider2D[] _overlapResults = new Collider2D[8];
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
+    private readonly IPoolService _pool;
 
-    public MergeService(IStaticData staticData, IProgressService progressService)
+    public MergeService(IStaticData staticData, IProgressService progressService, IPoolService pool)
     {
         _staticData = staticData;
         _progressService = progressService;
+        _pool = pool;
     }
 
     public void TryMerge(Item item)
@@ -27,6 +29,8 @@ public class MergeService : IMergeService
             Merge(item, other);
             return;
         }
+
+        return;
     }
 
     private void Merge(Item item, Item other)
@@ -40,7 +44,7 @@ public class MergeService : IMergeService
         }
 
         _progressService.Progress.Items.Items.Remove(item.SaveData);
-        Object.Destroy(item.gameObject); // return to pool 
+        _pool.Return(item);
 
         ItemData nextItemData = _staticData.ForItem(nextItemID);
 
