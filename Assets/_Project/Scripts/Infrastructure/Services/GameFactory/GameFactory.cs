@@ -27,7 +27,8 @@ public class GameFactory : IGameFactory
 
         _canvas = _mainCanvas.GetComponent<Canvas>();
 
-        _mainCanvas.CoinsCounter.Construct(_progress);        
+        _mainCanvas.CoinsCounter.Construct(_progress);  
+        _mainCanvas.NewItemWindow.Construct(_mergeService);
 
         return _mainCanvas;
     }
@@ -51,5 +52,25 @@ public class GameFactory : IGameFactory
         profit.Construct(_poolService);
 
         return profit;
+    }
+
+    public ClickEffect CreateClickEffect()
+    {
+        ClickEffect particles = _assets.Instantiate(AssetsPath.ClickEffectPath)
+            .GetComponent<ClickEffect>();
+
+        particles.Construct(_poolService);
+
+        return particles;
+    }
+
+    public MergeEffect CreateMergeEffect()
+    {
+        MergeEffect particle = _assets.Instantiate(AssetsPath.MergeEffectPath)
+            .GetComponent<MergeEffect>();
+
+        particle.Construct(_poolService);
+
+        return particle;
     }
 }

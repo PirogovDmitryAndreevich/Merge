@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MergeService : IMergeService
@@ -6,6 +7,10 @@ public class MergeService : IMergeService
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
     private readonly IPoolService _pool;
+
+    private int _maxItem;
+
+    public event Action<ItemData> NewMaxItemReached;
 
     public MergeService(IStaticData staticData, IProgressService progressService, IPoolService pool)
     {
@@ -34,19 +39,25 @@ public class MergeService : IMergeService
     }
 
     private void Merge(Item item, Item other)
-    {
-        ItemID nextItemID = item.NextID;
+    {  
+        ItemData nextItemData = _staticData.ForItem(item.ID + 1);
 
-        if (nextItemID == ItemID.Non)
-        {
-            Debug.Log("Last Item Reached");
+        if(nextItemData == null)
             return;
-        }
 
         _progressService.Progress.Items.Items.Remove(item.SaveData);
+        MergeEffect particle = _pool.Get<MergeEffect>();
+
+        particle.Play(other.transform.position);
         _pool.Return(item);
 
-        ItemData nextItemData = _staticData.ForItem(nextItemID);
+
+        if (nextItemData.ID > _maxItem)
+        {
+            _maxItem = nextItemData.ID;
+            _progressService.Progress.Items.MaxItemID = _maxItem;
+            NewMaxItemReached?.Invoke(nextItemData);
+        }
 
         other.Initialize(nextItemData, other.SaveData);
         other.SavePosition();

@@ -1,5 +1,5 @@
 ﻿public interface IStaticData : IService
 {
-    ItemData ForItem(ItemID id);
+    ItemData ForItem(int id);
     void Load();
 }

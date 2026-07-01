@@ -9,8 +9,12 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private Transform _itemParent;
 
+    [Header("Windows")]
+    [SerializeField] private NewItemWindow _newItemWindow;
+
     private IItemSpawnService _itemSpawn;
 
+    public NewItemWindow NewItemWindow => _newItemWindow;
     public CoinsCounter CoinsCounter => _coinsCounter;
     public RectTransform SpawnFrame => _spawnFrame;
     public Transform ParentForItems => _itemParent;

@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class ItemSpawnService : IItemSpawnService
 {
-    private readonly IGameFactory _gameFactory;
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
     private readonly IPoolService _pool;
     private Vector3[] _corners = new Vector3[4];
 
-    public ItemSpawnService(IGameFactory gameFactory, IStaticData staticData,
+    public ItemSpawnService(IStaticData staticData,
         IProgressService progressService, IPoolService pool)
     {
-        _gameFactory = gameFactory;
         _staticData = staticData;
         _progressService = progressService;
         _pool = pool;
@@ -25,7 +23,7 @@ public class ItemSpawnService : IItemSpawnService
     {
         Item item = _pool.Get<Item>();
 
-        ItemData itemData = _staticData.ForItem(ItemID.Item_1); // Get Item ID
+        ItemData itemData = _staticData.ForItem(1); // Get Item ID
 
         ItemSaveData itemSaveData;
 

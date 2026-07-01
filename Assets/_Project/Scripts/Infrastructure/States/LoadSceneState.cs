@@ -70,5 +70,7 @@ public class LoadSceneState : IPayloadState<string>
     {
         _poolService.RegisterFactory(() => _gameFactory.CreateItem());
         _poolService.RegisterFactory(() => _gameFactory.CreateProfit());
+        _poolService.RegisterFactory(() => _gameFactory.CreateClickEffect());
+        _poolService.RegisterFactory(() => _gameFactory.CreateMergeEffect());
     }
 }

@@ -42,8 +42,8 @@ public class BootstrapState : IState
             _allServices.Single <IMergeService>(), _allServices.Single<IProgressService>(),
             _allServices.Single<IPoolService>()));
 
-        _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(_allServices.Single<IGameFactory>(),
-            _allServices.Single<IStaticData>(), _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>()));
+        _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(_allServices.Single<IStaticData>(),
+            _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>()));
     }
 
     private void RegisterStaticData()

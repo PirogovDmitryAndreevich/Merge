@@ -3,6 +3,6 @@ using System;
 [Serializable]
 public class ItemSaveData
 {
-    public ItemID ID;
+    public int ID;
     public Vector3Data Position;
 }

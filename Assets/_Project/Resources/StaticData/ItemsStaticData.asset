@@ -12,19 +12,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68115ea9a912cf4891cd6576dae7233, type: 3}
   m_Name: ItemsStaticData
   m_EditorClassIdentifier: 
+  ItemsCount: 6
   Items:
   - ID: 1
-    Next: 2
-    Sprite: {fileID: 7482667652216324306, guid: bfb7401545ecfcd4a9f7bff0e9309357, type: 3}
-    Profit: 10
-    Price: 0
+    Sprite: {fileID: 21300000, guid: 7d29f9da371a62f478481619401980d8, type: 3}
+    Profit: 1
+    Price: 1
   - ID: 2
-    Next: 3
-    Sprite: {fileID: -2413806693520163455, guid: 5f20afdf41875a24bb23677d5e8ebe05, type: 3}
-    Profit: 20
-    Price: 0
+    Sprite: {fileID: 21300000, guid: 440d4c8731fd3654ab282a34e7892a7c, type: 3}
+    Profit: 3
+    Price: 23
   - ID: 3
-    Next: 1000
-    Sprite: {fileID: 7482667652216324306, guid: 0fbd5825bdedc7b459dfdfcbd4c8a58e, type: 3}
-    Profit: 30
-    Price: 0
+    Sprite: {fileID: 21300000, guid: 48ca3f6ac9e912240880e04f15889da1, type: 3}
+    Profit: 5
+    Price: 84
+  - ID: 4
+    Sprite: {fileID: 21300000, guid: 73ef4cd714a47d149b7dfa10e71de3ac, type: 3}
+    Profit: 9
+    Price: 227
+  - ID: 5
+    Sprite: {fileID: 21300000, guid: b96066cb827099d42ab36651a4ed6f77, type: 3}
+    Profit: 14
+    Price: 441
+  - ID: 6
+    Sprite: {fileID: 21300000, guid: 048bf091c979981408447b094804cca4, type: 3}
+    Profit: 19
+    Price: 646
+  StartProfit: 5
+  ProfitGrowth: 1.18
+  StartUnlockTime: 6
+  TimeGrowth: 1.07
+  AverageComboMultiplier: 2.8
+  DifficultyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.002466
+      value: 2.0230737
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.0828524
+      value: 1.8989112
+      inSlope: -0.0625096
+      outSlope: -0.0625096
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 2.3387685
+      value: 2.8721292
+      inSlope: 0.59869385
+      outSlope: 0.59869385
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.07300623
+    - serializedVersion: 3
+      time: 6.0038056
+      value: 3.9266381
+      inSlope: -0.1784585
+      outSlope: -0.1784585
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.6787208
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

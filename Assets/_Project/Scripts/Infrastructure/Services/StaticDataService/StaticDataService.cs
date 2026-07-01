@@ -5,7 +5,7 @@ using UnityEngine;
 public class StaticDataService : IStaticData
 {
     private const string ItemsDataPath = "StaticData/ItemsStaticData";
-    private Dictionary<ItemID, ItemData> _item;
+    private Dictionary<int, ItemData> _item;
 
     public void Load()
     {
@@ -13,7 +13,7 @@ public class StaticDataService : IStaticData
             .Items.ToDictionary(x => x.ID, x => x);
     }
 
-    public ItemData ForItem(ItemID id) =>
+    public ItemData ForItem(int id) =>
         _item.TryGetValue(id, out ItemData data)
         ? data
         : null;
