@@ -41,14 +41,17 @@ public class ItemsDataEditor : Editor
         GUILayout.Label("Time");
         EditorGUILayout.EndHorizontal();
 
-        for (int i = 1; i <= data.ItemsCount; i++)
+        for (int i = 0; i < data.ItemsCount; i++)
         {
-            int profit = data.Items[i - 1].Profit;
-            int price = data.Items[i - 1].Price; 
-            float time = CalculateTime(i);
+            var itemData = data.Items[i];
+
+            int id = itemData.ID;
+            int profit = itemData.Profit;
+            int price = itemData.Price; 
+            float time = CalculateTime(i+1);
 
             EditorGUILayout.BeginHorizontal();
-            GUILayout.Label(i.ToString(), GUILayout.Width(40));
+            GUILayout.Label(id.ToString(), GUILayout.Width(40));
             GUILayout.Label(profit.ToString(), GUILayout.Width(80));
             GUILayout.Label(price.ToString(), GUILayout.Width(80));
             GUILayout.Label(time.ToString("0.0"));
@@ -102,7 +105,7 @@ public class ItemsDataEditor : Editor
         float expectedIncome =
         profit * data.AverageComboMultiplier;
 
-        return Mathf.Max(1, Mathf.RoundToInt(expectedIncome * time));
+        return Mathf.Max(data.StartProfit, Mathf.RoundToInt(expectedIncome * time));
     }
 
     private int CalculateProfit(int index, float time)
@@ -115,7 +118,7 @@ public class ItemsDataEditor : Editor
         float value =
             (1f + index * 0.3f) * growth * (1f + normalizedTime);
 
-        return Mathf.Max(1, Mathf.RoundToInt(value));
+        return Mathf.Max(data.StartProfit, Mathf.RoundToInt(value));
     }
 
     private float CalculateTime(int index)

@@ -21,28 +21,28 @@ MonoBehaviour:
   - ID: 2
     Sprite: {fileID: 21300000, guid: 440d4c8731fd3654ab282a34e7892a7c, type: 3}
     Profit: 3
-    Price: 23
+    Price: 34
   - ID: 3
     Sprite: {fileID: 21300000, guid: 48ca3f6ac9e912240880e04f15889da1, type: 3}
     Profit: 5
-    Price: 84
+    Price: 120
   - ID: 4
     Sprite: {fileID: 21300000, guid: 73ef4cd714a47d149b7dfa10e71de3ac, type: 3}
     Profit: 9
-    Price: 227
+    Price: 324
   - ID: 5
     Sprite: {fileID: 21300000, guid: b96066cb827099d42ab36651a4ed6f77, type: 3}
     Profit: 14
-    Price: 441
+    Price: 630
   - ID: 6
     Sprite: {fileID: 21300000, guid: 048bf091c979981408447b094804cca4, type: 3}
     Profit: 19
-    Price: 646
+    Price: 923
   StartProfit: 5
   ProfitGrowth: 1.18
   StartUnlockTime: 6
   TimeGrowth: 1.07
-  AverageComboMultiplier: 2.8
+  AverageComboMultiplier: 4
   DifficultyCurve:
     serializedVersion: 2
     m_Curve:
