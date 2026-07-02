@@ -2,6 +2,7 @@
 
 public interface IItemSpawnService : IService
 {
-    void SetSpawnFrame(RectTransform frame);
-    void Spawn(Vector3 startPosition);
+    void SetSpawnFrameAndButton(RectTransform frame, SpawnButton spawnButton);
+    void UpdateItemData();
+    void Spawn();
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using static UnityEditor.Progress;
 
 public class LoadSceneState : IPayloadState<string>
 {
@@ -9,11 +10,11 @@ public class LoadSceneState : IPayloadState<string>
     private readonly IItemSpawnService _itemSpawnService;
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
-    private readonly IPoolService _poolService;
+    private readonly IItemsPoolService _itemsPoolService;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         IGameFactory gameFactory, IItemSpawnService itemSpawnService,
-        IStaticData staticData, IProgressService progressService, IPoolService poolService)
+        IStaticData staticData, IProgressService progressService, IItemsPoolService itemsPoolService)
     {
         _gameStateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
@@ -21,7 +22,7 @@ public class LoadSceneState : IPayloadState<string>
         _itemSpawnService = itemSpawnService;
         _staticData = staticData;
         _progressService = progressService;
-        _poolService = poolService;
+        _itemsPoolService = itemsPoolService;
     }
 
     public void Enter(string sceneName) => 
@@ -40,16 +41,19 @@ public class LoadSceneState : IPayloadState<string>
 
     private void InitGameObject()
     {
-        InitMainCanvas();
-        RegisterPoolFunc();
-        LoadItemsOnScene();
+        InitMainCanvas();        
     }
 
     private void InitMainCanvas()
     {
         MainCanvas mainCanvas = _gameFactory.CreateMainCanvas();
-        _itemSpawnService.SetSpawnFrame(mainCanvas.SpawnFrame);
+        _itemSpawnService.SetSpawnFrameAndButton(mainCanvas.SpawnFrame, mainCanvas.SpawnButton);
         mainCanvas.SetItemSpawn(_itemSpawnService);
+
+        ItemData itemData = _staticData.ForItem(_progressService.Progress.Items.SpawnItemID);
+        mainCanvas.SpawnButton.Initialize(itemData.Sprite,itemData.Price);
+
+        LoadItemsOnScene();
     }
 
     private void LoadItemsOnScene()
@@ -58,19 +62,11 @@ public class LoadSceneState : IPayloadState<string>
 
         foreach (ItemSaveData item in items)
         {
-            Item loadItem = _poolService.Get<Item>();
+            Item loadItem = _itemsPoolService.GetItem();
             ItemData itemData = _staticData.ForItem(item.ID);
 
             loadItem.Initialize(itemData, item);
             loadItem.transform.position = item.Position.AsUnityVector();
         }
-    }
-
-    private void RegisterPoolFunc()
-    {
-        _poolService.RegisterFactory(() => _gameFactory.CreateItem());
-        _poolService.RegisterFactory(() => _gameFactory.CreateProfit());
-        _poolService.RegisterFactory(() => _gameFactory.CreateClickEffect());
-        _poolService.RegisterFactory(() => _gameFactory.CreateMergeEffect());
     }
 }

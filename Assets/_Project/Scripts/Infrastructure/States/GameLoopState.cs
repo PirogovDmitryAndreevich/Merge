@@ -2,17 +2,19 @@ using System.Collections;
 
 public class GameLoopState : IState
 {
-    private const int MinuteCoefficient = 60;
-    private const float SaveTimer = 0.5f * MinuteCoefficient;
-
     private readonly ICoroutineRunner _coroutine;
     private readonly ISaveLoadService _saveLoadService;
+    private readonly IItemsAnimation _itemsAnimation;
+    private readonly IStaticData _staticData;
     private bool _isGame;
 
-    public GameLoopState(ICoroutineRunner coroutine, ISaveLoadService saveLoadService)
+    public GameLoopState(ICoroutineRunner coroutine, ISaveLoadService saveLoadService, IItemsAnimation itemsAnimation,
+        IStaticData staticData)
     {
         _coroutine = coroutine;
         _saveLoadService = saveLoadService;
+        _itemsAnimation = itemsAnimation;
+        _staticData = staticData;
     }
 
     public void Enter()
@@ -28,14 +30,16 @@ public class GameLoopState : IState
 
     private IEnumerator Gameplay()
     {
-        float saveTimer = SaveTimer;
+        float saveTimer = _staticData.GameData.SaveTimer;
 
         while (_isGame)
         {
+            _itemsAnimation.Update();
+
             if (saveTimer <= 0)
             {
                 SaveProgress();
-                saveTimer = SaveTimer;
+                saveTimer = _staticData.GameData.SaveTimer;
             }
 
             saveTimer -= UnityEngine.Time.deltaTime;

@@ -34,16 +34,21 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<ISaveLoadService>(new SaveLoadService(_allServices.Single<IProgressService>()));
         _allServices.RegisterSingle<IAssetsProvider>(new AssetsProvider());
         _allServices.RegisterSingle<IPoolService>(new PoolService());
+        _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
+
+        _allServices.RegisterSingle<IItemsAnimation>(new ItemsAnimation(_allServices.Single<IItemsPoolService>(),
+           _allServices.Single<IStaticData>()));
+
+        _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(_allServices.Single<IStaticData>(),
+            _allServices.Single<IProgressService>(), _allServices.Single<IItemsPoolService>()));
 
         _allServices.RegisterSingle<IMergeService>(new MergeService(_allServices.Single<IStaticData>(),
-            _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>()));
+            _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>(),
+            _allServices.Single<IItemSpawnService>(), _allServices.Single<IItemsPoolService>()));
 
         _allServices.RegisterSingle<IGameFactory>(new GameFactory(_allServices.Single<IAssetsProvider>(),
             _allServices.Single <IMergeService>(), _allServices.Single<IProgressService>(),
-            _allServices.Single<IPoolService>()));
-
-        _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(_allServices.Single<IStaticData>(),
-            _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>()));
+            _allServices.Single<IPoolService>(), _allServices.Single<IItemsPoolService>()));
     }
 
     private void RegisterStaticData()

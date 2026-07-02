@@ -6,16 +6,18 @@ public class GameFactory : IGameFactory
     private readonly IMergeService _mergeService;
     private readonly IProgressService _progress;
     private readonly IPoolService _poolService;
+    private readonly IItemsPoolService _itemsPool;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
     public GameFactory(IAssetsProvider assets, IMergeService mergeService,
-        IProgressService progress, IPoolService poolService)
+        IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool)
     {
         _assets = assets;
         _mergeService = mergeService;
         _progress = progress;
         _poolService = poolService;
+        _itemsPool = itemsPool;        
     }
 
     public MainCanvas CreateMainCanvas()
@@ -24,6 +26,9 @@ public class GameFactory : IGameFactory
             .GetComponent<MainCanvas>();
 
         _poolService.SetRootParent(_mainCanvas.transform);
+        RegisterPoolFunc();
+
+        _itemsPool.SetItemsParent(_mainCanvas.SpawnFrame, () => CreateItem());
 
         _canvas = _mainCanvas.GetComponent<Canvas>();
 
@@ -72,5 +77,12 @@ public class GameFactory : IGameFactory
         particle.Construct(_poolService);
 
         return particle;
+    }
+
+    private void RegisterPoolFunc()
+    {
+        _poolService.RegisterFactory(() => CreateProfit());
+        _poolService.RegisterFactory(() => CreateClickEffect());
+        _poolService.RegisterFactory(() => CreateMergeEffect());
     }
 }

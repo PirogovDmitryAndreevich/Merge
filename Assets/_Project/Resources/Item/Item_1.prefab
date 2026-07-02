@@ -110,6 +110,7 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  _mergeRadiusMultiplier: 8
 --- !u!61 &2731839712163220428
 BoxCollider2D:
   m_ObjectHideFlags: 0

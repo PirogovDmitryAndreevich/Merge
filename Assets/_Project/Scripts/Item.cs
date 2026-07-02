@@ -1,4 +1,3 @@
-using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,26 +20,17 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private int _profit;
 
     public int ID { get; private set; }
+    public RectTransform RectTransform => _rectTransform;
     public ParticleSpawner Spawner => _particle;
     public Collider2D Collider => _collider;
     public ItemSaveData SaveData => _saveData;
     public ContactFilter2D ContactFilter => _contactFilter;
-
-    private Tween _idleAnimation;
-
-    private void OnDestroy() => 
-        _idleAnimation?.Kill();
 
     public void Construct(Canvas canvas, IMergeService mergeService, IProgressService progress)
     {
         _canvas = canvas;
         _merge = mergeService;
         _progress = progress;
-
-        _idleAnimation = transform.DORotate(new Vector3(0, 0, 10), 1f)
-            .SetRelative()
-            .SetEase(Ease.InOutSine)
-            .SetLoops(-1, LoopType.Yoyo);
     }
 
     public void Initialize(ItemData itemData, ItemSaveData saveData)
@@ -55,10 +45,13 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     }
 
     public void SavePosition() =>
-        _saveData.Position = transform.position.AsVectorData();
+        _saveData.Position = _rectTransform.position.AsVectorData();
 
-    public void OnBeginDrag(PointerEventData eventData) =>
+    public void OnBeginDrag(PointerEventData eventData)
+    {
         _canvasGroup.alpha = 0.5f;
+        _rectTransform.SetAsLastSibling();
+    }
 
     public void OnDrag(PointerEventData eventData) =>
         _rectTransform.anchoredPosition += eventData.delta / _canvas.scaleFactor;

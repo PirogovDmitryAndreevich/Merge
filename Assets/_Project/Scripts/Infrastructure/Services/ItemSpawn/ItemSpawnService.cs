@@ -5,25 +5,39 @@ public class ItemSpawnService : IItemSpawnService
 {
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
-    private readonly IPoolService _pool;
+    private readonly IItemsPoolService _pool;
+
     private Vector3[] _corners = new Vector3[4];
+    private ItemData _currentItemData;
+    private SpawnButton _spawnButton;
 
     public ItemSpawnService(IStaticData staticData,
-        IProgressService progressService, IPoolService pool)
+        IProgressService progressService, IItemsPoolService pool)
     {
         _staticData = staticData;
         _progressService = progressService;
         _pool = pool;
     }
 
-    public void SetSpawnFrame(RectTransform frame) =>
-        frame.GetWorldCorners(_corners);
-
-    public void Spawn(Vector3 startPosition)
+    public void SetSpawnFrameAndButton(RectTransform frame, SpawnButton spawnButton)
     {
-        Item item = _pool.Get<Item>();
+        frame.GetWorldCorners(_corners);
+        _spawnButton = spawnButton;
 
-        ItemData itemData = _staticData.ForItem(1); // Get Item ID
+        UpdateItemData();
+    }
+
+    public void UpdateItemData()
+    {
+        _currentItemData = _staticData.
+            ForItem(_progressService.Progress.Items.SpawnItemID);
+
+        _spawnButton.Initialize(_currentItemData.Sprite, _currentItemData.Price);
+    }
+
+    public void Spawn()
+    {
+        Item item = _pool.GetItem();
 
         ItemSaveData itemSaveData;
 
@@ -32,8 +46,8 @@ public class ItemSpawnService : IItemSpawnService
         else
             itemSaveData = item.SaveData;
 
-        item.Initialize(itemData, itemSaveData);
-        item.transform.position = startPosition;
+        item.Initialize(_currentItemData, itemSaveData);
+        item.transform.position = _spawnButton.transform.position;
 
         Vector3 min = _corners[0];
         Vector3 max = _corners[2];
@@ -49,8 +63,9 @@ public class ItemSpawnService : IItemSpawnService
             .OnComplete(() => SetItemPosition(item));
 
         _progressService.Progress.Items.Items.Add(item.SaveData);
+        _progressService.Progress.Player.SpendCoins(_currentItemData.Price);
     }
 
     private void SetItemPosition(Item item) =>
-        item.SavePosition();
+        item.SavePosition();    
 }

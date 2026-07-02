@@ -14,11 +14,11 @@ public class MainCanvas : MonoBehaviour
 
     private IItemSpawnService _itemSpawn;
 
+    public SpawnButton SpawnButton => _spawnButton;
     public NewItemWindow NewItemWindow => _newItemWindow;
     public CoinsCounter CoinsCounter => _coinsCounter;
     public RectTransform SpawnFrame => _spawnFrame;
     public Transform ParentForItems => _itemParent;
-    private Vector2 StartItemSpawnPoint => _spawnButton.transform.position;
 
     private void Awake() => 
         _spawnButton.ButtonClicked += OnButtonClicked;
@@ -30,5 +30,5 @@ public class MainCanvas : MonoBehaviour
         _itemSpawn = itemSpawn;
 
     private void OnButtonClicked() => 
-        _itemSpawn.Spawn(StartItemSpawnPoint);
+        _itemSpawn.Spawn();
 }

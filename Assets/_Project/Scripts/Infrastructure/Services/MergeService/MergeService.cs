@@ -3,20 +3,24 @@ using UnityEngine;
 
 public class MergeService : IMergeService
 {
-    private readonly Collider2D[] _overlapResults = new Collider2D[8];
+    private readonly Collider2D[] _overlapResults = new Collider2D[10];
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
     private readonly IPoolService _pool;
-
+    private readonly IItemSpawnService _itemSpawnService;
+    private readonly IItemsPoolService _itemsPool;
     private int _maxItem;
 
     public event Action<ItemData> NewMaxItemReached;
 
-    public MergeService(IStaticData staticData, IProgressService progressService, IPoolService pool)
+    public MergeService(IStaticData staticData, IProgressService progressService, IPoolService pool,
+        IItemSpawnService itemSpawnService, IItemsPoolService itemsPool)
     {
         _staticData = staticData;
         _progressService = progressService;
         _pool = pool;
+        _itemSpawnService = itemSpawnService;
+        _itemsPool = itemsPool;
     }
 
     public void TryMerge(Item item)
@@ -25,17 +29,14 @@ public class MergeService : IMergeService
 
         for (int i = 0; i < count; i++)
         {
-            if (_overlapResults[i].TryGetComponent(out Item other) == false)
-                continue;
+            var other = _overlapResults[i].GetComponent<Item>();
+            if (other == null) continue;
 
-            if (other == item || other.ID != item.ID)
-                continue;
+            if (other == item || other.ID != item.ID) continue;
 
             Merge(item, other);
             return;
         }
-
-        return;
     }
 
     private void Merge(Item item, Item other)
@@ -49,17 +50,25 @@ public class MergeService : IMergeService
         MergeEffect particle = _pool.Get<MergeEffect>();
 
         particle.Play(other.transform.position);
-        _pool.Return(item);
+        _itemsPool.ReturnItem(item);
 
-
-        if (nextItemData.ID > _maxItem)
-        {
-            _maxItem = nextItemData.ID;
-            _progressService.Progress.Items.MaxItemID = _maxItem;
-            NewMaxItemReached?.Invoke(nextItemData);
-        }
+        if (nextItemData.ID > _maxItem)        
+            OpenNewItem(nextItemData);        
 
         other.Initialize(nextItemData, other.SaveData);
         other.SavePosition();
+    }
+
+    private void OpenNewItem(ItemData nextItemData)
+    {
+        _maxItem = nextItemData.ID;
+
+        int value = _maxItem - _staticData.GameData.SpawnIDCoefficient;
+        int spawnItemID = Mathf.Max(1, value);
+
+        _progressService.Progress.Items.UpdateMaxItem(_maxItem, spawnItemID);
+        _itemSpawnService.UpdateItemData();
+        _itemsPool.CleanupByID(spawnItemID);
+        NewMaxItemReached?.Invoke(nextItemData);      
     }
 }

@@ -21,11 +21,13 @@ public class GameStateMachine
                 allServices.Single<IItemSpawnService>(),
                 allServices.Single<IStaticData>(),
                 allServices.Single<IProgressService>(),
-                allServices.Single<IPoolService>()),
+                allServices.Single<IItemsPoolService>()),
 
             [typeof(GameLoopState)] = new GameLoopState(
                 coroutineRunner, 
-                allServices.Single<ISaveLoadService>()),
+                allServices.Single<ISaveLoadService>(),
+                allServices.Single<IItemsAnimation>(),
+                allServices.Single<IStaticData>()),
         };
     }
 

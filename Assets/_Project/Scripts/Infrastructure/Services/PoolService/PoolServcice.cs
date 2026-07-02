@@ -18,7 +18,7 @@ public class PoolService : IPoolService
         _poolParents = new();
     }
 
-    public void SetRootParent(Transform rootParent) => 
+    public void SetRootParent(Transform rootParent) =>
         _uiPoolRoot = rootParent;
 
     public void RegisterFactory<TPoolObject>(Func<TPoolObject> factory) where TPoolObject : Component
@@ -88,6 +88,8 @@ public class PoolService : IPoolService
 
         GameObject parent = new GameObject($"{type.Name}Pool");
         parent.transform.SetParent(_uiPoolRoot, false);
+
+        Canvas canvas = parent.AddComponent<Canvas>();
 
         _poolParents[type] = parent.transform;
     }
