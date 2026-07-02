@@ -89,16 +89,22 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     private void CacheFrameBounds()
     {
-        Vector2 itemSize = _rectTransform.rect.size * _rectTransform.lossyScale;
+        Vector3[] frameCorners = new Vector3[4];
+        _frame.GetWorldCorners(frameCorners);
 
-        Vector2 frameSize = _frame.rect.size * _frame.lossyScale;
-        Vector2 framePosition = _frame.anchoredPosition;
+        Vector3[] itemCorners = new Vector3[4];
+        _rectTransform.GetWorldCorners(itemCorners);
 
-        float minX = framePosition.x - frameSize.x / 2 + itemSize.x / 2;
-        float maxX = framePosition.x + frameSize.x / 2 - itemSize.x / 2;
-        float minY = framePosition.y - frameSize.y / 2 + itemSize.y / 2;
-        float maxY = framePosition.y + frameSize.y / 2 - itemSize.y / 2;
+        Vector3 itemSize = itemCorners[2] - itemCorners[0];
+        Vector3 halfSize = itemSize * 0.5f;
 
-        _frameBounds = new Rect(minX, minY, maxX - minX, maxY - minY);
+        Vector3 frameMin = frameCorners[0];
+        Vector3 frameMax = frameCorners[2];
+
+        RectTransform frameRect = _frame;
+        Vector2 localMin = frameRect.InverseTransformPoint(frameMin + halfSize);
+        Vector2 localMax = frameRect.InverseTransformPoint(frameMax - halfSize);
+
+        _frameBounds = new Rect(localMin.x, localMin.y, localMax.x - localMin.x, localMax.y - localMin.y);
     }
 }
