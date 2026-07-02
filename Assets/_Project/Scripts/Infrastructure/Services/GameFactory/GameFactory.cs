@@ -7,17 +7,20 @@ public class GameFactory : IGameFactory
     private readonly IProgressService _progress;
     private readonly IPoolService _poolService;
     private readonly IItemsPoolService _itemsPool;
+    private readonly IStaticData _staticData;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
     public GameFactory(IAssetsProvider assets, IMergeService mergeService,
-        IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool)
+        IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool,
+        IStaticData staticData)
     {
         _assets = assets;
         _mergeService = mergeService;
         _progress = progress;
         _poolService = poolService;
-        _itemsPool = itemsPool;        
+        _itemsPool = itemsPool;
+        _staticData = staticData;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -29,6 +32,8 @@ public class GameFactory : IGameFactory
         RegisterPoolFunc();
 
         _itemsPool.SetItemsParent(_mainCanvas.SpawnFrame, () => CreateItem());
+
+        CreateCollection(_mainCanvas.Collection.Content);
 
         _canvas = _mainCanvas.GetComponent<Canvas>();
 
@@ -43,7 +48,7 @@ public class GameFactory : IGameFactory
         Item item = _assets.Instantiate(AssetsPath.ItemPath, _mainCanvas.ParentForItems)
             .GetComponent<Item>();
 
-        item.Construct(_canvas, _mergeService, _progress);
+        item.Construct(_canvas, _mainCanvas.SpawnFrame, _mergeService, _progress);
         item.Spawner.Construct(_poolService);
 
         return item;
@@ -77,6 +82,24 @@ public class GameFactory : IGameFactory
         particle.Construct(_poolService);
 
         return particle;
+    }
+
+    private void CreateCollection(Transform parent)
+    {
+        var items = _staticData.AllItems();
+
+        foreach (ItemData item in items.Values)
+            CreateItemIcon(item, parent);
+    }
+
+    private ItemIcon CreateItemIcon(ItemData item, Transform parent)
+    {
+        ItemIcon icon = _assets.Instantiate(AssetsPath.ItemIconPath, parent)
+            .GetComponent<ItemIcon>();
+
+        icon.Construct(item.Sprite, _progress, item.ID);
+
+        return icon; 
     }
 
     private void RegisterPoolFunc()

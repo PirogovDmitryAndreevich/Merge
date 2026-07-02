@@ -22,4 +22,7 @@ public class StaticDataService : IStaticData
         _item.TryGetValue(id, out ItemData data)
         ? data
         : null;
+
+    public Dictionary<int, ItemData> AllItems() =>
+        _item;
 }

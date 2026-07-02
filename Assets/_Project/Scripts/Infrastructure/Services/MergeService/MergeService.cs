@@ -9,7 +9,8 @@ public class MergeService : IMergeService
     private readonly IPoolService _pool;
     private readonly IItemSpawnService _itemSpawnService;
     private readonly IItemsPoolService _itemsPool;
-    private int _maxItem;
+
+    private int _maxItem => _progressService.Progress.Items.MaxItemID;
 
     public event Action<ItemData> NewMaxItemReached;
 
@@ -61,12 +62,13 @@ public class MergeService : IMergeService
 
     private void OpenNewItem(ItemData nextItemData)
     {
-        _maxItem = nextItemData.ID;
+        _progressService.Progress.Items.OpenNewItem(nextItemData.ID);
 
         int value = _maxItem - _staticData.GameData.SpawnIDCoefficient;
         int spawnItemID = Mathf.Max(1, value);
 
-        _progressService.Progress.Items.UpdateMaxItem(_maxItem, spawnItemID);
+        _progressService.Progress.Items.SpawnItemID = spawnItemID;
+
         _itemSpawnService.UpdateItemData();
         _itemsPool.CleanupByID(spawnItemID);
         NewMaxItemReached?.Invoke(nextItemData);      
