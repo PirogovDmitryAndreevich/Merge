@@ -34,7 +34,13 @@ public class ItemsPoolService : IItemsPoolService
             item = CreateNew();        
 
         item.gameObject.SetActive(true);
-        _itemsOnScene.Add(item);
+
+        int index = 0;
+        while (index < _itemsOnScene.Count && _itemsOnScene[index].ID > item.ID)
+        {
+            index++;
+        }
+        _itemsOnScene.Insert(index, item);
 
         return item;
     }

@@ -6,4 +6,5 @@ public static class AssetsPath
     public const string ClickEffectPath = "Effects/Click";
     public const string MergeEffectPath = "Effects/Merge";
     public const string ItemIconPath = "Item/ItemIcon";
+    internal static string SelectableItemPath;
 }

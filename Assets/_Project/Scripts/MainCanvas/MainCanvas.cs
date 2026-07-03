@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainCanvas : MonoBehaviour
 {
+    [SerializeField] private Button _attackButton;
     [SerializeField] private Button _collectionButton;
     [SerializeField] private SpawnButton _spawnButton;
     [SerializeField] private Canvas _canvas;
@@ -14,12 +16,18 @@ public class MainCanvas : MonoBehaviour
     [Header("Windows")]
     [SerializeField] private NewItemWindow _newItemWindow;
     [SerializeField] private CollectionWindow _collectionWindow;
+    [SerializeField] private StartBattleWindow _startBattleWindow;
+    [SerializeField] private SelectWindow _selectWindow;
+    [SerializeField] private AttackWindow _attackWindow;
 
     private IItemSpawnService _itemSpawn;
 
     public SpawnButton SpawnButton => _spawnButton;
     public NewItemWindow NewItemWindow => _newItemWindow;
     public CollectionWindow Collection => _collectionWindow;
+    public StartBattleWindow StartBattleWindow => _startBattleWindow;
+    public SelectWindow SelectWindow => _selectWindow;
+    public AttackWindow AttackWindow => _attackWindow;
     public CoinsCounter CoinsCounter => _coinsCounter;
     public RectTransform SpawnFrame => _spawnFrame;
     public Transform ParentForItems => _itemParent;
@@ -28,6 +36,7 @@ public class MainCanvas : MonoBehaviour
     {
         _spawnButton.ButtonClicked += OnButtonClicked;
         _collectionButton.onClick.AddListener(ShowCollection);
+        _attackButton.onClick.AddListener(StartAttack);
     }
 
     private void OnDestroy()
@@ -44,4 +53,7 @@ public class MainCanvas : MonoBehaviour
 
     private void ShowCollection() =>
         _collectionWindow.Show();
+
+    private void StartAttack() => 
+        _startBattleWindow.Show();
 }

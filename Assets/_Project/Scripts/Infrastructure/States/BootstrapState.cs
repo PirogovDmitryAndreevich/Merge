@@ -36,6 +36,9 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IPoolService>(new PoolService());
         _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
 
+        _allServices.RegisterSingle<IBattleService>(new BattleService(_allServices.Single<IProgressService>(),
+            _allServices.Single<IStaticData>()));
+
         _allServices.RegisterSingle<IItemsAnimation>(new ItemsAnimation(_allServices.Single<IItemsPoolService>(),
            _allServices.Single<IStaticData>()));
 
@@ -49,7 +52,7 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IGameFactory>(new GameFactory(_allServices.Single<IAssetsProvider>(),
             _allServices.Single <IMergeService>(), _allServices.Single<IProgressService>(),
             _allServices.Single<IPoolService>(), _allServices.Single<IItemsPoolService>(),
-            _allServices.Single<IStaticData>()));
+            _allServices.Single<IStaticData>(), _allServices.Single<IBattleService>()));
     }
 
     private void RegisterStaticData()

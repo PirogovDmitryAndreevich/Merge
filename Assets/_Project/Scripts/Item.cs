@@ -25,6 +25,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public RectTransform RectTransform => _rectTransform;
     public ParticleSpawner Spawner => _particle;
     public Collider2D Collider => _collider;
+    public ItemData ItemData => _data;
     public ItemSaveData SaveData => _saveData;
     public ContactFilter2D ContactFilter => _contactFilter;
 

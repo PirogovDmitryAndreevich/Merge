@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5639856691286005663}
   - component: {fileID: 2731839712163220428}
   - component: {fileID: 4150656707496667197}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Item
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,12 +105,11 @@ MonoBehaviour:
     useOutsideNormalAngle: 0
     layerMask:
       serializedVersion: 2
-      m_Bits: 1
+      m_Bits: 64
     minDepth: 0
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
-  _mergeRadiusMultiplier: 8
 --- !u!61 &2731839712163220428
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -154,7 +153,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 100, y: 100}
+  m_Size: {x: 346.18304, y: 349.31595}
   m_EdgeRadius: 0
 --- !u!225 &4150656707496667197
 CanvasGroup:
@@ -178,7 +177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1823152198200516901}
   - component: {fileID: 3727899406675202447}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ParticleSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
