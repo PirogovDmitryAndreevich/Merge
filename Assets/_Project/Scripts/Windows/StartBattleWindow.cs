@@ -24,8 +24,6 @@ public class StartBattleWindow : MonoBehaviour
     {
         _acceptButton.onClick.AddListener(OnAccept);
         _cancelButton.onClick.AddListener(Hide);
-
-        YG2.GetLeaderboard("test");
         
         Hide();
     }
@@ -69,7 +67,6 @@ public class StartBattleWindow : MonoBehaviour
 
     private void OnGetLeaderboard(LBData data)
     {
-        Debug.Log("OnGetLeaderboard");
         _lbData = data;
     }
 }

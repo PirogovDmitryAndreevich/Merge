@@ -12,6 +12,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private RectTransform _spawnFrame;
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private Transform _itemParent;
+    [SerializeField] private Leaderboard _leaderboard;
 
     [Header("Windows")]
     [SerializeField] private NewItemWindow _newItemWindow;
@@ -22,6 +23,7 @@ public class MainCanvas : MonoBehaviour
 
     private IItemSpawnService _itemSpawn;
 
+    public Leaderboard Leaderboard => _leaderboard;
     public SpawnButton SpawnButton => _spawnButton;
     public NewItemWindow NewItemWindow => _newItemWindow;
     public CollectionWindow Collection => _collectionWindow;

@@ -4,8 +4,10 @@ using System;
 public class PlayerSaveData
 {
     public int Coins;
+    public int Score;
 
     public event Action CoinsChanged;
+    public event Action ScoreChanged;
 
     public void AddCoins(int value)
     {
@@ -17,5 +19,11 @@ public class PlayerSaveData
     {
         Coins -= value;
         CoinsChanged?.Invoke();
+    }
+
+    public void AddScore(int value)
+    {
+        Score += value;
+        ScoreChanged?.Invoke();
     }
 }

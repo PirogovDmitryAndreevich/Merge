@@ -1,14 +1,18 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class BattleService : IBattleService
 {
-    private const int EnemyItemsCount = 5;
+    private const int MaxItemsCount = 5;
 
     private readonly IProgressService _progressService;
     private readonly IStaticData _staticData;
 
     public List<ItemData> SelectedItems { get; private set; }
     public List<ItemData> EnemyItems { get; private set; }
+
+    public event Action ItemSelected;
 
     public BattleService(IProgressService progressService, IStaticData staticData)
     {
@@ -25,8 +29,11 @@ public class BattleService : IBattleService
         EnemyItems.Clear();
     }
 
-    public void SelectItem(ItemData item)
+    public bool TrySelectItem(ItemData item)
     {
+        if (SelectedItems.Count >= MaxItemsCount)
+            return false;
+
         int index = 0;
         while (index < SelectedItems.Count && SelectedItems[index].ID > item.ID)
         {
@@ -34,6 +41,8 @@ public class BattleService : IBattleService
         }
 
         SelectedItems.Insert(index, item);
+        ItemSelected?.Invoke();
+        return true;
     }
 
     public void DeselectItem(ItemData item)
@@ -43,10 +52,11 @@ public class BattleService : IBattleService
 
     public void SelectEnemyItems()
     {
+        int itemsCount = _staticData.AllItems().Count - 1;
         int maxID = _progressService.Progress.Items.MaxItemID;
         System.Random random = new System.Random();
 
-        for (int i = 0; i < EnemyItemsCount; i++)
+        for (int i = 0; i < MaxItemsCount; i++)
         {
             int id;
 
@@ -81,6 +91,8 @@ public class BattleService : IBattleService
                 else // 40% (оставшиеся)
                     id = maxID - 2;
             }
+
+            id = Mathf.Clamp(id, 1, itemsCount);
 
             ItemData item = _staticData.ForItem(id);
 

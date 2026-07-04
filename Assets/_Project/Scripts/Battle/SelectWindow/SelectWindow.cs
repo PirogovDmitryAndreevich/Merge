@@ -9,23 +9,24 @@ public class SelectWindow : MonoBehaviour
 
     private AttackWindow _attackWindow;
     private IItemsPoolService _itemPool;
+    private IBattleService _battleService;
 
     private void OnDestroy()
     {
         _acceptButton.onClick.RemoveListener(StartBattle);
         _cancelButton.onClick.RemoveListener(Hide);
-    }
-
-    private void Awake()
-    {
-        _cancelButton.onClick.AddListener(Hide);
-        _acceptButton.onClick.AddListener(StartBattle);
+        _battleService.ItemSelected -= EnableButton;
     }
 
     public void Construct(IItemsPoolService itemsPoolService, IBattleService battleService, AttackWindow attackWindow)
     {
         _attackWindow = attackWindow;
         _itemPool = itemsPoolService;
+        _battleService = battleService;
+
+        _battleService.ItemSelected += EnableButton;
+        _cancelButton.onClick.AddListener(Hide);
+        _acceptButton.onClick.AddListener(StartBattle);
 
         foreach (var selectableItem in _selectableItems)
             selectableItem.Construct(battleService);
@@ -33,6 +34,8 @@ public class SelectWindow : MonoBehaviour
 
     public void Show()
     {
+        EnableButton();
+
         for (int i = 0; i < _selectableItems.Length; i++)
         {
             if (i < _itemPool.ItemsOnScene.Count)
@@ -59,7 +62,12 @@ public class SelectWindow : MonoBehaviour
 
     private void StartBattle()
     {
+        _battleService.SelectEnemyItems();
         _attackWindow.Show();
         Hide();
     }
+
+    private void EnableButton() => 
+        _acceptButton.interactable =
+        _battleService.SelectedItems.Count > 0;
 }

@@ -38,13 +38,14 @@ public class GameFactory : IGameFactory
         CreateCollection(_mainCanvas.Collection.Content);
 
         _canvas = _mainCanvas.GetComponent<Canvas>();
-
+        
         _mainCanvas.CoinsCounter.Construct(_progress);  
         _mainCanvas.NewItemWindow.Construct(_mergeService);
         _mainCanvas.StartBattleWindow.Construct(_mainCanvas.SelectWindow);
         _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService,
             _mainCanvas.AttackWindow);
-        _mainCanvas.AttackWindow.Construct(_battleService);
+        _mainCanvas.AttackWindow.Construct(_battleService, _poolService);
+        _mainCanvas.Leaderboard.Construct(_progress);
 
         return _mainCanvas;
     }

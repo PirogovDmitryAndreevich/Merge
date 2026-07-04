@@ -1,14 +1,36 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemsFrame : MonoBehaviour 
+public class ItemsFrame : MonoBehaviour
 {
-    [SerializeField] private AttackItem[] _images; 
+    [SerializeField] private AttackItem[] _images;
 
-    public void Initialize(ItemData[] items)
+    private List<AttackItem> _initializedItems;
+
+    public void Construct(IPoolService poolService)
     {
-        for (int i = 0; i < items.Length; i++)
+        foreach(var item in _images)
+            item.Construct(poolService);
+    }
+
+    public List<AttackItem> Initialize(ItemData[] items)
+    {
+        _initializedItems = new();
+
+        for (int i = 0; i < _images.Length; i++)
         {
-            _images[i].Initialize(items[i].Sprite);
+            if (i < items.Length)
+            {
+                _images[i].Show();
+                _images[i].Initialize(items[i]);
+                _initializedItems.Add(_images[i]);
+            }
+            else
+            {
+                _images[i].Hide();
+            }
         }
+
+        return _initializedItems;
     }
 }

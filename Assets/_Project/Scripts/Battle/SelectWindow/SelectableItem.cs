@@ -26,6 +26,7 @@ public class SelectableItem : MonoBehaviour
     {
         _itemData = itemData;
         _icon.sprite = _itemData.Sprite;
+        _toggle.isOn = false;
     }
 
     public void Hide()
@@ -40,9 +41,17 @@ public class SelectableItem : MonoBehaviour
 
     private void OnToggleSelect(bool isOn)
     {
-        if (isOn)        
-            _battleService.SelectItem(_itemData);        
-        else        
-            _battleService.DeselectItem(_itemData);        
+        if (isOn)
+        {
+            if (!_battleService.TrySelectItem(_itemData))
+            {
+                _toggle.SetIsOnWithoutNotify(false);
+                return;
+            }
+        }
+        else
+        {
+            _battleService.DeselectItem(_itemData);
+        }
     }
 }
