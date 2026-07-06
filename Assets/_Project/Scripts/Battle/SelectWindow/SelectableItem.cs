@@ -6,7 +6,7 @@ public class SelectableItem : MonoBehaviour
     [SerializeField] private Image _icon;
     [SerializeField] private Toggle _toggle;
 
-    private IBattleService _battleService;
+    private IStartBattleService _battleService;
     private ItemData _itemData;
 
     private void OnDestroy()
@@ -14,7 +14,7 @@ public class SelectableItem : MonoBehaviour
         _toggle.onValueChanged.RemoveListener(OnToggleSelect);
     }
 
-    public void Construct(IBattleService battleService)
+    public void Construct(IStartBattleService battleService)
     {
         _battleService = battleService;
         _toggle.onValueChanged.AddListener(OnToggleSelect);

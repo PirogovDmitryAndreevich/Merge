@@ -1,57 +1,27 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattleService : IBattleService
+public class EnemyItemsSelector : IEnemyItemsSelector
 {
     private const int MaxItemsCount = 5;
 
     private readonly IProgressService _progressService;
     private readonly IStaticData _staticData;
 
-    public List<ItemData> SelectedItems { get; private set; }
-    public List<ItemData> EnemyItems { get; private set; }
+    private List<ItemData> _enemyItems;
 
-    public event Action ItemSelected;
-
-    public BattleService(IProgressService progressService, IStaticData staticData)
+    public EnemyItemsSelector(IProgressService progressService, IStaticData staticData)
     {
-        SelectedItems = new List<ItemData>();
-        EnemyItems = new List<ItemData>();
-
         _progressService = progressService;
         _staticData = staticData;
+
+        _enemyItems = new List<ItemData>();
     }
 
-    public void Cleanup()
+    public List<ItemData> SelectEnemyItems()
     {
-        SelectedItems.Clear();
-        EnemyItems.Clear();
-    }
+        _enemyItems.Clear();
 
-    public bool TrySelectItem(ItemData item)
-    {
-        if (SelectedItems.Count >= MaxItemsCount)
-            return false;
-
-        int index = 0;
-        while (index < SelectedItems.Count && SelectedItems[index].ID > item.ID)
-        {
-            index++;
-        }
-
-        SelectedItems.Insert(index, item);
-        ItemSelected?.Invoke();
-        return true;
-    }
-
-    public void DeselectItem(ItemData item)
-    {
-        SelectedItems.Remove(item);
-    }
-
-    public void SelectEnemyItems()
-    {
         int itemsCount = _staticData.AllItems().Count - 1;
         int maxID = _progressService.Progress.Items.MaxItemID;
         System.Random random = new System.Random();
@@ -98,12 +68,14 @@ public class BattleService : IBattleService
 
             // Вставка с сортировкой по убыванию ID
             int index = 0;
-            while (index < EnemyItems.Count && EnemyItems[index].ID > item.ID)
+            while (index < _enemyItems.Count && _enemyItems[index].ID > item.ID)
             {
                 index++;
             }
 
-            EnemyItems.Insert(index, item);
+            _enemyItems.Insert(index, item);
         }
+
+        return _enemyItems;
     }
 }

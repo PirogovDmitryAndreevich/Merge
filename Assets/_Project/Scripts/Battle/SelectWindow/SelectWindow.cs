@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,7 +10,7 @@ public class SelectWindow : MonoBehaviour
 
     private AttackWindow _attackWindow;
     private IItemsPoolService _itemPool;
-    private IBattleService _battleService;
+    private IStartBattleService _battleService;
 
     private void OnDestroy()
     {
@@ -18,7 +19,7 @@ public class SelectWindow : MonoBehaviour
         _battleService.ItemSelected -= EnableButton;
     }
 
-    public void Construct(IItemsPoolService itemsPoolService, IBattleService battleService, AttackWindow attackWindow)
+    public void Construct(IItemsPoolService itemsPoolService, IStartBattleService battleService, AttackWindow attackWindow)
     {
         _attackWindow = attackWindow;
         _itemPool = itemsPoolService;
@@ -36,20 +37,32 @@ public class SelectWindow : MonoBehaviour
     {
         EnableButton();
 
+        List<Item> sortedItems = new List<Item>();
+
+        foreach (Item item in _itemPool.ItemsOnScene)
+        {
+            int index = 0;
+
+            while (index < sortedItems.Count &&
+                   sortedItems[index].ItemData.ID > item.ItemData.ID)
+            {
+                index++;
+            }
+
+            sortedItems.Insert(index, item);
+        }
+
         for (int i = 0; i < _selectableItems.Length; i++)
         {
-            if (i < _itemPool.ItemsOnScene.Count)
+            if (i < sortedItems.Count)
             {
-                Item item = _itemPool.ItemsOnScene[i];
-
                 _selectableItems[i].Show();
-                _selectableItems[i].Initialize(item.ItemData);
+                _selectableItems[i].Initialize(sortedItems[i].ItemData);
             }
             else
             {
                 _selectableItems[i].Hide();
             }
-            
         }
 
         gameObject.SetActive(true);

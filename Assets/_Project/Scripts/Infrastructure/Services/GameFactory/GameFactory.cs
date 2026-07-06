@@ -8,13 +8,16 @@ public class GameFactory : IGameFactory
     private readonly IPoolService _poolService;
     private readonly IItemsPoolService _itemsPool;
     private readonly IStaticData _staticData;
-    private readonly IBattleService _battleService;
+    private readonly IStartBattleService _battleService;
+    private readonly IAttackAnimator _attackAnimator;
+    private readonly IBattleRunner _battleRunner;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
     public GameFactory(IAssetsProvider assets, IMergeService mergeService,
         IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool,
-        IStaticData staticData, IBattleService battleService)
+        IStaticData staticData, IStartBattleService battleService, IAttackAnimator attackAnimator,
+        IBattleRunner battleRunner)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -23,6 +26,8 @@ public class GameFactory : IGameFactory
         _itemsPool = itemsPool;
         _staticData = staticData;
         _battleService = battleService;
+        _attackAnimator = attackAnimator;
+        _battleRunner = battleRunner;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -45,7 +50,11 @@ public class GameFactory : IGameFactory
         _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService,
             _mainCanvas.AttackWindow);
         _mainCanvas.AttackWindow.Construct(_battleService, _poolService);
+        _mainCanvas.AttackWindow.WinWindow.Construct(_progress, _battleRunner, _mainCanvas.AttackWindow);
+        _mainCanvas.AttackWindow.FailWindow.Construct(_progress, _battleRunner, _mainCanvas.AttackWindow);
         _mainCanvas.Leaderboard.Construct(_progress);
+
+        _attackAnimator.SetBullets(_mainCanvas.AttackWindow.Arrows);
 
         return _mainCanvas;
     }

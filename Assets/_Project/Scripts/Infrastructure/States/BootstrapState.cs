@@ -5,12 +5,15 @@ public class BootstrapState : IState
     private readonly GameStateMachine _gameStateMachine;
     private readonly SceneLoader _sceneLoader;
     private readonly AllServices _allServices;
+    private readonly ICoroutineRunner _coroutineRunner;
 
-    public BootstrapState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, AllServices allServices)
+    public BootstrapState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, AllServices allServices,
+        ICoroutineRunner coroutineRunner)
     {
         _gameStateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
         _allServices = allServices;
+        _coroutineRunner = coroutineRunner;
         RegisterService();
     }
 
@@ -36,8 +39,7 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IPoolService>(new PoolService());
         _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
 
-        _allServices.RegisterSingle<IBattleService>(new BattleService(_allServices.Single<IProgressService>(),
-            _allServices.Single<IStaticData>()));
+        RegisterBattleServices();
 
         _allServices.RegisterSingle<IItemsAnimation>(new ItemsAnimation(_allServices.Single<IItemsPoolService>(),
            _allServices.Single<IStaticData>()));
@@ -49,10 +51,16 @@ public class BootstrapState : IState
             _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>(),
             _allServices.Single<IItemSpawnService>(), _allServices.Single<IItemsPoolService>()));
 
-        _allServices.RegisterSingle<IGameFactory>(new GameFactory(_allServices.Single<IAssetsProvider>(),
-            _allServices.Single <IMergeService>(), _allServices.Single<IProgressService>(),
-            _allServices.Single<IPoolService>(), _allServices.Single<IItemsPoolService>(),
-            _allServices.Single<IStaticData>(), _allServices.Single<IBattleService>()));
+        _allServices.RegisterSingle<IGameFactory>(new GameFactory(
+            _allServices.Single<IAssetsProvider>(),
+            _allServices.Single <IMergeService>(),
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<IPoolService>(),
+            _allServices.Single<IItemsPoolService>(),
+            _allServices.Single<IStaticData>(),
+            _allServices.Single<IStartBattleService>(),
+            _allServices.Single<IAttackAnimator>(),
+            _allServices.Single<IBattleRunner>()));
     }
 
     private void RegisterStaticData()
@@ -60,5 +68,27 @@ public class BootstrapState : IState
         IStaticData staticData = new StaticDataService();
         staticData.Load();
         _allServices.RegisterSingle<IStaticData>(staticData);
+    }
+
+    private void RegisterBattleServices()
+    {
+        _allServices.RegisterSingle<IEnemyItemsSelector>(new EnemyItemsSelector(_allServices.Single<IProgressService>(),
+            _allServices.Single<IStaticData>()));
+
+        _allServices.RegisterSingle<IAttackAnimator>(new ArrowAttackAnimator());
+        _allServices.RegisterSingle<ITargetSelector>(new TargetSelector());
+
+        _allServices.RegisterSingle<IBattleTurnExecutor>(new BattleTurnExecutor(
+            _allServices.Single<ITargetSelector>(),
+            _allServices.Single<IAttackAnimator>()));
+
+        _allServices.RegisterSingle<IBattleRunner>(new BattleRunner(
+            _coroutineRunner,
+            _allServices.Single<IBattleTurnExecutor>(),
+            _allServices.Single<ITargetSelector>()));
+
+        _allServices.RegisterSingle<IStartBattleService>(new StartBattleService(
+            _allServices.Single<IBattleRunner>(),
+            _allServices.Single<IEnemyItemsSelector>()));
     }
 }

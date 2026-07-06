@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public interface IBattleService : IService
+public interface IStartBattleService : IService
 {
     List<ItemData> SelectedItems { get;}
     List<ItemData> EnemyItems { get;}
@@ -12,4 +12,5 @@ public interface IBattleService : IService
     void DeselectItem(ItemData item);
     void SelectEnemyItems();
     bool TrySelectItem(ItemData item);
+    void StartBattle(List<AttackItem> playerItems, List<AttackItem> enemyItems);
 }

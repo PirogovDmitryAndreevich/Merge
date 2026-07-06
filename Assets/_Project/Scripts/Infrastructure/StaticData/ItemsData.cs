@@ -8,6 +8,7 @@ public class ItemsData : ScriptableObject
     public List<ItemData> Items;
 
     public int StartProfit = 1;
+    public int StartHealth = 100;
     public float ProfitGrowth = 1.18f;
 
     public float StartUnlockTime = 6f;

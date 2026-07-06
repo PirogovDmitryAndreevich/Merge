@@ -10,7 +10,7 @@ public class GameStateMachine
     {
         _states = new Dictionary<Type, IExitingState>()
         {
-            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, allServices),
+            [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, allServices, coroutineRunner),
 
             [typeof(LoadProgressState)] = new LoadProgressState(this,
                 allServices.Single<IProgressService>(),

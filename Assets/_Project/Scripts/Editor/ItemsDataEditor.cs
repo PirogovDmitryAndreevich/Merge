@@ -23,7 +23,7 @@ public class ItemsDataEditor : Editor
             BuildEconomy();
             EditorUtility.SetDirty(data);
         }
-        
+
         DrawTable(data);
     }
 
@@ -47,8 +47,8 @@ public class ItemsDataEditor : Editor
 
             int id = itemData.ID;
             int profit = itemData.Profit;
-            int price = itemData.Price; 
-            float time = CalculateTime(i+1);
+            int price = itemData.Price;
+            float time = CalculateTime(i + 1);
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label(id.ToString(), GUILayout.Width(40));
@@ -94,8 +94,10 @@ public class ItemsDataEditor : Editor
             float time = CalculateTime(itemIndex);
             int profit = CalculateProfit(itemIndex, time);
             int price = CalculatePrice(itemIndex, profit, time);
+            int health = CalculateHealth(itemIndex);
+            int damage = CalculateDamage(itemIndex);
 
-            ItemData item = new ItemData(itemIndex, sprite, profit,price);
+            ItemData item = new ItemData(itemIndex, sprite, profit, price, health, damage);
             data.Items.Add(item);
         }
     }
@@ -128,5 +130,25 @@ public class ItemsDataEditor : Editor
         float curve = data.DifficultyCurve.Evaluate(t);
 
         return data.StartUnlockTime * curve;
+    }
+
+    private int CalculateHealth(int index)
+    {
+        if (index == 1)
+            return data.StartHealth;
+
+        float step = data.StartHealth / 5f;
+        float health = data.StartHealth + (index - 1) * step;
+
+        return Mathf.RoundToInt(health);
+    }
+
+    private int CalculateDamage(int index)
+    {
+        float step = data.StartHealth / 5f;
+        float startDamage = data.StartHealth / 2f - step;
+        float damage = startDamage + (index - 1) * step;
+
+        return Mathf.Max(1, Mathf.RoundToInt(damage));
     }
 }
