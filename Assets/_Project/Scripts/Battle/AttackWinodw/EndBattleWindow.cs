@@ -20,9 +20,6 @@ public abstract class  EndBattleWindow : MonoBehaviour
         Unsubscribes();
     }
 
-    private void Start() => 
-        Hide();
-
     public void Construct(IProgressService progressService, IBattleRunner battleRunner, AttackWindow attackWindow)
     {
         _progress = progressService;
@@ -33,6 +30,8 @@ public abstract class  EndBattleWindow : MonoBehaviour
         _acceptButton.onClick.AddListener(OnAcceptButtonClick);
 
         Subscribes();
+
+        Hide();
     }
 
     protected abstract void Subscribes();

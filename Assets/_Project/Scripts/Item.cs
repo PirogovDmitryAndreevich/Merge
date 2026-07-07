@@ -18,6 +18,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private IMergeService _merge;
     private IProgressService _progress;
     private RectTransform _frame;
+    private UIImpactShake _impactShake;
     private int _profit;
     private Rect _frameBounds;
 
@@ -29,12 +30,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public ItemSaveData SaveData => _saveData;
     public ContactFilter2D ContactFilter => _contactFilter;
 
-    public void Construct(Canvas canvas, RectTransform frame, IMergeService mergeService, IProgressService progress)
+    public void Construct(Canvas canvas, RectTransform frame, IMergeService mergeService,
+        IProgressService progress, UIImpactShake impactShake)
     {
         _canvas = canvas;
         _merge = mergeService;
         _progress = progress;
         _frame = frame;
+        _impactShake = impactShake;
 
         CacheFrameBounds();
     }
@@ -78,7 +81,9 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void OnPointerDown(PointerEventData eventData)
     {
         _progress.Progress.Player.AddCoins(_profit);
-        _particle.Play(_profit, eventData.position);
+        _impactShake.Play();
+        _particle.PlayClick( eventData.position);
+        _particle.PlayValue(_profit, eventData.position);
     }
 
     private Vector2 GetNewPosition(Vector2 newPosition)

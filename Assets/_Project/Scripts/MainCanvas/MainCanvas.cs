@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +12,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private Transform _itemParent;
     [SerializeField] private Leaderboard _leaderboard;
+    [SerializeField] private UIImpactShake _impactShake;
 
     [Header("Windows")]
     [SerializeField] private NewItemWindow _newItemWindow;
@@ -23,6 +23,7 @@ public class MainCanvas : MonoBehaviour
 
     private IItemSpawnService _itemSpawn;
 
+    public UIImpactShake ImpactShake => _impactShake;
     public Leaderboard Leaderboard => _leaderboard;
     public SpawnButton SpawnButton => _spawnButton;
     public NewItemWindow NewItemWindow => _newItemWindow;

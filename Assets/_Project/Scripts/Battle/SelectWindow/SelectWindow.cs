@@ -18,6 +18,7 @@ public class SelectWindow : MonoBehaviour
         _cancelButton.onClick.RemoveListener(Hide);
         _battleService.ItemSelected -= EnableButton;
     }
+            
 
     public void Construct(IItemsPoolService itemsPoolService, IStartBattleService battleService, AttackWindow attackWindow)
     {
@@ -31,6 +32,8 @@ public class SelectWindow : MonoBehaviour
 
         foreach (var selectableItem in _selectableItems)
             selectableItem.Construct(battleService);
+
+        Hide();
     }
 
     public void Show()

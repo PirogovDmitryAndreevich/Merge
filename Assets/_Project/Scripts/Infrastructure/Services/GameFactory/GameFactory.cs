@@ -64,7 +64,9 @@ public class GameFactory : IGameFactory
         Item item = _assets.Instantiate(AssetsPath.ItemPath, _mainCanvas.ParentForItems)
             .GetComponent<Item>();
 
-        item.Construct(_canvas, _mainCanvas.SpawnFrame, _mergeService, _progress);
+        item.Construct(_canvas, _mainCanvas.SpawnFrame, _mergeService,
+            _progress, _mainCanvas.ImpactShake);
+
         item.Spawner.Construct(_poolService);
 
         return item;
@@ -118,8 +120,30 @@ public class GameFactory : IGameFactory
         return particle;
     }
 
+    private DamageEffect CreateDamageEffect()
+    {
+        DamageEffect damage = _assets.Instantiate(AssetsPath.DamageEffectPath)
+            .GetComponent<DamageEffect>();
+
+        damage.Construct(_poolService);
+
+        return damage;
+    }
+
+    private DeathEffect CreateDeathEffect()
+    {
+        DeathEffect death = _assets.Instantiate(AssetsPath.DeathEffectPath)
+            .GetComponent<DeathEffect>();
+
+        death.Construct(_poolService);
+
+        return death;
+    }
+
     private void RegisterPoolFunc()
     {
+        _poolService.RegisterFactory(() => CreateDeathEffect());
+        _poolService.RegisterFactory(() => CreateDamageEffect());
         _poolService.RegisterFactory(() => CreateProfit());
         _poolService.RegisterFactory(() => CreateClickEffect());
         _poolService.RegisterFactory(() => CreateMergeEffect());

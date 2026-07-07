@@ -5,17 +5,19 @@ public class AttackItem : MonoBehaviour
 {
     [SerializeField] private Image _image;
     [SerializeField] private Slider _healthBar;
+    [SerializeField] private ParticleSpawner _particleSpawner;
 
-    private IPoolService _pool;
     private int _health;
+    private UIImpactShake _impactShake;
 
     public bool IsInitialized { get; private set; }
     public bool IsDestroy { get; private set; }
     public ItemData ItemData { get; private set; }
 
-    public void Construct(IPoolService pool)
+    public void Construct(IPoolService pool, UIImpactShake impactShake)
     {
-        _pool = pool;
+        _particleSpawner.Construct(pool);
+        _impactShake = impactShake;
     }
 
     public void Initialize(ItemData itemData)
@@ -45,8 +47,13 @@ public class AttackItem : MonoBehaviour
 
         _healthBar.value = (float)_health / ItemData.Health;
 
+        _impactShake.Play();
+        _particleSpawner.PlayDamage(transform.position);
+        _particleSpawner.PlayValue(damage, transform.position);
+
         if (_health <= 0)
         {
+            _particleSpawner.PlayDeath(transform.position);
             IsDestroy = true;
             Hide();
         }

@@ -8,6 +8,7 @@ public class AttackWindow : MonoBehaviour
     [SerializeField] private Arrow[] _arrows;
     [SerializeField] private WinWindow _winWindow;
     [SerializeField] private FailWindow _failWindow;
+    [SerializeField] private UIImpactShake _impactShake;
 
     private IStartBattleService _battleService;
 
@@ -18,16 +19,13 @@ public class AttackWindow : MonoBehaviour
     public WinWindow WinWindow => _winWindow;
     public FailWindow FailWindow => _failWindow;
 
-    private void Start()
-    {
-        Hide();
-    }
-
     public void Construct(IStartBattleService battleService, IPoolService poolService)
     {
         _battleService = battleService;
-        _enemyFrame.Construct(poolService);
-        _playerFrames.Construct(poolService);
+        _enemyFrame.Construct(poolService, _impactShake);
+        _playerFrames.Construct(poolService, _impactShake);
+
+        Hide();
     }
 
     public void Show()

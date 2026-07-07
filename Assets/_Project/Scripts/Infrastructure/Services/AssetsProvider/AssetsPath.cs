@@ -7,4 +7,6 @@ public static class AssetsPath
     public const string MergeEffectPath = "Effects/Merge";
     public const string ItemIconPath = "Item/ItemIcon";
     public const string ArrowPath = "Arrow/Arrow";
+    public const string DamageEffectPath = "Effects/ApplyDamage";
+    public const string DeathEffectPath = "Effects/DeathItem";
 }

@@ -7,10 +7,10 @@ public class ItemsFrame : MonoBehaviour
 
     private List<AttackItem> _initializedItems;
 
-    public void Construct(IPoolService poolService)
+    public void Construct(IPoolService poolService, UIImpactShake impactShake)
     {
         foreach(var item in _images)
-            item.Construct(poolService);
+            item.Construct(poolService, impactShake);
     }
 
     public List<AttackItem> Initialize(ItemData[] items)
