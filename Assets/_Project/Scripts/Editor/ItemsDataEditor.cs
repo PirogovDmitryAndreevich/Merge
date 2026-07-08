@@ -38,7 +38,8 @@ public class ItemsDataEditor : Editor
         GUILayout.Label("ID", GUILayout.Width(40));
         GUILayout.Label("Profit", GUILayout.Width(80));
         GUILayout.Label("Price", GUILayout.Width(80));
-        GUILayout.Label("Time");
+        GUILayout.Label("Time", GUILayout.Width(80));
+        GUILayout.Label("Luck", GUILayout.Width(80));
         EditorGUILayout.EndHorizontal();
 
         for (int i = 0; i < data.ItemsCount; i++)
@@ -48,6 +49,7 @@ public class ItemsDataEditor : Editor
             int id = itemData.ID;
             int profit = itemData.Profit;
             int price = itemData.Price;
+            float luck = itemData.Luck;
             float time = CalculateTime(i + 1);
 
             EditorGUILayout.BeginHorizontal();
@@ -55,6 +57,7 @@ public class ItemsDataEditor : Editor
             GUILayout.Label(profit.ToString(), GUILayout.Width(80));
             GUILayout.Label(price.ToString(), GUILayout.Width(80));
             GUILayout.Label(time.ToString("0.0"));
+            GUILayout.Label(luck.ToString(), GUILayout.Width(80));
             EditorGUILayout.EndHorizontal();
         }
 
@@ -96,8 +99,9 @@ public class ItemsDataEditor : Editor
             int price = CalculatePrice(itemIndex, profit, time);
             int health = CalculateHealth(itemIndex);
             int damage = CalculateDamage(itemIndex);
+            float luck = CalculateLuck(itemIndex);
 
-            ItemData item = new ItemData(itemIndex, sprite, profit, price, health, damage);
+            ItemData item = new ItemData(itemIndex, sprite, profit, price, health, damage, luck);
             data.Items.Add(item);
         }
     }
@@ -150,5 +154,15 @@ public class ItemsDataEditor : Editor
         float damage = startDamage + (index - 1) * step;
 
         return Mathf.Max(1, Mathf.RoundToInt(damage));
+    }
+
+    private float CalculateLuck(int index)
+    {
+        if (index <= 3)
+            return data.MaxLuck;
+
+        float t = Mathf.InverseLerp(data.MinLuck, data.ItemsCount, index);
+
+        return Mathf.Lerp(data.MaxLuck - 1, data.MinLuck, t);
     }
 }

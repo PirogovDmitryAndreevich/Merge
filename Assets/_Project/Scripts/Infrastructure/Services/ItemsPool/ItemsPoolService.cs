@@ -4,77 +4,114 @@ using UnityEngine;
 
 public class ItemsPoolService : IItemsPoolService
 {
-    private List<Item> _itemsOnScene;
-    private Queue<Item> _pool;
+    private Dictionary<Type, Queue<Component>> _pools;
+    private Dictionary<Type, Transform> _poolParents;
+    private Dictionary<Type, Func<Component>> _factories;
 
+    private List<Item> _itemsOnScene;
     private Transform _itemsParent;
-    private Func<Item> _itemFunc;
 
     public List<Item> ItemsOnScene => _itemsOnScene;
 
     public ItemsPoolService()
     {
         _itemsOnScene = new List<Item>();
-        _pool = new Queue<Item>();
+        _pools = new();
+        _factories = new();
+        _poolParents = new();
     }
 
-    public void SetItemsParent(Transform parent, Func<Item> itemFunc)
-    {
-        _itemFunc = itemFunc;
+    public void SetParent(Transform parent) =>
         _itemsParent = parent;
+
+    public void RegisterFactory<TPoolObject>(Func<TPoolObject> factory) where TPoolObject : Component
+    {
+        var type = typeof(TPoolObject);
+
+        if (_factories.ContainsKey(type))
+            return;
+
+        _factories[type] = () => factory();
+
+        CreatePoolParent(type);
     }
 
-    public Item GetItem()
+    public TPoolObject GetItem<TPoolObject>() where TPoolObject : Component
     {
-        Item item;
+        Type type = typeof(TPoolObject);
 
-        if (_pool.Count > 0)        
-            item = _pool.Dequeue();
-        else
-            item = CreateNew();        
-
-        item.gameObject.SetActive(true);
-
-        int index = 0;
-        while (index < _itemsOnScene.Count && _itemsOnScene[index].ID > item.ID)
+        if (_pools.TryGetValue(type, out var pool) && pool.Count > 0)
         {
-            index++;
+            TPoolObject obj = (TPoolObject)pool.Dequeue();
+            obj.gameObject.SetActive(true);
+
+            return obj;
         }
-        _itemsOnScene.Insert(index, item);
 
-        return item;
+        return CreateNew<TPoolObject>(); 
     }
 
-    public void ReturnItem(Item item)
+    public void ReturnItem<TPoolObject>(TPoolObject obj) where TPoolObject : Component
     {
-        _itemsOnScene.Remove(item);
-        item.gameObject.SetActive(false);
+        Type type = typeof(TPoolObject);
 
-        _pool.Enqueue(item);
+        if (type == typeof(Item))
+        {
+            Item item = obj as Item;
+            _itemsOnScene.Remove(item);
+        }
+
+        if (!_pools.ContainsKey(type))
+            _pools[type] = new Queue<Component>();
+
+        obj.gameObject.SetActive(false);
+
+        _pools[type].Enqueue(obj);        
     }
 
-    public void Cleanup() =>
+    public void Cleanup()
+    {
         _itemsOnScene.Clear();
+        _pools.Clear();
+        _factories.Clear();
+        _poolParents.Clear();
+    }
 
     public void CleanupByID(int id)
     {
-        _itemsOnScene.RemoveAll(item =>
+        for (int i = _itemsOnScene.Count - 1; i >= 0; i--)
         {
+            Item item = _itemsOnScene[i];
+
             if (item.ID < id)
             {
-                item.gameObject.SetActive(false);
-                _pool.Enqueue(item);
-                return true;
+                ReturnItem(item);
             }
-            return false;
-        });
+        }
     }
 
-    private Item CreateNew()
+    private TPoolObject CreateNew<TPoolObject>() where TPoolObject : Component
     {
-        Item item = _itemFunc();
-        item.transform.SetParent(_itemsParent);
+        Type type = typeof(TPoolObject);
 
-        return item;
+        if (!_factories.TryGetValue(type, out var factory))
+            throw new Exception($"No factory for {type}");
+
+        TPoolObject obj = (TPoolObject)factory();
+
+        obj.transform.SetParent(_poolParents[type]);
+
+        return obj;
+    }
+
+    private void CreatePoolParent(Type type)
+    {
+        if (_poolParents.ContainsKey(type))
+            return;
+
+        GameObject parent = new GameObject($"{type.Name}Pool");
+        parent.transform.SetParent(_itemsParent, false);
+
+        _poolParents[type] = parent.transform;
     }
 }

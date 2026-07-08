@@ -10,8 +10,9 @@ public class ItemData
     public int Price;
     public int Damage;
     public int Health;
+    public float Luck;
 
-    public ItemData(int id, Sprite sprite, int profit, int price, int health, int damage)
+    public ItemData(int id, Sprite sprite, int profit, int price, int health, int damage, float luck)
     {
         ID = id;
         Sprite = sprite;
@@ -19,5 +20,6 @@ public class ItemData
         Price = price;
         Health = health;
         Damage = damage;
+        Luck = luck;
     }
 }

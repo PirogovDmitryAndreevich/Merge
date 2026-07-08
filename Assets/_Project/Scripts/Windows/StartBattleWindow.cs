@@ -20,18 +20,14 @@ public class StartBattleWindow : MonoBehaviour
         YG2.onGetLeaderboard -= OnGetLeaderboard;
     }
 
-    private void Start()
-    {
-        _acceptButton.onClick.AddListener(OnAccept);
-        _cancelButton.onClick.AddListener(Hide);
-        
-        Hide();
-    }
-
     public void Construct(SelectWindow selectWindow)
     {
         _selectWindow = selectWindow;
         YG2.onGetLeaderboard += OnGetLeaderboard;
+        _acceptButton.onClick.AddListener(OnAccept);
+        _cancelButton.onClick.AddListener(Hide);
+
+        Hide();
     }
 
     public void Show()

@@ -16,3 +16,5 @@ MonoBehaviour:
   AnimationItemsAmplitude: 5
   SpawnIDCoefficient: 4
   SaveTimer: 4
+  MultiplierTimer: 15
+  MultiplierValue: 5

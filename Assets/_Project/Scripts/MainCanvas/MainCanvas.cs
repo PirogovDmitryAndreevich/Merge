@@ -20,6 +20,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private StartBattleWindow _startBattleWindow;
     [SerializeField] private SelectWindow _selectWindow;
     [SerializeField] private AttackWindow _attackWindow;
+    [SerializeField] private BonusView _bonusView;
 
     private IItemSpawnService _itemSpawn;
 
@@ -31,6 +32,7 @@ public class MainCanvas : MonoBehaviour
     public StartBattleWindow StartBattleWindow => _startBattleWindow;
     public SelectWindow SelectWindow => _selectWindow;
     public AttackWindow AttackWindow => _attackWindow;
+    public BonusView BonusView => _bonusView;
     public CoinsCounter CoinsCounter => _coinsCounter;
     public RectTransform SpawnFrame => _spawnFrame;
     public Transform ParentForItems => _itemParent;
@@ -51,12 +53,21 @@ public class MainCanvas : MonoBehaviour
     public void SetItemSpawn(IItemSpawnService itemSpawn) => 
         _itemSpawn = itemSpawn;
 
-    private void OnButtonClicked() => 
+    private void OnButtonClicked()
+    {
+        Debug.Log("Spawn Button Clicked");
         _itemSpawn.Spawn();
+    }
 
-    private void ShowCollection() =>
+    private void ShowCollection()
+    {
+        Debug.Log("ShowCollection");
         _collectionWindow.Show();
+    }
 
-    private void StartAttack() => 
+    private void StartAttack()
+    {
+        Debug.Log("Start Attack");
         _startBattleWindow.Show();
+    }
 }

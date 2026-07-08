@@ -3,7 +3,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Collider2D))]
-public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
+    IEndDragHandler, IPointerDownHandler, IMoveableItem
 {
     [SerializeField] private Image _image;
     [SerializeField] private RectTransform _rectTransform;
@@ -16,8 +17,8 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     private ItemData _data;
     private ItemSaveData _saveData;
     private IMergeService _merge;
-    private IProgressService _progress;
     private RectTransform _frame;
+    private ICoinsCounterService _coinsService;
     private UIImpactShake _impactShake;
     private int _profit;
     private Rect _frameBounds;
@@ -31,12 +32,12 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public ContactFilter2D ContactFilter => _contactFilter;
 
     public void Construct(Canvas canvas, RectTransform frame, IMergeService mergeService,
-        IProgressService progress, UIImpactShake impactShake)
+        ICoinsCounterService coinsCounterService, UIImpactShake impactShake)
     {
         _canvas = canvas;
         _merge = mergeService;
-        _progress = progress;
         _frame = frame;
+        _coinsService = coinsCounterService;
         _impactShake = impactShake;
 
         CacheFrameBounds();
@@ -80,10 +81,9 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        _progress.Progress.Player.AddCoins(_profit);
+        _coinsService.AddCoins(_profit, eventData.position);
         _impactShake.Play();
         _particle.PlayClick( eventData.position);
-        _particle.PlayValue(_profit, eventData.position);
     }
 
     private Vector2 GetNewPosition(Vector2 newPosition)

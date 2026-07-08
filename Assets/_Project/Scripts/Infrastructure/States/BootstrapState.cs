@@ -38,14 +38,24 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IAssetsProvider>(new AssetsProvider());
         _allServices.RegisterSingle<IPoolService>(new PoolService());
         _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
+        _allServices.RegisterSingle<IBonusSpawnService>(new BonusSpawnService());
+
+        _allServices.RegisterSingle<ICoinsCounterService>(new CoinsCounterService(
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<IPoolService>(),
+            _coroutineRunner,
+            _allServices.Single<IStaticData>().GameData));
 
         RegisterBattleServices();
 
         _allServices.RegisterSingle<IItemsAnimation>(new ItemsAnimation(_allServices.Single<IItemsPoolService>(),
            _allServices.Single<IStaticData>()));
 
-        _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(_allServices.Single<IStaticData>(),
-            _allServices.Single<IProgressService>(), _allServices.Single<IItemsPoolService>()));
+        _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(
+            _allServices.Single<IStaticData>(),
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<IItemsPoolService>(),
+            _allServices.Single<IBonusSpawnService>()));
 
         _allServices.RegisterSingle<IMergeService>(new MergeService(_allServices.Single<IStaticData>(),
             _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>(),
@@ -60,7 +70,8 @@ public class BootstrapState : IState
             _allServices.Single<IStaticData>(),
             _allServices.Single<IStartBattleService>(),
             _allServices.Single<IAttackAnimator>(),
-            _allServices.Single<IBattleRunner>()));
+            _allServices.Single<IBattleRunner>(),
+            _allServices.Single<ICoinsCounterService>()));
     }
 
     private void RegisterStaticData()

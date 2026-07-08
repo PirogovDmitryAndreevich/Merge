@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,10 +12,9 @@ public class CollectionWindow : MonoBehaviour
     private void OnDestroy() => 
         _closeButton.onClick.RemoveListener(Hide);
 
-    private void Start()
+    public void Construct()
     {
         _closeButton.onClick.AddListener(Hide);
-
         Hide();
     }
 

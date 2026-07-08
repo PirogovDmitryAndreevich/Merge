@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using static UnityEditor.Progress;
 
 public class LoadSceneState : IPayloadState<string>
 {
@@ -62,7 +60,7 @@ public class LoadSceneState : IPayloadState<string>
 
         foreach (ItemSaveData item in items)
         {
-            Item loadItem = _itemsPoolService.GetItem();
+            Item loadItem = _itemsPoolService.GetItem<Item>();
             ItemData itemData = _staticData.ForItem(item.ID);
 
             loadItem.Initialize(itemData, item);

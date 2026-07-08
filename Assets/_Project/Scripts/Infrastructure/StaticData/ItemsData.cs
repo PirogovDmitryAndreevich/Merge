@@ -9,6 +9,8 @@ public class ItemsData : ScriptableObject
 
     public int StartProfit = 1;
     public int StartHealth = 100;
+    public float MaxLuck = 10f;
+    public float MinLuck = 3f;
     public float ProfitGrowth = 1.18f;
 
     public float StartUnlockTime = 6f;

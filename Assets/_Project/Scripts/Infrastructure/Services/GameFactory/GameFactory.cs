@@ -11,13 +11,14 @@ public class GameFactory : IGameFactory
     private readonly IStartBattleService _battleService;
     private readonly IAttackAnimator _attackAnimator;
     private readonly IBattleRunner _battleRunner;
+    private readonly ICoinsCounterService _coinsCounterService;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
     public GameFactory(IAssetsProvider assets, IMergeService mergeService,
         IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool,
         IStaticData staticData, IStartBattleService battleService, IAttackAnimator attackAnimator,
-        IBattleRunner battleRunner)
+        IBattleRunner battleRunner, ICoinsCounterService coinsCounterService)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -28,6 +29,7 @@ public class GameFactory : IGameFactory
         _battleService = battleService;
         _attackAnimator = attackAnimator;
         _battleRunner = battleRunner;
+        _coinsCounterService = coinsCounterService;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -36,15 +38,16 @@ public class GameFactory : IGameFactory
             .GetComponent<MainCanvas>();
 
         _poolService.SetRootParent(_mainCanvas.transform);
+
         RegisterPoolFunc();
+        RegisterItemPool();
 
-        _itemsPool.SetItemsParent(_mainCanvas.SpawnFrame, () => CreateItem());
-
+        _mainCanvas.Collection.Construct();
         CreateCollection(_mainCanvas.Collection.Content);
 
         _canvas = _mainCanvas.GetComponent<Canvas>();
-        
-        _mainCanvas.CoinsCounter.Construct(_progress);  
+
+        _mainCanvas.CoinsCounter.Construct(_progress);
         _mainCanvas.NewItemWindow.Construct(_mergeService);
         _mainCanvas.StartBattleWindow.Construct(_mainCanvas.SelectWindow);
         _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService,
@@ -53,6 +56,7 @@ public class GameFactory : IGameFactory
         _mainCanvas.AttackWindow.WinWindow.Construct(_progress, _battleRunner, _mainCanvas.AttackWindow);
         _mainCanvas.AttackWindow.FailWindow.Construct(_progress, _battleRunner, _mainCanvas.AttackWindow);
         _mainCanvas.Leaderboard.Construct(_progress);
+        _mainCanvas.BonusView.Construct(_coinsCounterService);
 
         _attackAnimator.SetBullets(_mainCanvas.AttackWindow.Arrows);
 
@@ -65,7 +69,7 @@ public class GameFactory : IGameFactory
             .GetComponent<Item>();
 
         item.Construct(_canvas, _mainCanvas.SpawnFrame, _mergeService,
-            _progress, _mainCanvas.ImpactShake);
+            _coinsCounterService, _mainCanvas.ImpactShake);
 
         item.Spawner.Construct(_poolService);
 
@@ -87,7 +91,7 @@ public class GameFactory : IGameFactory
 
         icon.Construct(item.Sprite, _progress, item.ID);
 
-        return icon; 
+        return icon;
     }
 
     private ProfitEffect CreateProfit()
@@ -140,8 +144,27 @@ public class GameFactory : IGameFactory
         return death;
     }
 
-    private void RegisterPoolFunc()
+    private BonusItem CreateBonusItem()
     {
+        BonusItem bonusItem = _assets.Instantiate(AssetsPath.BonusItemPath, _mainCanvas.ParentForItems)
+            .GetComponent<BonusItem>();
+
+        bonusItem.Construct(_coinsCounterService, _mainCanvas.ImpactShake);
+        bonusItem.Spawner.Construct(_poolService);
+
+        return bonusItem;
+    }
+
+    private void RegisterItemPool()
+    {
+        _itemsPool.SetParent(_mainCanvas.ParentForItems);
+
+        _itemsPool.RegisterFactory(() => CreateItem());
+        _itemsPool.RegisterFactory(() => CreateBonusItem());
+    }
+
+    private void RegisterPoolFunc()
+    {        
         _poolService.RegisterFactory(() => CreateDeathEffect());
         _poolService.RegisterFactory(() => CreateDamageEffect());
         _poolService.RegisterFactory(() => CreateProfit());
