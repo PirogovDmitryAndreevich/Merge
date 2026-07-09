@@ -40,15 +40,19 @@ public class ItemsPoolService : IItemsPoolService
     {
         Type type = typeof(TPoolObject);
 
-        if (_pools.TryGetValue(type, out var pool) && pool.Count > 0)
-        {
-            TPoolObject obj = (TPoolObject)pool.Dequeue();
-            obj.gameObject.SetActive(true);
+        TPoolObject obj;
 
-            return obj;
-        }
+        if (_pools.TryGetValue(type, out var pool) && pool.Count > 0)        
+            obj = (TPoolObject)pool.Dequeue(); 
+        else
+            obj = CreateNew<TPoolObject>();        
 
-        return CreateNew<TPoolObject>(); 
+        obj.gameObject.SetActive(true);
+
+        if(obj is Item item)        
+            _itemsOnScene.Add(item);
+        
+        return obj;
     }
 
     public void ReturnItem<TPoolObject>(TPoolObject obj) where TPoolObject : Component

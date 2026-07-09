@@ -4,20 +4,22 @@ using UnityEngine.UI;
 public class SelectableItem : MonoBehaviour
 {
     [SerializeField] private Image _icon;
+    [SerializeField] private Button _button;
     [SerializeField] private Toggle _toggle;
 
     private IStartBattleService _battleService;
     private ItemData _itemData;
+    private bool _isSelected;
 
     private void OnDestroy()
     {
-        _toggle.onValueChanged.RemoveListener(OnToggleSelect);
+        _button.onClick.RemoveListener(OnButtonClicked);
     }
 
     public void Construct(IStartBattleService battleService)
     {
         _battleService = battleService;
-        _toggle.onValueChanged.AddListener(OnToggleSelect);
+        _button.onClick.AddListener(OnButtonClicked);
 
         Hide();
     }
@@ -26,7 +28,8 @@ public class SelectableItem : MonoBehaviour
     {
         _itemData = itemData;
         _icon.sprite = _itemData.Sprite;
-        _toggle.isOn = false;
+
+        OnClickSelect(false);
     }
 
     public void Hide()
@@ -39,13 +42,21 @@ public class SelectableItem : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    private void OnToggleSelect(bool isOn)
+    private void OnButtonClicked()
     {
-        if (isOn)
+        _isSelected = !_isSelected;
+        OnClickSelect(_isSelected);
+    }
+
+    private void OnClickSelect(bool isSelected)
+    {
+        _isSelected = isSelected;
+
+        if (isSelected)
         {
             if (!_battleService.TrySelectItem(_itemData))
             {
-                _toggle.SetIsOnWithoutNotify(false);
+                _isSelected = !isSelected;                
                 return;
             }
         }
@@ -53,5 +64,10 @@ public class SelectableItem : MonoBehaviour
         {
             _battleService.DeselectItem(_itemData);
         }
+
+        SetToggle(_isSelected);
     }
+
+    private void SetToggle(bool isSelected) => 
+        _toggle.SetIsOnWithoutNotify(isSelected);
 }

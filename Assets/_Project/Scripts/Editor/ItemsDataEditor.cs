@@ -159,7 +159,7 @@ public class ItemsDataEditor : Editor
     private float CalculateLuck(int index)
     {
         if (index <= 3)
-            return data.MaxLuck;
+            return 10f;
 
         float t = Mathf.InverseLerp(data.MinLuck, data.ItemsCount, index);
 

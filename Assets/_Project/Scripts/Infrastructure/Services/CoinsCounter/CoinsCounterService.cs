@@ -24,9 +24,9 @@ public class CoinsCounterService : ICoinsCounterService
         _data = data;
     }
 
-    public void AddCoins(int amount, Vector2 position)
+    public void AddCoins(int amount, Vector2 position, bool withMultiplier = false)
     {
-        if (IsMultiplier)
+        if (IsMultiplier && withMultiplier)
             amount *= _data.MultiplierValue;
 
         _progress.Progress.Player.AddCoins(amount);

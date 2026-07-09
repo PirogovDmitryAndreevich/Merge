@@ -53,10 +53,13 @@ public class GameFactory : IGameFactory
         _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService,
             _mainCanvas.AttackWindow);
         _mainCanvas.AttackWindow.Construct(_battleService, _poolService);
-        _mainCanvas.AttackWindow.WinWindow.Construct(_progress, _battleRunner, _mainCanvas.AttackWindow);
-        _mainCanvas.AttackWindow.FailWindow.Construct(_progress, _battleRunner, _mainCanvas.AttackWindow);
+        _mainCanvas.AttackWindow.WinWindow.Construct(_progress, _battleRunner,
+            _mainCanvas.AttackWindow, _coinsCounterService);
+        _mainCanvas.AttackWindow.FailWindow.Construct(_progress, _battleRunner,
+            _mainCanvas.AttackWindow, _coinsCounterService);
         _mainCanvas.Leaderboard.Construct(_progress);
         _mainCanvas.BonusView.Construct(_coinsCounterService);
+        _mainCanvas.SpawnButton.Construct(_progress);
 
         _attackAnimator.SetBullets(_mainCanvas.AttackWindow.Arrows);
 

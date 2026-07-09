@@ -18,7 +18,7 @@ public class RewardSlider : MonoBehaviour
     private Coroutine _sliderCoroutine;
     private int _reward;
 
-    public event Action RewardButtonClicked;
+    public event Action<int> RewardButtonClicked;
 
     private void Awake() => 
         _rewardAdvButton.onClick
@@ -92,7 +92,7 @@ public class RewardSlider : MonoBehaviour
 
         Debug.Log($"Reward x{multiplier} = {finalReward}");
 
-        RewardButtonClicked?.Invoke();
+        RewardButtonClicked?.Invoke(finalReward);
     }
 
     private int GetCurrentMultiplier()

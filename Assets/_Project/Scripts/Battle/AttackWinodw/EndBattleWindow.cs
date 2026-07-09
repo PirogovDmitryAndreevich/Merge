@@ -9,24 +9,28 @@ public abstract class  EndBattleWindow : MonoBehaviour
     protected IBattleRunner BattleRunner;
     private IProgressService _progress;
     private AttackWindow _attackWindow;
-
+    private ICoinsCounterService _coinsService;
     private int _reward;
+
 
     private void OnDestroy()
     {        
-        _rewardSlider.RewardButtonClicked -= Hide;
+        _rewardSlider.RewardButtonClicked -= OnRewardButtonClicked;
         _acceptButton.onClick.RemoveListener(OnAcceptButtonClick);
 
         Unsubscribes();
     }
 
-    public void Construct(IProgressService progressService, IBattleRunner battleRunner, AttackWindow attackWindow)
+    public void Construct(IProgressService progressService, 
+        IBattleRunner battleRunner, AttackWindow attackWindow,
+        ICoinsCounterService coinsCounterService)
     {
         _progress = progressService;
         BattleRunner = battleRunner;
         _attackWindow = attackWindow;
+        _coinsService = coinsCounterService;
 
-        _rewardSlider.RewardButtonClicked += Hide;
+        _rewardSlider.RewardButtonClicked += OnRewardButtonClicked;
         _acceptButton.onClick.AddListener(OnAcceptButtonClick);
 
         Subscribes();
@@ -55,7 +59,15 @@ public abstract class  EndBattleWindow : MonoBehaviour
 
     private void OnAcceptButtonClick()
     {
-        Debug.Log($"Reward: {_reward}");
+        _coinsService.AddCoins(_reward, _acceptButton.transform.position);
+
+        Hide();
+        _attackWindow.Hide();
+    }
+
+    private void OnRewardButtonClicked(int reward)
+    {
+        _coinsService.AddCoins(reward, _acceptButton.transform.position, withMultiplier: false);
 
         Hide();
         _attackWindow.Hide();

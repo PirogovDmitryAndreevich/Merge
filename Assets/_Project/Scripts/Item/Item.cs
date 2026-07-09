@@ -81,7 +81,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        _coinsService.AddCoins(_profit, eventData.position);
+        _coinsService.AddCoins(_profit, eventData.position, withMultiplier: true);
         _impactShake.Play();
         _particle.PlayClick( eventData.position);
     }
