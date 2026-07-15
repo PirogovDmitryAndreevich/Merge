@@ -30,6 +30,7 @@ public class BonusView : MonoBehaviour
 
     private void StartBonus()
     {
+        _slider.gameObject.SetActive(true);
         gameObject.SetActive(true);
         _slider.value = 1f;
     }
@@ -42,5 +43,6 @@ public class BonusView : MonoBehaviour
     private void StopBonus()
     {
         gameObject.SetActive(false);
+        _slider.gameObject.SetActive(false);
     }
 }

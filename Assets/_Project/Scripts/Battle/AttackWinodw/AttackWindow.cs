@@ -40,6 +40,7 @@ public class AttackWindow : MonoBehaviour
 
     public void Hide()
     {
+        _battleService.Cleanup();
         gameObject.SetActive(false);
     }
 }

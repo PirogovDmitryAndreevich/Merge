@@ -14,14 +14,13 @@ public class NewItemWindow : MonoBehaviour
         _mergeService.NewMaxItemReached -= OnNewMaxItemReached;
     }
 
-    private void Start() => 
-        Hide();
-
     public void Construct(IMergeService mergeService)
     {
         _mergeService = mergeService;
         _mergeService.NewMaxItemReached += OnNewMaxItemReached;
         _acceptButton.onClick.AddListener(Hide);
+
+        Hide();
     }
 
     public void Show(Sprite itemIcon)

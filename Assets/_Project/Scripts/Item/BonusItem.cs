@@ -6,23 +6,26 @@ public class BonusItem : MonoBehaviour, IPointerDownHandler, IMoveableItem
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private ParticleSpawner _particle;
 
-    private ICoinsCounterService _coinsService;
     private UIImpactShake _impactShake;
+    private IItemsPoolService _pool;
+    private IBonusHandler _bonusHandler;
 
     public RectTransform RectTransform => _rectTransform;
     public ParticleSpawner Spawner => _particle;
 
-    public void Construct(ICoinsCounterService coinsCounterService, UIImpactShake impactShake)
+    public void Construct(IItemsPoolService poolService, UIImpactShake impactShake, IBonusHandler bonusHandler)
     {
-        _coinsService = coinsCounterService;
         _impactShake = impactShake;
+        _pool = poolService;
+        _bonusHandler = bonusHandler;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        _bonusHandler.AddBonus();
         _impactShake.Play();
         _particle.PlayClick(eventData.position);
-        _coinsService.AddMultiplier(this);
+        _pool.ReturnItem(this);
     }
 
     public void SavePosition()

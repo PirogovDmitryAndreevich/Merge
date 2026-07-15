@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class ParticleSpawner : MonoBehaviour
@@ -26,9 +25,9 @@ public class ParticleSpawner : MonoBehaviour
         click.Play(position);
     }
 
-    public void PlayValue(int profit, Vector2 position)
+    public void PlayDamage(int profit, Vector2 position)
     {
-        ProfitEffect effect = _pool.Get<ProfitEffect>();
-        effect.Play(profit, position);
+        ValueEffect effect = _pool.Get<ValueEffect>();
+        effect.Play(profit, position, ValueType.Damage);
     }
 }

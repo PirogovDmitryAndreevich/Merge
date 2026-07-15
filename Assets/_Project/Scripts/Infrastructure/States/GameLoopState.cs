@@ -6,15 +6,19 @@ public class GameLoopState : IState
     private readonly ISaveLoadService _saveLoadService;
     private readonly IItemsAnimation _itemsAnimation;
     private readonly IStaticData _staticData;
+    private readonly IBattleRunner _battleRunner;
+    private readonly IEnemyAttackService _enemyAttackService;
     private bool _isGame;
 
     public GameLoopState(ICoroutineRunner coroutine, ISaveLoadService saveLoadService, IItemsAnimation itemsAnimation,
-        IStaticData staticData)
+        IStaticData staticData, IBattleRunner battleRunner, IEnemyAttackService enemyAttackService)
     {
         _coroutine = coroutine;
         _saveLoadService = saveLoadService;
         _itemsAnimation = itemsAnimation;
         _staticData = staticData;
+        _battleRunner = battleRunner;
+        _enemyAttackService = enemyAttackService;
     }
 
     public void Enter()
@@ -31,9 +35,16 @@ public class GameLoopState : IState
     private IEnumerator Gameplay()
     {
         float saveTimer = _staticData.GameData.SaveTimer;
+        float attackTimer = _staticData.GameData.AttackTimer;
 
         while (_isGame)
         {
+            if (_battleRunner.IsPlaying)
+            {
+                attackTimer = _staticData.GameData.AttackTimer;
+                yield return null;
+            }
+
             _itemsAnimation.Update();
 
             if (saveTimer <= 0)
@@ -42,6 +53,13 @@ public class GameLoopState : IState
                 saveTimer = _staticData.GameData.SaveTimer;
             }
 
+            if (attackTimer <= 0)
+            {
+                _enemyAttackService.StartAttack();
+                attackTimer = _staticData.GameData.AttackTimer;
+            }
+
+            attackTimer -= UnityEngine.Time.deltaTime;
             saveTimer -= UnityEngine.Time.deltaTime;
 
             yield return null;

@@ -49,7 +49,7 @@ public class AttackItem : MonoBehaviour
 
         _impactShake.Play();
         _particleSpawner.PlayDamage(transform.position);
-        _particleSpawner.PlayValue(damage, transform.position);
+        _particleSpawner.PlayDamage(damage, transform.position);
 
         if (_health <= 0)
         {

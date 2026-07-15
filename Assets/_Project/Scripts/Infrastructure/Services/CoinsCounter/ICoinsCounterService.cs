@@ -8,5 +8,6 @@ public interface ICoinsCounterService : IService
     event Action<float> MultiplierTimeChanged;
 
     void AddCoins(int amount, Vector2 position, bool withMultiplier = false);
-    void AddMultiplier(BonusItem item);
+    void AddScore(int score, Vector2 position);
+    void AddMultiplier();
 }

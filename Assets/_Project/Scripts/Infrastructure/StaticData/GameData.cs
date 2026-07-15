@@ -7,6 +7,7 @@ public class GameData : ScriptableObject
     public float AnimationItemsAmplitude = 5f;
     public int SpawnIDCoefficient;
     public float SaveTimer = 0.5f;
+    public float AttackTimer = 1f;
     public float MultiplierTimer = 5f;
     public int MultiplierValue = 5;
 }

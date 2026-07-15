@@ -30,13 +30,19 @@ public class CoinsCounterService : ICoinsCounterService
             amount *= _data.MultiplierValue;
 
         _progress.Progress.Player.AddCoins(amount);
-        PlayValue(amount, position);
+        PlayCoins(amount, position);
     }
 
-    public void AddMultiplier(BonusItem item)
+    public void AddScore(int score, Vector2 position)
     {
-        _pool.Return(item);
+        ValueEffect effect = _pool.Get<ValueEffect>();
 
+        _progress.Progress.Player.AddScore(score);
+        effect.Play(score, position, ValueType.Score);
+    }
+
+    public void AddMultiplier()
+    {
         if (IsMultiplier)
         {
             _timer = _data.MultiplierTimer;
@@ -56,10 +62,10 @@ public class CoinsCounterService : ICoinsCounterService
         MultiplierStopped?.Invoke();
     }
 
-    private void PlayValue(int profit, Vector2 position)
+    private void PlayCoins(int profit, Vector2 position)
     {
-        ProfitEffect effect = _pool.Get<ProfitEffect>();
-        effect.Play(profit, position);
+        ValueEffect effect = _pool.Get<ValueEffect>();
+        effect.Play(profit, position, ValueType.Coins);
     }
 
     private IEnumerator MultiplierCoroutine()

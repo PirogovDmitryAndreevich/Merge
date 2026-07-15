@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,23 +7,29 @@ using YG.Utils.LB;
 
 public class StartBattleWindow : MonoBehaviour
 {
+    [SerializeField] private AttackWindowType _type;
     [SerializeField] private TMP_Text _name;
     [SerializeField] private Button _acceptButton;
     [SerializeField] private Button _cancelButton;
 
     private LBData _lbData;
     private SelectWindow _selectWindow;
+    private IEnemyAttackService _enemyAttackService;
 
     private void OnDestroy()
     {
         _acceptButton.onClick.RemoveListener(OnAccept);
         _cancelButton.onClick.RemoveListener(Hide);
         YG2.onGetLeaderboard -= OnGetLeaderboard;
+        _enemyAttackService.AttackStarted -= Show;
     }
 
-    public void Construct(SelectWindow selectWindow)
+    public void Construct(SelectWindow selectWindow, IEnemyAttackService enemyAttackService)
     {
         _selectWindow = selectWindow;
+        _enemyAttackService = enemyAttackService;
+
+        _enemyAttackService.AttackStarted += Show;
         YG2.onGetLeaderboard += OnGetLeaderboard;
         _acceptButton.onClick.AddListener(OnAccept);
         _cancelButton.onClick.AddListener(Hide);
@@ -30,8 +37,11 @@ public class StartBattleWindow : MonoBehaviour
         Hide();
     }
 
-    public void Show()
+    public void Show(AttackWindowType type)
     {
+        if (_type != type)
+            return;
+
         if (_lbData == null || _lbData.players == null || _lbData.players.Length == 0)
         {
             if (_lbData == null)
@@ -44,7 +54,7 @@ public class StartBattleWindow : MonoBehaviour
             return;
         }
 
-        int randomIndex = Random.Range(0, _lbData.players.Length);
+        int randomIndex = UnityEngine.Random.Range(0, _lbData.players.Length);
         _name.text = _lbData.players[randomIndex].name;
 
         gameObject.SetActive(true);
@@ -65,4 +75,11 @@ public class StartBattleWindow : MonoBehaviour
     {
         _lbData = data;
     }
+}
+
+[Serializable]
+public enum AttackWindowType
+{
+    PlayerAttack,
+    EnemyAttack,
 }

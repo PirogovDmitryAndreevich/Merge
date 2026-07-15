@@ -12,13 +12,17 @@ public class GameFactory : IGameFactory
     private readonly IAttackAnimator _attackAnimator;
     private readonly IBattleRunner _battleRunner;
     private readonly ICoinsCounterService _coinsCounterService;
+    private readonly IEnemyAttackService _enemyAttackService;
+    private readonly IBonusHandler _bonusHandler;
+    private readonly IAwardHandler _awardHandler;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
     public GameFactory(IAssetsProvider assets, IMergeService mergeService,
         IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool,
         IStaticData staticData, IStartBattleService battleService, IAttackAnimator attackAnimator,
-        IBattleRunner battleRunner, ICoinsCounterService coinsCounterService)
+        IBattleRunner battleRunner, ICoinsCounterService coinsCounterService, IEnemyAttackService enemyAttackService,
+        IBonusHandler bonusHandler, IAwardHandler awardHandler)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -30,6 +34,9 @@ public class GameFactory : IGameFactory
         _attackAnimator = attackAnimator;
         _battleRunner = battleRunner;
         _coinsCounterService = coinsCounterService;
+        _enemyAttackService = enemyAttackService;
+        _bonusHandler = bonusHandler;
+        _awardHandler = awardHandler;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -49,19 +56,23 @@ public class GameFactory : IGameFactory
 
         _mainCanvas.CoinsCounter.Construct(_progress);
         _mainCanvas.NewItemWindow.Construct(_mergeService);
-        _mainCanvas.StartBattleWindow.Construct(_mainCanvas.SelectWindow);
+        _mainCanvas.StartBattleWindow.Construct(_mainCanvas.SelectWindow, _enemyAttackService);
+        _mainCanvas.EnemyAttackWindow.Construct(_mainCanvas.SelectWindow, _enemyAttackService);
         _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService,
-            _mainCanvas.AttackWindow);
-        _mainCanvas.AttackWindow.Construct(_battleService, _poolService);
-        _mainCanvas.AttackWindow.WinWindow.Construct(_progress, _battleRunner,
-            _mainCanvas.AttackWindow, _coinsCounterService);
-        _mainCanvas.AttackWindow.FailWindow.Construct(_progress, _battleRunner,
-            _mainCanvas.AttackWindow, _coinsCounterService);
+            _mainCanvas.PlayerAttackWindow);
+        _mainCanvas.PlayerAttackWindow.Construct(_battleService, _poolService);
+        _mainCanvas.PlayerAttackWindow.WinWindow.Construct(_progress, _battleRunner,
+            _mainCanvas.PlayerAttackWindow, _coinsCounterService);
+        _mainCanvas.PlayerAttackWindow.FailWindow.Construct(_progress, _battleRunner,
+            _mainCanvas.PlayerAttackWindow, _coinsCounterService);
         _mainCanvas.Leaderboard.Construct(_progress);
         _mainCanvas.BonusView.Construct(_coinsCounterService);
         _mainCanvas.SpawnButton.Construct(_progress);
+        _mainCanvas.MultiplayerButton.Construct(_bonusHandler);
+        _mainCanvas.AwardWindow.Construct(_awardHandler, _bonusHandler);
+        _mainCanvas.RewardButton.Construct(_progress, _awardHandler, _mainCanvas.AwardWindow);
 
-        _attackAnimator.SetBullets(_mainCanvas.AttackWindow.Arrows);
+        _attackAnimator.SetBullets(_mainCanvas.PlayerAttackWindow.Arrows);
 
         return _mainCanvas;
     }
@@ -97,10 +108,10 @@ public class GameFactory : IGameFactory
         return icon;
     }
 
-    private ProfitEffect CreateProfit()
+    private ValueEffect CreateProfit()
     {
-        ProfitEffect profit = _assets.Instantiate(AssetsPath.ProfitPath)
-            .GetComponent<ProfitEffect>();
+        ValueEffect profit = _assets.Instantiate(AssetsPath.ProfitPath)
+            .GetComponent<ValueEffect>();
 
         profit.Construct(_poolService);
 
@@ -152,7 +163,7 @@ public class GameFactory : IGameFactory
         BonusItem bonusItem = _assets.Instantiate(AssetsPath.BonusItemPath, _mainCanvas.ParentForItems)
             .GetComponent<BonusItem>();
 
-        bonusItem.Construct(_coinsCounterService, _mainCanvas.ImpactShake);
+        bonusItem.Construct(_itemsPool, _mainCanvas.ImpactShake, _bonusHandler);
         bonusItem.Spawner.Construct(_poolService);
 
         return bonusItem;

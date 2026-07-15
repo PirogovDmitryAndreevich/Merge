@@ -17,6 +17,7 @@ public class StartBattleService : IStartBattleService
         IEnemyItemsSelector enemyItemsSelector)
     {
         SelectedItems = new List<ItemData>();
+        EnemyItems = new List<ItemData>();
         _battleRunner = battleRunner;
         _enemyItemsSelector = enemyItemsSelector;
     }

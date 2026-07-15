@@ -39,12 +39,19 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IPoolService>(new PoolService());
         _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
         _allServices.RegisterSingle<IBonusSpawnService>(new BonusSpawnService());
+        _allServices.RegisterSingle<IEnemyAttackService>(new EnemyAttackService());
+
+        _allServices.RegisterSingle<IAwardHandler>(new AwardHandler(_allServices.Single<IProgressService>()));
 
         _allServices.RegisterSingle<ICoinsCounterService>(new CoinsCounterService(
             _allServices.Single<IProgressService>(),
             _allServices.Single<IPoolService>(),
             _coroutineRunner,
             _allServices.Single<IStaticData>().GameData));
+
+        _allServices.RegisterSingle<IBonusHandler>(new MultiplierBonusHandler(
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<ICoinsCounterService>()));
 
         RegisterBattleServices();
 
@@ -71,7 +78,10 @@ public class BootstrapState : IState
             _allServices.Single<IStartBattleService>(),
             _allServices.Single<IAttackAnimator>(),
             _allServices.Single<IBattleRunner>(),
-            _allServices.Single<ICoinsCounterService>()));
+            _allServices.Single<ICoinsCounterService>(),
+            _allServices.Single<IEnemyAttackService>(),
+            _allServices.Single<IBonusHandler>(),
+            _allServices.Single<IAwardHandler>()));
     }
 
     private void RegisterStaticData()

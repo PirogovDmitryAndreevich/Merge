@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AnimationItemsSpeed: 2
   AnimationItemsAmplitude: 5
-  SpawnIDCoefficient: 4
+  SpawnIDCoefficient: 7
   SaveTimer: 4
+  AttackTimer: 60
   MultiplierTimer: 15
   MultiplierValue: 5

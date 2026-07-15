@@ -5,7 +5,8 @@ public class MainCanvas : MonoBehaviour
 {
     [SerializeField] private Button _attackButton;
     [SerializeField] private Button _collectionButton;
-    [SerializeField] private SpawnButton _spawnButton;
+    [SerializeField] private Button _leaderboardButton;
+    [SerializeField] private SpawnButton _spawnButton;    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private CoinsCounter _coinsCounter;
     [SerializeField] private RectTransform _spawnFrame;
@@ -14,24 +15,34 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private Leaderboard _leaderboard;
     [SerializeField] private UIImpactShake _impactShake;
 
+    [Header("Buttons")]
+    [SerializeField] private MultiplayerButton _multiplayerButton;
+    [SerializeField] private RewardButton _rewardButton;
+
     [Header("Windows")]
     [SerializeField] private NewItemWindow _newItemWindow;
     [SerializeField] private CollectionWindow _collectionWindow;
     [SerializeField] private StartBattleWindow _startBattleWindow;
+    [SerializeField] private StartBattleWindow _enemyAttackWindow;
     [SerializeField] private SelectWindow _selectWindow;
     [SerializeField] private AttackWindow _attackWindow;
     [SerializeField] private BonusView _bonusView;
+    [SerializeField] private AwardWindow _awardWindow;
 
     private IItemSpawnService _itemSpawn;
 
+    public MultiplayerButton MultiplayerButton => _multiplayerButton;
     public UIImpactShake ImpactShake => _impactShake;
     public Leaderboard Leaderboard => _leaderboard;
     public SpawnButton SpawnButton => _spawnButton;
+    public RewardButton RewardButton => _rewardButton;
     public NewItemWindow NewItemWindow => _newItemWindow;
     public CollectionWindow Collection => _collectionWindow;
     public StartBattleWindow StartBattleWindow => _startBattleWindow;
+    public StartBattleWindow EnemyAttackWindow => _enemyAttackWindow;
+    public AwardWindow AwardWindow => _awardWindow;
     public SelectWindow SelectWindow => _selectWindow;
-    public AttackWindow AttackWindow => _attackWindow;
+    public AttackWindow PlayerAttackWindow => _attackWindow;
     public BonusView BonusView => _bonusView;
     public CoinsCounter CoinsCounter => _coinsCounter;
     public RectTransform SpawnFrame => _spawnFrame;
@@ -42,32 +53,34 @@ public class MainCanvas : MonoBehaviour
         _spawnButton.ButtonClicked += OnButtonClicked;
         _collectionButton.onClick.AddListener(ShowCollection);
         _attackButton.onClick.AddListener(StartAttack);
+        _leaderboardButton.onClick.AddListener(ShowLeaderBoard);
     }
 
     private void OnDestroy()
     {
         _spawnButton.ButtonClicked -= OnButtonClicked;
         _collectionButton.onClick.RemoveListener(ShowCollection);
+        _attackButton.onClick.RemoveListener(StartAttack);
+        _leaderboardButton.onClick.RemoveListener(ShowLeaderBoard);
     }
 
-    public void SetItemSpawn(IItemSpawnService itemSpawn) => 
+    public void SetItemSpawn(IItemSpawnService itemSpawn) =>
         _itemSpawn = itemSpawn;
 
-    private void OnButtonClicked()
-    {
-        Debug.Log("Spawn Button Clicked");
+    private void OnButtonClicked() =>
         _itemSpawn.Spawn();
-    }
 
-    private void ShowCollection()
-    {
-        Debug.Log("ShowCollection");
+    private void ShowCollection() =>
         _collectionWindow.Show();
-    }
 
-    private void StartAttack()
+    private void StartAttack() =>
+        _startBattleWindow.Show(AttackWindowType.PlayerAttack);
+
+    private void ShowLeaderBoard()
     {
-        Debug.Log("Start Attack");
-        _startBattleWindow.Show();
+        if (!_leaderboard.IsActive)
+            _leaderboard.Show();
+        else
+            _leaderboard.Hide();
     }
 }

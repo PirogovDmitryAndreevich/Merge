@@ -1,12 +1,19 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class ProfitEffect : MonoBehaviour
+public class ValueEffect : MonoBehaviour
 {
-    [SerializeField] TMP_Text _text;
+    [SerializeField] private TMP_Text _text;
+    [SerializeField] private Image _icon; 
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private CanvasGroup _canvasGroup;
+
+    [Header("Icons")]
+    [SerializeField] private Sprite _coinsSprite;
+    [SerializeField] private Sprite _damageSprite;
+    [SerializeField] private Sprite _scoreSprite;
 
     private IPoolService _pool;
     private Sequence _sequence;
@@ -14,11 +21,13 @@ public class ProfitEffect : MonoBehaviour
     public void Construct(IPoolService poolService) => 
         _pool = poolService;
 
-    public void Play(int value, Vector2 startPoint)
+    public void Play(int value, Vector2 startPoint, ValueType type)
     {
         _sequence?.Kill();
 
-        _text.text = $"+{value}";
+        string symbol = SetType(type);
+
+        _text.text = $"{symbol}{value}";
 
         _rectTransform.position = startPoint;
         _rectTransform.localScale = Vector3.zero;
@@ -49,6 +58,24 @@ public class ProfitEffect : MonoBehaviour
         _sequence.OnComplete(OnComplete);
     }
 
+    private string SetType(ValueType type)
+    {
+        switch (type)
+        {
+            case ValueType.Coins:
+                _icon.sprite = _coinsSprite;
+                return "+";
+            case ValueType.Damage:
+                _icon.sprite = _damageSprite;
+                return "-";
+            case ValueType.Score:
+                _icon.sprite = _scoreSprite;
+                return "+";
+            default:
+                return "+";
+        }
+    }
+
     private void OnComplete()
     {
         _pool.Return(this);
@@ -58,4 +85,11 @@ public class ProfitEffect : MonoBehaviour
     {
         _sequence?.Kill();
     }
+}
+
+public enum ValueType
+{
+    Coins,
+    Damage,
+    Score
 }
