@@ -5,7 +5,6 @@ public class MainCanvas : MonoBehaviour
 {
     [SerializeField] private Button _attackButton;
     [SerializeField] private Button _collectionButton;
-    [SerializeField] private Button _leaderboardButton;
     [SerializeField] private SpawnButton _spawnButton;    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private CoinsCounter _coinsCounter;
@@ -18,6 +17,7 @@ public class MainCanvas : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private MultiplayerButton _multiplayerButton;
     [SerializeField] private RewardButton _rewardButton;
+    [SerializeField] private LBButton _leaderboardButton;
 
     [Header("Windows")]
     [SerializeField] private NewItemWindow _newItemWindow;
@@ -36,6 +36,7 @@ public class MainCanvas : MonoBehaviour
     public Leaderboard Leaderboard => _leaderboard;
     public SpawnButton SpawnButton => _spawnButton;
     public RewardButton RewardButton => _rewardButton;
+    public LBButton LBButton => _leaderboardButton;
     public NewItemWindow NewItemWindow => _newItemWindow;
     public CollectionWindow Collection => _collectionWindow;
     public StartBattleWindow StartBattleWindow => _startBattleWindow;
@@ -53,7 +54,6 @@ public class MainCanvas : MonoBehaviour
         _spawnButton.ButtonClicked += OnButtonClicked;
         _collectionButton.onClick.AddListener(ShowCollection);
         _attackButton.onClick.AddListener(StartAttack);
-        _leaderboardButton.onClick.AddListener(ShowLeaderBoard);
     }
 
     private void OnDestroy()
@@ -61,7 +61,6 @@ public class MainCanvas : MonoBehaviour
         _spawnButton.ButtonClicked -= OnButtonClicked;
         _collectionButton.onClick.RemoveListener(ShowCollection);
         _attackButton.onClick.RemoveListener(StartAttack);
-        _leaderboardButton.onClick.RemoveListener(ShowLeaderBoard);
     }
 
     public void SetItemSpawn(IItemSpawnService itemSpawn) =>
@@ -75,12 +74,4 @@ public class MainCanvas : MonoBehaviour
 
     private void StartAttack() =>
         _startBattleWindow.Show(AttackWindowType.PlayerAttack);
-
-    private void ShowLeaderBoard()
-    {
-        if (!_leaderboard.IsActive)
-            _leaderboard.Show();
-        else
-            _leaderboard.Hide();
-    }
 }

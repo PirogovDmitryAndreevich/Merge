@@ -12,27 +12,31 @@ public class AwardWindow : MonoBehaviour
 
     private Sequence _appearanceAnimation;
     private Sequence _moveAnimation;
-    private IAwardHandler _awardHandler;
     private IBonusHandler _bonusHandler;
     private Vector2 _targetSize;
+    private Vector3 _startPosition;
+    private Vector2 _startSize;
+    private Vector3 _startScale;
 
     private void OnDestroy()
     {
         _button.onClick.RemoveListener(OnButtonClick);
     }
 
-    private void Start()
+    public void Construct(IBonusHandler bonusHandler)
     {
-        _button.onClick.AddListener(OnButtonClick);
-        gameObject.SetActive(false);
-    }    
-
-    public void Construct(IAwardHandler awardHandler, IBonusHandler bonusHandler)
-    {
-        _awardHandler = awardHandler;
         _bonusHandler = bonusHandler;
 
         _targetSize = _targetTransform.rect.size;
+
+        RectTransform rect = _itemIcon.rectTransform;
+
+        _startPosition = rect.position;
+        _startSize = rect.sizeDelta;
+        _startScale = rect.localScale;
+
+        _button.onClick.AddListener(OnButtonClick);
+        gameObject.SetActive(false);
     }
 
     public void Show()
@@ -55,7 +59,6 @@ public class AwardWindow : MonoBehaviour
 
         _moveAnimation = DOTween.Sequence();
 
-        _awardHandler.GiveOutReward();
         _background.SetActive(false);
 
         _moveAnimation
@@ -67,8 +70,22 @@ public class AwardWindow : MonoBehaviour
     }
 
     private void GiveAward()
-    {
+    { 
         gameObject.SetActive(false);
+        ResetView();
+
         _bonusHandler.AddBonus();        
+    }
+
+    private void ResetView()
+    {
+        RectTransform rect = _itemIcon.rectTransform;
+
+        rect.position = _startPosition;
+        rect.sizeDelta = _startSize;
+        rect.localScale = _startScale;
+
+        _buttonCanvasGroup.alpha = 0;
+        _background.SetActive(true);
     }
 }

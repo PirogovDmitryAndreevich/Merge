@@ -10,8 +10,8 @@ public class BattleRunner : IBattleRunner
 
     public bool IsPlaying { get; private set; }
 
-    public event Action PlayerWon;
-    public event Action EnemyWon;
+    public event Action<BattleResultType> PlayerWon;
+    public event Action<BattleResultType> EnemyWon;
 
     public BattleRunner(ICoroutineRunner coroutineRunner, IBattleTurnExecutor battleTurnExecutor,
         ITargetSelector targetSelector)
@@ -37,7 +37,7 @@ public class BattleRunner : IBattleRunner
 
             if (!_targetSelector.HasAliveItems(enemyItems))
             {
-                PlayerWon?.Invoke();
+                PlayerWon?.Invoke(BattleResultType.Win);
                 IsPlaying = false;
                 yield break;
             }
@@ -46,7 +46,7 @@ public class BattleRunner : IBattleRunner
 
             if (!_targetSelector.HasAliveItems(playerItems))
             {
-                EnemyWon?.Invoke();
+                EnemyWon?.Invoke(BattleResultType.Fail);
                 IsPlaying = false;
                 yield break;
             }

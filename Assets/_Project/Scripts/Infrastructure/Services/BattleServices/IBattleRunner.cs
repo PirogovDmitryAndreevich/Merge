@@ -5,8 +5,8 @@ public interface IBattleRunner : IService
 {
     bool IsPlaying { get; }
 
-    event Action PlayerWon;
-    event Action EnemyWon;
+    event Action<BattleResultType> PlayerWon;
+    event Action<BattleResultType> EnemyWon;
 
 
     void StartBattle

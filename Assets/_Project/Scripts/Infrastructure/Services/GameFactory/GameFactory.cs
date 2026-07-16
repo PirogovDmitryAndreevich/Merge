@@ -15,6 +15,7 @@ public class GameFactory : IGameFactory
     private readonly IEnemyAttackService _enemyAttackService;
     private readonly IBonusHandler _bonusHandler;
     private readonly IAwardHandler _awardHandler;
+    private readonly ILBRewardHandler _lbRewardHandler;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
@@ -22,7 +23,7 @@ public class GameFactory : IGameFactory
         IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool,
         IStaticData staticData, IStartBattleService battleService, IAttackAnimator attackAnimator,
         IBattleRunner battleRunner, ICoinsCounterService coinsCounterService, IEnemyAttackService enemyAttackService,
-        IBonusHandler bonusHandler, IAwardHandler awardHandler)
+        IBonusHandler bonusHandler, IAwardHandler awardHandler, ILBRewardHandler lbRewardHandler)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -37,6 +38,7 @@ public class GameFactory : IGameFactory
         _enemyAttackService = enemyAttackService;
         _bonusHandler = bonusHandler;
         _awardHandler = awardHandler;
+        _lbRewardHandler = lbRewardHandler;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -65,11 +67,12 @@ public class GameFactory : IGameFactory
             _mainCanvas.PlayerAttackWindow, _coinsCounterService);
         _mainCanvas.PlayerAttackWindow.FailWindow.Construct(_progress, _battleRunner,
             _mainCanvas.PlayerAttackWindow, _coinsCounterService);
-        _mainCanvas.Leaderboard.Construct(_progress);
+        _mainCanvas.LBButton.Construct(_lbRewardHandler, _mainCanvas.Leaderboard);
+        _mainCanvas.Leaderboard.Construct(_progress, _lbRewardHandler, _mainCanvas.AwardWindow);
         _mainCanvas.BonusView.Construct(_coinsCounterService);
         _mainCanvas.SpawnButton.Construct(_progress);
         _mainCanvas.MultiplayerButton.Construct(_bonusHandler);
-        _mainCanvas.AwardWindow.Construct(_awardHandler, _bonusHandler);
+        _mainCanvas.AwardWindow.Construct(_bonusHandler);
         _mainCanvas.RewardButton.Construct(_progress, _awardHandler, _mainCanvas.AwardWindow);
 
         _attackAnimator.SetBullets(_mainCanvas.PlayerAttackWindow.Arrows);

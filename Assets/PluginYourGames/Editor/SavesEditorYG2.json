@@ -7,12 +7,12 @@
         false,
         false
     ],
-    "idSave": 59,
+    "idSave": 107,
     "Saves": {
         "Items": {
             "Items": [
                 {
-                    "ID": 1,
+                    "ID": 3,
                     "Position": {
                         "X": 1149.0577392578125,
                         "Y": 576.186767578125,
@@ -20,54 +20,61 @@
                     }
                 },
                 {
-                    "ID": 1,
+                    "ID": 2,
                     "Position": {
-                        "X": 362.1629638671875,
-                        "Y": 429.0944519042969,
+                        "X": 762.1220703125,
+                        "Y": 698.6801147460938,
                         "Z": 0.0
                     }
                 },
                 {
                     "ID": 1,
                     "Position": {
-                        "X": 297.92041015625,
-                        "Y": 570.4111328125,
+                        "X": 1267.605712890625,
+                        "Y": 731.6859741210938,
                         "Z": 0.0
                     }
                 },
                 {
                     "ID": 1,
                     "Position": {
-                        "X": 1370.41259765625,
-                        "Y": 478.640625,
+                        "X": 814.5574951171875,
+                        "Y": 538.4078369140625,
                         "Z": 0.0
                     }
                 },
                 {
                     "ID": 1,
                     "Position": {
-                        "X": 689.8167114257813,
-                        "Y": 773.3934326171875,
+                        "X": 1113.67529296875,
+                        "Y": 538.389892578125,
                         "Z": 0.0
                     }
                 }
             ],
             "OpenedItems": [
-                1
+                1,
+                2,
+                3
             ],
-            "MaxItemID": 1,
+            "MaxItemID": 3,
             "SpawnItemID": 1
         },
         "Player": {
-            "Coins": 476,
-            "Score": 10,
+            "Coins": 602,
+            "Score": 30,
             "UnspentScores": 0,
-            "TargetScoreToReward": 20,
+            "TargetScoreToReward": 13,
             "AvailableAwards": 0,
-            "RewardLevel": 2
+            "RewardLevel": 3
         },
         "BonusItemsData": {
-            "MultiplierCount": 1
+            "MultiplierCount": 2
+        },
+        "LBRewardData": {
+            "CurrentRank": 5,
+            "AvailableReward": 0,
+            "IsFirst": false
         }
     }
 }

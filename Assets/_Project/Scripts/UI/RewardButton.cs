@@ -43,6 +43,7 @@ public class RewardButton : MonoBehaviour
     private void OnButtonClicked()
     {
         _awardWindow.Show();
+        _awardHandler.GiveOutReward();
     }
 
 

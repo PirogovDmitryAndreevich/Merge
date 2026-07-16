@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public class AwardHandler : IAwardHandler
 {
     private readonly IProgressService _progress;  
@@ -20,8 +22,11 @@ public class AwardHandler : IAwardHandler
 
         if (IsReached)
         {
+            int rewardLevel = data.RewardLevel;
+            int targetScore = Mathf.CeilToInt(10 * Mathf.Pow(1.25f, rewardLevel - 1));
+
             data.SpendScore(data.TargetScoreToReward);
-            data.SetNextTargetScore();
+            data.SetNextTargetScore(targetScore);
             data.AddAward();
         }
     }

@@ -5,32 +5,47 @@ using YG;
 
 public class Leaderboard : MonoBehaviour
 {
-    [SerializeField] private LeaderboardYG _leaderboard;    
+    [SerializeField] private LeaderboardYG _leaderboard;
     [SerializeField] private Button _closeButton;
+    [SerializeField] private Button _rewardButton;
     [SerializeField] private CanvasGroup _canvasGroup;
 
     private IProgressService _progressService;
+    private ILBRewardHandler _rewardHandler;
+    private AwardWindow _awardWindow;
+    private bool _isInitialize;
 
     public bool IsActive { get; private set; }
+
+    private void OnEnable()
+    {
+        _leaderboard.UpdateLB();
+
+        if (_isInitialize)
+            _rewardButton.gameObject.SetActive(_rewardHandler.HaveAvailableRewards);
+    }
 
     private void OnDestroy()
     {
         _progressService.Progress.Player.ScoreChanged -= SetNewValueLB;
         _closeButton.onClick.AddListener(Hide);
+        _rewardButton.onClick.RemoveListener(OnRewardButtonClicked);
+
     }
 
-    private void Start() => 
-        gameObject.SetActive(false);
-
-    public void Construct(IProgressService progressService)
+    public void Construct(IProgressService progressService, ILBRewardHandler rewardHandler, AwardWindow awardWindow)
     {
         _progressService = progressService;
+        _rewardHandler = rewardHandler;
+        _awardWindow = awardWindow;
 
         _progressService.Progress.Player.ScoreChanged += SetNewValueLB;
         _closeButton.onClick.AddListener(Hide);
+        _rewardButton.onClick.AddListener(OnRewardButtonClicked);
 
         SetNewValueLB();
-        Hide();
+        _isInitialize = true;
+        gameObject.SetActive(false);
     }
 
     public void Show()
@@ -54,5 +69,12 @@ public class Leaderboard : MonoBehaviour
     {
         _leaderboard.SetLeaderboard(_progressService.Progress.Player.Score);
         _leaderboard.UpdateLB();
+    }
+
+    private void OnRewardButtonClicked()
+    {
+        _awardWindow.Show();
+        _rewardHandler.SpendReward();
+        _rewardButton.gameObject.SetActive(_rewardHandler.HaveAvailableRewards);
     }
 }

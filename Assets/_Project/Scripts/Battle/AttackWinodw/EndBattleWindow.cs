@@ -1,9 +1,11 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class  EndBattleWindow : MonoBehaviour
 {
+    [SerializeField] private BattleResultType _resultType;
     [SerializeField] private Button _acceptButton;
     [SerializeField] private RewardSlider _rewardSlider;
     [SerializeField] private TMP_Text _scoreText;
@@ -47,14 +49,26 @@ public abstract class  EndBattleWindow : MonoBehaviour
 
     protected abstract void Unsubscribes();
 
-    protected void Show()
+    protected void Show(BattleResultType type)
     {
+        if(type != _resultType)
+            return;
+
         gameObject.SetActive(true);
 
         int maxItemId = _progress.Progress.Items.MaxItemID;
 
         _reward = Mathf.RoundToInt(20 * Mathf.Pow(1.15f, maxItemId));
-        _score = maxItemId * _progress.Progress.Player.RewardLevel;
+
+        int target = _progress.Progress.Player.TargetScoreToReward;
+
+        float difficultyBonus = 1f + maxItemId * 0.01f;
+
+        if (type == BattleResultType.Win)        
+            _score = Mathf.Max(2, Mathf.CeilToInt(target * 0.24f * difficultyBonus));        
+        else        
+            _score = Mathf.Max(1, Mathf.CeilToInt(target * 0.16f * difficultyBonus));        
+            
         _scoreText.text = _score.ToString();
 
         _rewardSlider.StartSlider(_reward);
@@ -82,4 +96,11 @@ public abstract class  EndBattleWindow : MonoBehaviour
         Hide();
         _attackWindow.Hide();
     }
+}
+
+[Serializable]
+public enum BattleResultType
+{
+    Win,
+    Fail
 }

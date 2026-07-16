@@ -41,6 +41,8 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IBonusSpawnService>(new BonusSpawnService());
         _allServices.RegisterSingle<IEnemyAttackService>(new EnemyAttackService());
 
+        _allServices.RegisterSingle<ILBRewardHandler>(new LBRewardHandler(_allServices.Single<IProgressService>()));
+
         _allServices.RegisterSingle<IAwardHandler>(new AwardHandler(_allServices.Single<IProgressService>()));
 
         _allServices.RegisterSingle<ICoinsCounterService>(new CoinsCounterService(
@@ -81,7 +83,8 @@ public class BootstrapState : IState
             _allServices.Single<ICoinsCounterService>(),
             _allServices.Single<IEnemyAttackService>(),
             _allServices.Single<IBonusHandler>(),
-            _allServices.Single<IAwardHandler>()));
+            _allServices.Single<IAwardHandler>(),
+            _allServices.Single<ILBRewardHandler>()));
     }
 
     private void RegisterStaticData()

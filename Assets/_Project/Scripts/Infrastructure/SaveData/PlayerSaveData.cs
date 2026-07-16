@@ -49,10 +49,10 @@ public class PlayerSaveData
         ScoreChanged?.Invoke();
     }
 
-    public void SetNextTargetScore()
+    public void SetNextTargetScore(int score)
     {
         RewardLevel++;
-        TargetScoreToReward = TargetScoreToReward * RewardLevel;
+        TargetScoreToReward = score;
         TargetScoreChanged?.Invoke();
     }
 
