@@ -9,10 +9,12 @@ public class LoadSceneState : IPayloadState<string>
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
     private readonly IItemsPoolService _itemsPoolService;
+    private readonly ISpawnButtonService _spawnButtonService;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         IGameFactory gameFactory, IItemSpawnService itemSpawnService,
-        IStaticData staticData, IProgressService progressService, IItemsPoolService itemsPoolService)
+        IStaticData staticData, IProgressService progressService, IItemsPoolService itemsPoolService,
+        ISpawnButtonService spawnButtonService)
     {
         _gameStateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
@@ -21,6 +23,7 @@ public class LoadSceneState : IPayloadState<string>
         _staticData = staticData;
         _progressService = progressService;
         _itemsPoolService = itemsPoolService;
+        _spawnButtonService = spawnButtonService;
     }
 
     public void Enter(string sceneName) => 
@@ -34,6 +37,7 @@ public class LoadSceneState : IPayloadState<string>
     private void OnLoaded()
     {
         InitGameObject();
+        _spawnButtonService.UpdateItemData();
         _gameStateMachine.Enter<GameLoopState>();
     }
 
@@ -46,10 +50,6 @@ public class LoadSceneState : IPayloadState<string>
     {
         MainCanvas mainCanvas = _gameFactory.CreateMainCanvas();
         _itemSpawnService.SetSpawnFrameAndButton(mainCanvas.SpawnFrame, mainCanvas.SpawnButton);
-        mainCanvas.SetItemSpawn(_itemSpawnService);
-
-        ItemData itemData = _staticData.ForItem(_progressService.Progress.Items.SpawnItemID);
-        mainCanvas.SpawnButton.Initialize(itemData.Sprite,itemData.Price);
 
         LoadItemsOnScene();
     }

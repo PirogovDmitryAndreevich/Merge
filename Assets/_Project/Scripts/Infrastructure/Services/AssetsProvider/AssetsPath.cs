@@ -10,4 +10,5 @@ public static class AssetsPath
     public const string DamageEffectPath = "Effects/ApplyDamage";
     public const string DeathEffectPath = "Effects/DeathItem";
     public const string BonusItemPath = "Item/BonusItem";
+    public const string TestPath = "Test";
 }

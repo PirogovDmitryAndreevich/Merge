@@ -7,7 +7,7 @@ public class MergeService : IMergeService
     private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
     private readonly IPoolService _pool;
-    private readonly IItemSpawnService _itemSpawnService;
+    private readonly ISpawnButtonService _spawnButtonService;
     private readonly IItemsPoolService _itemsPool;
 
     private int _maxItem => _progressService.Progress.Items.MaxItemID;
@@ -15,12 +15,12 @@ public class MergeService : IMergeService
     public event Action<ItemData> NewMaxItemReached;
 
     public MergeService(IStaticData staticData, IProgressService progressService, IPoolService pool,
-        IItemSpawnService itemSpawnService, IItemsPoolService itemsPool)
+        ISpawnButtonService spawnButtonService, IItemsPoolService itemsPool)
     {
         _staticData = staticData;
         _progressService = progressService;
         _pool = pool;
-        _itemSpawnService = itemSpawnService;
+        _spawnButtonService = spawnButtonService;
         _itemsPool = itemsPool;
     }
 
@@ -69,7 +69,7 @@ public class MergeService : IMergeService
 
         _progressService.Progress.Items.SpawnItemID = spawnItemID;
 
-        _itemSpawnService.UpdateItemData();
+        _spawnButtonService.UpdateItemData();
         _itemsPool.CleanupByID(spawnItemID);
         NewMaxItemReached?.Invoke(nextItemData);      
     }

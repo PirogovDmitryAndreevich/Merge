@@ -1,54 +1,52 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpawnButton : MonoBehaviour
-{    
+{
     [SerializeField] private Button _button;
     [SerializeField] private Image _icon;
     [SerializeField] private TMP_Text _price;
 
     private IProgressService _progress;
-    private int _currentPrice;
+    private ISpawnButtonService _spawnService;
 
-    public event Action ButtonClicked;
-
-    private void OnEnable() => 
-        _button.onClick.AddListener(OnButtonPressed);
-
-    private void OnDisable() => 
+    private void OnDestroy()
+    {
         _button.onClick.RemoveListener(OnButtonPressed);
+        _progress.Progress.Player.CoinsChanged -= OnCoinsChanged;
+        _spawnService.ViewChanged -= ChangeView;
+        _spawnService.ItemChanged -= Initialize;
+    }
 
-    public void Construct(IProgressService progressService)
+    public void Construct(IProgressService progressService, ISpawnButtonService spawnService)
     {
         _progress = progressService;
-        _progress.Progress.Player.CoinsChanged += ChangeView;
+        _spawnService = spawnService;
 
-        ChangeView();
+        _button.onClick.AddListener(OnButtonPressed);
+        _progress.Progress.Player.CoinsChanged += OnCoinsChanged;
+        _spawnService.ViewChanged += ChangeView;
+        _spawnService.ItemChanged += Initialize;
     }
 
-    public void Initialize(Sprite icon, int price)
+    private void Initialize()
     {
-        _icon.sprite = icon;
-        _price.text = price.ToString();
-        _currentPrice = price;
+        _icon.sprite = _spawnService.CurrentItem.Sprite;
+        _price.text = _spawnService.CurrentItem.Price.ToString();
     }
 
-    private void OnButtonPressed() => 
-        ButtonClicked?.Invoke();
+    private void OnCoinsChanged() =>
+        _spawnService.CheckView();
 
-    private void ChangeView()
+    private void ChangeView(bool isActive) => 
+        _price.color = isActive ? Color.white : Color.red;
+
+    private void OnButtonPressed()
     {
-        if (_progress.Progress.Player.Coins >= _currentPrice)
-        {
-        _price.color = Color.white;
-        _button.interactable = true;
-        }
+        if (_spawnService.IsActive)
+            _spawnService.Spawn();
         else
-        {
-            _price.color = Color.red;
-            _button.interactable = false;
-        } 
+            _spawnService.CheckView();
     }
 }

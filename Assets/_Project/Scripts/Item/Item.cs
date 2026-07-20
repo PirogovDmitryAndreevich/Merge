@@ -16,12 +16,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
     private Canvas _canvas;
     private ItemData _data;
     private ItemSaveData _saveData;
+    private ICursorHandler _cursorHandler;
     private IMergeService _merge;
     private RectTransform _frame;
     private ICoinsCounterService _coinsService;
     private UIImpactShake _impactShake;
     private int _profit;
     private Rect _frameBounds;
+    private bool _isCursorView;
 
     public int ID { get; private set; }
     public RectTransform RectTransform => _rectTransform;
@@ -32,13 +34,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public ContactFilter2D ContactFilter => _contactFilter;
 
     public void Construct(Canvas canvas, RectTransform frame, IMergeService mergeService,
-        ICoinsCounterService coinsCounterService, UIImpactShake impactShake)
+        ICoinsCounterService coinsCounterService, UIImpactShake impactShake, ICursorHandler cursorHandler)
     {
         _canvas = canvas;
         _merge = mergeService;
         _frame = frame;
         _coinsService = coinsCounterService;
         _impactShake = impactShake;
+        _cursorHandler = cursorHandler;
 
         CacheFrameBounds();
     }
@@ -46,12 +49,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public void Initialize(ItemData itemData, ItemSaveData saveData)
     {
         _data = itemData;
-        _saveData = saveData;
+        _saveData = saveData;        
 
         ID = _data.ID;
         _saveData.ID = ID;
         _image.sprite = _data.Sprite;
         _profit = _data.Profit;
+
+        _rectTransform.SetAsLastSibling();
     }
 
     public void SavePosition() =>
@@ -81,10 +86,19 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (_isCursorView)
+        {
+            _isCursorView = false;
+            _cursorHandler.HideCursor();
+        }
+
         _coinsService.AddCoins(_profit, eventData.position, withMultiplier: true);
         _impactShake.Play();
         _particle.PlayClick( eventData.position);
     }
+
+    public void EnableCursor() => 
+        _isCursorView = true;
 
     private Vector2 GetNewPosition(Vector2 newPosition)
     {

@@ -13,6 +13,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private Transform _itemParent;
     [SerializeField] private Leaderboard _leaderboard;
     [SerializeField] private UIImpactShake _impactShake;
+    [SerializeField] private CursorPointer _cursorPointer;
 
     [Header("Buttons")]
     [SerializeField] private MultiplayerButton _multiplayerButton;
@@ -28,8 +29,6 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private AttackWindow _attackWindow;
     [SerializeField] private BonusView _bonusView;
     [SerializeField] private AwardWindow _awardWindow;
-
-    private IItemSpawnService _itemSpawn;
 
     public MultiplayerButton MultiplayerButton => _multiplayerButton;
     public UIImpactShake ImpactShake => _impactShake;
@@ -48,26 +47,19 @@ public class MainCanvas : MonoBehaviour
     public CoinsCounter CoinsCounter => _coinsCounter;
     public RectTransform SpawnFrame => _spawnFrame;
     public Transform ParentForItems => _itemParent;
+    public CursorPointer CursorPointer => _cursorPointer;
 
     private void Awake()
     {
-        _spawnButton.ButtonClicked += OnButtonClicked;
         _collectionButton.onClick.AddListener(ShowCollection);
         _attackButton.onClick.AddListener(StartAttack);
     }
 
     private void OnDestroy()
     {
-        _spawnButton.ButtonClicked -= OnButtonClicked;
         _collectionButton.onClick.RemoveListener(ShowCollection);
         _attackButton.onClick.RemoveListener(StartAttack);
     }
-
-    public void SetItemSpawn(IItemSpawnService itemSpawn) =>
-        _itemSpawn = itemSpawn;
-
-    private void OnButtonClicked() =>
-        _itemSpawn.Spawn();
 
     private void ShowCollection() =>
         _collectionWindow.Show();

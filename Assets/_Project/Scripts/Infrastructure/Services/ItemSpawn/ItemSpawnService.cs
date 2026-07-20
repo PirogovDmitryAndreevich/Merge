@@ -3,20 +3,16 @@ using UnityEngine;
 
 public class ItemSpawnService : IItemSpawnService
 {
-    private readonly IStaticData _staticData;
     private readonly IProgressService _progressService;
     private readonly IItemsPoolService _itemsPool;
     private readonly IBonusSpawnService _bonusSpawnService;
-
     private Vector3[] _corners = new Vector3[4];
-    private ItemData _currentItemData;
     private SpawnButton _spawnButton;
 
-    public ItemSpawnService(IStaticData staticData,
-        IProgressService progressService, IItemsPoolService pool,
+    public ItemSpawnService(IProgressService progressService,
+        IItemsPoolService pool,
         IBonusSpawnService bonusSpawnService)
     {
-        _staticData = staticData;
         _progressService = progressService;
         _itemsPool = pool;
         _bonusSpawnService = bonusSpawnService;
@@ -26,19 +22,9 @@ public class ItemSpawnService : IItemSpawnService
     {
         frame.GetWorldCorners(_corners);
         _spawnButton = spawnButton;
-
-        UpdateItemData();
     }
 
-    public void UpdateItemData()
-    {
-        _currentItemData = _staticData.
-            ForItem(_progressService.Progress.Items.SpawnItemID);
-
-        _spawnButton.Initialize(_currentItemData.Sprite, _currentItemData.Price);
-    }
-
-    public void Spawn()
+    public void Spawn(ItemData itemData)
     {
         Item item = _itemsPool.GetItem<Item>();
 
@@ -49,12 +35,12 @@ public class ItemSpawnService : IItemSpawnService
         else
             itemSaveData = item.SaveData;
 
-        item.Initialize(_currentItemData, itemSaveData);
+        item.Initialize(itemData, itemSaveData);
         
         MoveItem(item);
 
         _progressService.Progress.Items.Items.Add(item.SaveData);
-        _progressService.Progress.Player.SpendCoins(_currentItemData.Price);
+        _progressService.Progress.Player.SpendCoins(itemData.Price);
 
         if (_bonusSpawnService.ShouldSpawn(item.ItemData))
         {

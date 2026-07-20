@@ -41,6 +41,10 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IBonusSpawnService>(new BonusSpawnService());
         _allServices.RegisterSingle<IEnemyAttackService>(new EnemyAttackService());
 
+        _allServices.RegisterSingle<ICursorHandler>(new CursorHandler(_allServices.Single<IItemsPoolService>()));
+
+        _allServices.RegisterSingle<ICursorHandler>(new CursorHandler(_allServices.Single<IItemsPoolService>()));
+
         _allServices.RegisterSingle<ILBRewardHandler>(new LBRewardHandler(_allServices.Single<IProgressService>()));
 
         _allServices.RegisterSingle<IAwardHandler>(new AwardHandler(_allServices.Single<IProgressService>()));
@@ -61,14 +65,22 @@ public class BootstrapState : IState
            _allServices.Single<IStaticData>()));
 
         _allServices.RegisterSingle<IItemSpawnService>(new ItemSpawnService(
-            _allServices.Single<IStaticData>(),
             _allServices.Single<IProgressService>(),
             _allServices.Single<IItemsPoolService>(),
             _allServices.Single<IBonusSpawnService>()));
 
-        _allServices.RegisterSingle<IMergeService>(new MergeService(_allServices.Single<IStaticData>(),
-            _allServices.Single<IProgressService>(), _allServices.Single<IPoolService>(),
-            _allServices.Single<IItemSpawnService>(), _allServices.Single<IItemsPoolService>()));
+        _allServices.RegisterSingle<ISpawnButtonService>(new SpawnButtonService(
+            _allServices.Single<IItemSpawnService>(),
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<IStaticData>(),
+            _allServices.Single<ICursorHandler>()));
+
+        _allServices.RegisterSingle<IMergeService>(new MergeService(
+            _allServices.Single<IStaticData>(),
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<IPoolService>(),
+            _allServices.Single<ISpawnButtonService>(),
+            _allServices.Single<IItemsPoolService>()));
 
         _allServices.RegisterSingle<IGameFactory>(new GameFactory(
             _allServices.Single<IAssetsProvider>(),
@@ -84,7 +96,9 @@ public class BootstrapState : IState
             _allServices.Single<IEnemyAttackService>(),
             _allServices.Single<IBonusHandler>(),
             _allServices.Single<IAwardHandler>(),
-            _allServices.Single<ILBRewardHandler>()));
+            _allServices.Single<ILBRewardHandler>(),
+            _allServices.Single<ICursorHandler>(),
+             _allServices.Single<ISpawnButtonService>()));
     }
 
     private void RegisterStaticData()

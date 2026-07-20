@@ -21,7 +21,8 @@ public class GameStateMachine
                 allServices.Single<IItemSpawnService>(),
                 allServices.Single<IStaticData>(),
                 allServices.Single<IProgressService>(),
-                allServices.Single<IItemsPoolService>()),
+                allServices.Single<IItemsPoolService>(),
+                allServices.Single<ISpawnButtonService>()),
 
             [typeof(GameLoopState)] = new GameLoopState(
                 coroutineRunner, 

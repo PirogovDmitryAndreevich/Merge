@@ -10,4 +10,5 @@ public class GameData : ScriptableObject
     public float AttackTimer = 1f;
     public float MultiplierTimer = 5f;
     public int MultiplierValue = 5;
+    public float NotActiveTimer = 1.5f;
 }

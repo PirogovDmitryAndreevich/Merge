@@ -46,7 +46,6 @@ public class RewardButton : MonoBehaviour
         _awardHandler.GiveOutReward();
     }
 
-
     private void SetView()
     {
         _awardHandler.CheckReached();
