@@ -7,7 +7,7 @@
         false,
         false
     ],
-    "idSave": 274,
+    "idSave": 294,
     "Saves": {
         "Items": {
             "Items": [
@@ -58,6 +58,22 @@
                         "Y": 469.5762023925781,
                         "Z": 0.0
                     }
+                },
+                {
+                    "ID": 2,
+                    "Position": {
+                        "X": 319.1331787109375,
+                        "Y": 395.05804443359377,
+                        "Z": 0.0
+                    }
+                },
+                {
+                    "ID": 2,
+                    "Position": {
+                        "X": 1006.7715454101563,
+                        "Y": 704.9600830078125,
+                        "Z": 0.0
+                    }
                 }
             ],
             "OpenedItems": [
@@ -75,7 +91,7 @@
             "SpawnItemID": 2
         },
         "Player": {
-            "Coins": 150,
+            "Coins": 85,
             "Score": 30,
             "UnspentScores": 0,
             "TargetScoreToReward": 13,

@@ -47038,6 +47038,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 380f1b1689379054e9523b18185511fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _iconTransform: {fileID: 771121030394013028}
 --- !u!1 &9161946348675092495
 GameObject:
   m_ObjectHideFlags: 0
@@ -48535,9 +48536,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6029237337475281036}
     m_Modifications:
+    - target: {fileID: 3188932018238655120, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_fontSize
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188932018238655120, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188932018238655120, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 110
+      objectReference: {fileID: 0}
     - target: {fileID: 4301532159971402196, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
       propertyPath: m_Name
       value: StartBattleWindow
+      objectReference: {fileID: 0}
+    - target: {fileID: 4438355503516251879, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_fontSize
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 4438355503516251879, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
+    - target: {fileID: 4438355503516251879, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_fontStyle
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4438355503516251879, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 110
+      objectReference: {fileID: 0}
+    - target: {fileID: 4438355503516251879, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 6239379306351389260, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
+    - target: {fileID: 4438355503516251879, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8853342109518940048, guid: cbeb51f160f4672469b7cd572dd01fb7, type: 3}
       propertyPath: m_Pivot.x
@@ -50504,6 +50541,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6029237337475281036}
     m_Modifications:
+    - target: {fileID: 2598993461894590914, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
+      propertyPath: m_fontSize
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598993461894590914, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
+    - target: {fileID: 2598993461894590914, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598993461894590914, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 6239379306351389260, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
+    - target: {fileID: 2598993461894590914, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3738615216766032518, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
       propertyPath: m_Name
       value: EnemyAttackWindow
@@ -50591,6 +50648,10 @@ PrefabInstance:
     - target: {fileID: 8254330327457365186, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8416701795431934977, guid: b8c67a2de5bc34a40b5295a7ff39bba8, type: 3}
+      propertyPath: m_Color.a
+      value: 0.9019608
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

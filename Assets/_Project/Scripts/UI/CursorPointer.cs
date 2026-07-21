@@ -2,8 +2,12 @@ using UnityEngine;
 
 public class CursorPointer : MonoBehaviour
 {
+    [SerializeField] private Transform _iconTransform;
+
     private ICursorHandler _cursorHandler;
     private Transform _buttonTransform;
+    private CursorAnimation _cursorAnimation;
+    private Coroutine _animation;
 
     private void OnDestroy()
     {
@@ -16,6 +20,7 @@ public class CursorPointer : MonoBehaviour
     {
         _cursorHandler = cursorHandler;
         _buttonTransform = spawnButton;
+        _cursorAnimation = new CursorAnimation();
 
         _cursorHandler.ShowingItemCursor += OnShowMaxItem;
         _cursorHandler.ShowingButtonCursor += OnShowButton;
@@ -26,14 +31,26 @@ public class CursorPointer : MonoBehaviour
     {
         gameObject.SetActive(true);
         transform.position = item.transform.position;
+        StartClickAnimation();
     }
 
     private void OnShowButton()
     {
         gameObject.SetActive(true);
         transform.position = _buttonTransform.position;
+        StartClickAnimation();
     }
 
-    private void Hide() => 
+    private void Hide()
+    {
+        if (_animation != null)
+            StopCoroutine(_animation);
+
         gameObject.SetActive(false);
+    }
+
+    private void StartClickAnimation()
+    {
+        _cursorAnimation.ClickAnimation(_iconTransform);
+    }
 }
