@@ -39,9 +39,7 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IPoolService>(new PoolService());
         _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
         _allServices.RegisterSingle<IBonusSpawnService>(new BonusSpawnService());
-        _allServices.RegisterSingle<IEnemyAttackService>(new EnemyAttackService());
-
-        _allServices.RegisterSingle<ICursorHandler>(new CursorHandler(_allServices.Single<IItemsPoolService>()));
+        _allServices.RegisterSingle<IInterstitialAdvService>(new InterstitialAdvService());
 
         _allServices.RegisterSingle<ICursorHandler>(new CursorHandler(_allServices.Single<IItemsPoolService>()));
 
@@ -57,7 +55,8 @@ public class BootstrapState : IState
 
         _allServices.RegisterSingle<IBonusHandler>(new MultiplierBonusHandler(
             _allServices.Single<IProgressService>(),
-            _allServices.Single<ICoinsCounterService>()));
+            _allServices.Single<ICoinsCounterService>(),
+            _allServices.Single<ICursorHandler>()));
 
         RegisterBattleServices();
 
@@ -89,16 +88,15 @@ public class BootstrapState : IState
             _allServices.Single<IPoolService>(),
             _allServices.Single<IItemsPoolService>(),
             _allServices.Single<IStaticData>(),
-            _allServices.Single<IStartBattleService>(),
+            _allServices.Single<IBattleService>(),
             _allServices.Single<IAttackAnimator>(),
-            _allServices.Single<IBattleRunner>(),
             _allServices.Single<ICoinsCounterService>(),
-            _allServices.Single<IEnemyAttackService>(),
             _allServices.Single<IBonusHandler>(),
             _allServices.Single<IAwardHandler>(),
             _allServices.Single<ILBRewardHandler>(),
             _allServices.Single<ICursorHandler>(),
-             _allServices.Single<ISpawnButtonService>()));
+            _allServices.Single<ISpawnButtonService>(),
+            _allServices.Single<IInterstitialAdvService>()));
     }
 
     private void RegisterStaticData()
@@ -125,7 +123,7 @@ public class BootstrapState : IState
             _allServices.Single<IBattleTurnExecutor>(),
             _allServices.Single<ITargetSelector>()));
 
-        _allServices.RegisterSingle<IStartBattleService>(new StartBattleService(
+        _allServices.RegisterSingle<IBattleService>(new BattleService(
             _allServices.Single<IBattleRunner>(),
             _allServices.Single<IEnemyItemsSelector>()));
     }

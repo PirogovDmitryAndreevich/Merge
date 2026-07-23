@@ -8,27 +8,26 @@ public class SelectWindow : MonoBehaviour
     [SerializeField] private Button _acceptButton;
     [SerializeField] private Button _cancelButton;
 
-    private AttackWindow _attackWindow;
     private IItemsPoolService _itemPool;
-    private IStartBattleService _battleService;
+    private IBattleService _battleService;
 
     private void OnDestroy()
     {
-        _acceptButton.onClick.RemoveListener(StartBattle);
-        _cancelButton.onClick.RemoveListener(Hide);
+        _acceptButton.onClick.RemoveListener(OnAccept);
+        _cancelButton.onClick.RemoveListener(OnCancel);
         _battleService.ItemSelected -= EnableButton;
-    }
-            
+        _battleService.StartSelectingItems -= Show;
+    }     
 
-    public void Construct(IItemsPoolService itemsPoolService, IStartBattleService battleService, AttackWindow attackWindow)
+    public void Construct(IItemsPoolService itemsPoolService, IBattleService battleService)
     {
-        _attackWindow = attackWindow;
         _itemPool = itemsPoolService;
         _battleService = battleService;
 
+        _battleService.StartSelectingItems += Show;
         _battleService.ItemSelected += EnableButton;
-        _cancelButton.onClick.AddListener(Hide);
-        _acceptButton.onClick.AddListener(StartBattle);
+        _cancelButton.onClick.AddListener(OnCancel);
+        _acceptButton.onClick.AddListener(OnAccept);
 
         foreach (var selectableItem in _selectableItems)
             selectableItem.Construct(battleService);
@@ -36,7 +35,7 @@ public class SelectWindow : MonoBehaviour
         Hide();
     }
 
-    public void Show()
+    private void Show()
     {
         EnableButton();
 
@@ -71,17 +70,20 @@ public class SelectWindow : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void Hide()
+    private void OnCancel()
     {
-        gameObject.SetActive(false);
-    }
-
-    private void StartBattle()
-    {
-        _battleService.SelectEnemyItems();
-        _attackWindow.Show();
+        _battleService.OnCancel();
         Hide();
     }
+
+    private void OnAccept()
+    {
+        _battleService.StartBattle();
+        Hide();
+    }
+
+    private void Hide() =>
+        gameObject.SetActive(false);
 
     private void EnableButton() => 
         _acceptButton.interactable =

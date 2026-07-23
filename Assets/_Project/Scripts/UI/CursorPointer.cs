@@ -3,6 +3,7 @@ using UnityEngine;
 public class CursorPointer : MonoBehaviour
 {
     [SerializeField] private Transform _iconTransform;
+    [SerializeField] private CanvasGroup _text;
 
     private ICursorHandler _cursorHandler;
     private Transform _buttonTransform;
@@ -25,6 +26,8 @@ public class CursorPointer : MonoBehaviour
         _cursorHandler.ShowingItemCursor += OnShowMaxItem;
         _cursorHandler.ShowingButtonCursor += OnShowButton;
         _cursorHandler.HidingCursor += Hide;
+
+        Hide();
     }
 
     private void OnShowMaxItem(Item item)
@@ -51,6 +54,6 @@ public class CursorPointer : MonoBehaviour
 
     private void StartClickAnimation()
     {
-        _cursorAnimation.ClickAnimation(_iconTransform);
+        _cursorAnimation.ClickAnimation(_iconTransform, _text);
     }
 }

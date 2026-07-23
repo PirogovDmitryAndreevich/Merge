@@ -38,7 +38,6 @@ public class ItemsDataEditor : Editor
         GUILayout.Label("ID", GUILayout.Width(40));
         GUILayout.Label("Profit", GUILayout.Width(80));
         GUILayout.Label("Price", GUILayout.Width(80));
-        GUILayout.Label("Time", GUILayout.Width(80));
         GUILayout.Label("Luck", GUILayout.Width(80));
         EditorGUILayout.EndHorizontal();
 
@@ -50,13 +49,11 @@ public class ItemsDataEditor : Editor
             int profit = itemData.Profit;
             int price = itemData.Price;
             float luck = itemData.Luck;
-            float time = CalculateTime(i + 1);
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label(id.ToString(), GUILayout.Width(40));
             GUILayout.Label(profit.ToString(), GUILayout.Width(80));
             GUILayout.Label(price.ToString(), GUILayout.Width(80));
-            GUILayout.Label(time.ToString("0.0"));
             GUILayout.Label(luck.ToString(), GUILayout.Width(80));
             EditorGUILayout.EndHorizontal();
         }
@@ -89,51 +86,159 @@ public class ItemsDataEditor : Editor
 
         data.ItemsCount = sprites.Count;
 
-        int itemIndex = 0;
+        int itemID = 0;
 
         foreach (var sprite in sprites)
         {
-            itemIndex++;
-            float time = CalculateTime(itemIndex);
-            int profit = CalculateProfit(itemIndex, time);
-            int price = CalculatePrice(itemIndex, profit, time);
-            int health = CalculateHealth(itemIndex);
-            int damage = CalculateDamage(itemIndex);
-            float luck = CalculateLuck(itemIndex);
+            itemID++;
+            int profit = CalculateProfit(itemID);
+            int price = CalculatePrice(itemID, profit);
+            int health = CalculateHealth(itemID);
+            int damage = CalculateDamage(itemID);
+            float luck = CalculateLuck(itemID);
 
-            ItemData item = new ItemData(itemIndex, sprite, profit, price, health, damage, luck);
+            ItemData item = new ItemData(itemID, sprite, profit, price, health, damage, luck);
             data.Items.Add(item);
         }
     }
 
-    private int CalculatePrice(int index, int profit, float time)
+    private int CalculatePrice(int index, int profit)
     {
-        float expectedIncome =
-        profit * data.AverageComboMultiplier;
+        GetPackData(
+            index,
+            out int packIndex,
+            out int packSize,
+            out int itemInPack);
 
-        return Mathf.Max(data.StartProfit, Mathf.RoundToInt(expectedIncome * time));
+
+        float packProgress =
+            packSize <= 1
+                ? 0f
+                : (float)(itemInPack - 1) /
+                  (packSize - 1);
+
+
+        float curveValue =
+            data.PriceMultiplierCurve.Evaluate(
+                packProgress);
+
+
+        float packMultiplier =
+            Mathf.Pow(
+                data.PackPriceGrowth,
+                packIndex);
+
+
+        float priceMultiplier =
+            data.StartPriceMultiplier *
+            packMultiplier;
+
+
+        // Кривая задаёт рост внутри пачки.
+        //
+        // curve = 0:
+        // multiplier = base multiplier
+        //
+        // curve = 1:
+        // multiplier = base multiplier * 2
+        //
+        // При желании коэффициент роста
+        // внутри пачки можно изменить.
+
+
+        float finalMultiplier =
+            priceMultiplier *
+            Mathf.Lerp(
+                1f,
+                2f,
+                curveValue);
+
+
+        float price =
+            profit *
+            finalMultiplier;
+
+
+        return Mathf.Max(
+            1,
+            Mathf.RoundToInt(price));
     }
 
-    private int CalculateProfit(int index, float time)
+    private int CalculateProfit(int index)
     {
-        float normalizedTime =
-        time / Mathf.Max(0.1f, data.StartUnlockTime);
+        int firstPackSize =
+        data.FirstPackProfits.Count;
 
-        float growth = Mathf.Pow(data.ProfitGrowth, index - 1);
+        if (index <= firstPackSize)
+        {
+            return data.FirstPackProfits[index - 1];
+        }
+
+        int lastProfit =
+            data.FirstPackProfits[
+                firstPackSize - 1];
+
+        int itemsAfterFirstPack = index - firstPackSize;
+
+        float growth =
+            Mathf.Pow(
+                data.ProfitGrowth,
+                itemsAfterFirstPack);
+
 
         float value =
-            (1f + index * 0.3f) * growth * (1f + normalizedTime);
+            lastProfit *
+            growth;
 
-        return Mathf.Max(data.StartProfit, Mathf.RoundToInt(value));
+
+        return Mathf.Max(
+            1,
+            Mathf.RoundToInt(value));
     }
 
-    private float CalculateTime(int index)
+    private void GetPackData(int itemIndex, out int packIndex,
+        out int packSize, out int itemInPack)
     {
-        float t = (float)(index - 1) / Mathf.Max(1, data.ItemsCount - 1);
+        int currentItem = 0;
 
-        float curve = data.DifficultyCurve.Evaluate(t);
+        packIndex = 0;
 
-        return data.StartUnlockTime * curve;
+        while (true)
+        {
+            packSize = GetPackSize(packIndex);
+
+            int packStart = currentItem + 1;
+
+
+            int packEnd = currentItem + packSize;
+
+
+            if (itemIndex <= packEnd)
+            {
+                itemInPack =itemIndex - packStart + 1;
+                return;
+            }
+
+            currentItem += packSize;
+
+            packIndex++;
+        }
+    }
+
+    private int GetPackSize(int packIndex)
+    {
+        int firstPackSize =
+        data.FirstPackProfits.Count;
+
+        float size =
+            firstPackSize *
+            Mathf.Pow(
+                data.PackSizeGrowth,
+                packIndex);
+
+        return Mathf.Max(
+            1,
+            Mathf.RoundToInt(size));
     }
 
     private int CalculateHealth(int index)

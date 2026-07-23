@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,26 +14,24 @@ public class StartBattleWindow : MonoBehaviour
     [SerializeField] private Button _cancelButton;
 
     private LBData _lbData;
-    private SelectWindow _selectWindow;
-    private IEnemyAttackService _enemyAttackService;
+    private IBattleService _battleService;
 
     private void OnDestroy()
     {
         _acceptButton.onClick.RemoveListener(OnAccept);
-        _cancelButton.onClick.RemoveListener(Hide);
+        _cancelButton.onClick.RemoveListener(OnCancel);
         YG2.onGetLeaderboard -= OnGetLeaderboard;
-        _enemyAttackService.AttackStarted -= Show;
+        _battleService.BattleStarted -= Show;
     }
 
-    public void Construct(SelectWindow selectWindow, IEnemyAttackService enemyAttackService)
+    public void Construct(IBattleService startBattleService)
     {
-        _selectWindow = selectWindow;
-        _enemyAttackService = enemyAttackService;
+        _battleService = startBattleService;
 
-        _enemyAttackService.AttackStarted += Show;
+        _battleService.BattleStarted += Show;
         YG2.onGetLeaderboard += OnGetLeaderboard;
         _acceptButton.onClick.AddListener(OnAccept);
-        _cancelButton.onClick.AddListener(Hide);
+        _cancelButton.onClick.AddListener(OnCancel);
 
         Hide();
     }
@@ -54,27 +53,42 @@ public class StartBattleWindow : MonoBehaviour
             return;
         }
 
-        int randomIndex = UnityEngine.Random.Range(0, _lbData.players.Length);
-        _name.text = _lbData.players[randomIndex].name;
+        _name.text = GetEnemyName();
 
         gameObject.SetActive(true);
     }
 
-    public void Hide()
+    private void OnCancel()
     {
-        gameObject.SetActive(false);
+        _battleService.OnCancel();
+        Hide();
     }
 
     private void OnAccept()
     {
-        _selectWindow.Show();
+        _battleService.StartSelecting();
         Hide();
     }
 
-    private void OnGetLeaderboard(LBData data)
+    private void Hide() =>
+        gameObject.SetActive(false);
+
+    private string GetEnemyName()
     {
-        _lbData = data;
+        LBPlayerData[] enemies = _lbData.players
+        .Where(x => x != null && x.rank != _lbData.currentPlayer.rank)
+        .ToArray();
+
+        if (enemies.Length == 0)
+            return null;
+
+        int randomIndex = UnityEngine.Random.Range(0, enemies.Length);
+
+        return enemies[randomIndex].name;
     }
+
+    private void OnGetLeaderboard(LBData data) => 
+        _lbData = data;
 }
 
 [Serializable]

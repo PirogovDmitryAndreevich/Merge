@@ -8,25 +8,25 @@ public class GameFactory : IGameFactory
     private readonly IPoolService _poolService;
     private readonly IItemsPoolService _itemsPool;
     private readonly IStaticData _staticData;
-    private readonly IStartBattleService _battleService;
+    private readonly IBattleService _battleService;
     private readonly IAttackAnimator _attackAnimator;
-    private readonly IBattleRunner _battleRunner;
     private readonly ICoinsCounterService _coinsCounterService;
-    private readonly IEnemyAttackService _enemyAttackService;
     private readonly IBonusHandler _bonusHandler;
     private readonly IAwardHandler _awardHandler;
     private readonly ILBRewardHandler _lbRewardHandler;
     private readonly ICursorHandler _cursorHandler;
     private readonly ISpawnButtonService _spawnButtonService;
+    private readonly IInterstitialAdvService _interstitialAdvService;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
     public GameFactory(IAssetsProvider assets, IMergeService mergeService,
         IProgressService progress, IPoolService poolService, IItemsPoolService itemsPool,
-        IStaticData staticData, IStartBattleService battleService, IAttackAnimator attackAnimator,
-        IBattleRunner battleRunner, ICoinsCounterService coinsCounterService, IEnemyAttackService enemyAttackService,
-        IBonusHandler bonusHandler, IAwardHandler awardHandler, ILBRewardHandler lbRewardHandler,
-        ICursorHandler cursorHandler, ISpawnButtonService spawnButtonService)
+        IStaticData staticData, IBattleService battleService, IAttackAnimator attackAnimator,
+        ICoinsCounterService coinsCounterService, IBonusHandler bonusHandler,
+        IAwardHandler awardHandler, ILBRewardHandler lbRewardHandler,
+        ICursorHandler cursorHandler, ISpawnButtonService spawnButtonService,
+        IInterstitialAdvService interstitialAdvService)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -36,14 +36,13 @@ public class GameFactory : IGameFactory
         _staticData = staticData;
         _battleService = battleService;
         _attackAnimator = attackAnimator;
-        _battleRunner = battleRunner;
         _coinsCounterService = coinsCounterService;
-        _enemyAttackService = enemyAttackService;
         _bonusHandler = bonusHandler;
         _awardHandler = awardHandler;
         _lbRewardHandler = lbRewardHandler;
         _cursorHandler = cursorHandler;
         _spawnButtonService = spawnButtonService;
+        _interstitialAdvService = interstitialAdvService;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -63,15 +62,12 @@ public class GameFactory : IGameFactory
 
         _mainCanvas.CoinsCounter.Construct(_progress);
         _mainCanvas.NewItemWindow.Construct(_mergeService);
-        _mainCanvas.StartBattleWindow.Construct(_mainCanvas.SelectWindow, _enemyAttackService);
-        _mainCanvas.EnemyAttackWindow.Construct(_mainCanvas.SelectWindow, _enemyAttackService);
-        _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService,
-            _mainCanvas.PlayerAttackWindow);
+        _mainCanvas.StartBattleWindow.Construct(_battleService);
+        _mainCanvas.EnemyAttackWindow.Construct(_battleService);
+        _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService);
         _mainCanvas.PlayerAttackWindow.Construct(_battleService, _poolService);
-        _mainCanvas.PlayerAttackWindow.WinWindow.Construct(_progress, _battleRunner,
-            _mainCanvas.PlayerAttackWindow, _coinsCounterService);
-        _mainCanvas.PlayerAttackWindow.FailWindow.Construct(_progress, _battleRunner,
-            _mainCanvas.PlayerAttackWindow, _coinsCounterService);
+        _mainCanvas.PlayerAttackWindow.WinWindow.Construct(_progress, _battleService, _coinsCounterService);
+        _mainCanvas.PlayerAttackWindow.FailWindow.Construct(_progress, _battleService, _coinsCounterService);
         _mainCanvas.LBButton.Construct(_lbRewardHandler, _mainCanvas.Leaderboard);
         _mainCanvas.Leaderboard.Construct(_progress, _lbRewardHandler, _mainCanvas.AwardWindow);
         _mainCanvas.BonusView.Construct(_coinsCounterService);
@@ -80,6 +76,8 @@ public class GameFactory : IGameFactory
         _mainCanvas.AwardWindow.Construct(_bonusHandler);
         _mainCanvas.RewardButton.Construct(_progress, _awardHandler, _mainCanvas.AwardWindow);
         _mainCanvas.CursorPointer.Construct(_cursorHandler, _mainCanvas.SpawnButton.transform);
+        _mainCanvas.AttackButton.Construct(_battleService);
+        _mainCanvas.InterstitialTimer.Construct(_interstitialAdvService);
 
         _attackAnimator.SetBullets(_mainCanvas.PlayerAttackWindow.Arrows);
 

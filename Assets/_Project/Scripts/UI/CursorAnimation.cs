@@ -4,15 +4,35 @@ using UnityEngine;
 
 public class CursorAnimation
 {
-    public void ClickAnimation(Transform cursor)
+    private Sequence _animation;
+
+    public void ClickAnimation(Transform cursor, CanvasGroup text)
     {
-        cursor.DOKill();
+        _animation?.Kill();
 
         Vector3 startRotation = cursor.localEulerAngles;
 
-        cursor.DOLocalRotate(startRotation + new Vector3(0f, 0f, -15f), 0.5f)
+        _animation = DOTween.Sequence();
+
+        _animation
+        .Append(
+            cursor.DOLocalRotate(
+                startRotation + new Vector3(0f, 0f, -15f),
+                0.5f)
             .SetEase(Ease.InOutSine)
-            .SetLoops(-1, LoopType.Yoyo);
+        )
+        .Join(
+            text.DOFade(1f, 0.5f)
+                .From(0f)
+                .SetEase(Ease.InOutSine)
+        )
+        .Join(
+            text.transform.DOScale(1f, 0.5f)
+                .From(0f)
+                .SetEase(Ease.InOutSine)
+        )
+        .SetLoops(-1, LoopType.Yoyo)
+        .Play();
     }
 
     public IEnumerator MergeAnimation()

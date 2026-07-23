@@ -1,4 +1,5 @@
 using System.Collections;
+using YG;
 
 public class GameLoopState : IState
 {
@@ -6,19 +7,21 @@ public class GameLoopState : IState
     private readonly ISaveLoadService _saveLoadService;
     private readonly IItemsAnimation _itemsAnimation;
     private readonly IStaticData _staticData;
-    private readonly IBattleRunner _battleRunner;
-    private readonly IEnemyAttackService _enemyAttackService;
+    private readonly IBattleService _battleService;
+    private readonly IInterstitialAdvService _interstitialAdvService;
     private bool _isGame;
 
-    public GameLoopState(ICoroutineRunner coroutine, ISaveLoadService saveLoadService, IItemsAnimation itemsAnimation,
-        IStaticData staticData, IBattleRunner battleRunner, IEnemyAttackService enemyAttackService)
+    public GameLoopState(ICoroutineRunner coroutine, ISaveLoadService saveLoadService,
+        IItemsAnimation itemsAnimation,
+        IStaticData staticData, IBattleService battleService,
+        IInterstitialAdvService interstitialAdvService)
     {
         _coroutine = coroutine;
         _saveLoadService = saveLoadService;
         _itemsAnimation = itemsAnimation;
         _staticData = staticData;
-        _battleRunner = battleRunner;
-        _enemyAttackService = enemyAttackService;
+        _battleService = battleService;
+        _interstitialAdvService = interstitialAdvService;
     }
 
     public void Enter()
@@ -39,10 +42,10 @@ public class GameLoopState : IState
 
         while (_isGame)
         {
-            if (_battleRunner.IsPlaying)
+            if (_battleService.IsPlaying)
             {
                 attackTimer = _staticData.GameData.AttackTimer;
-                yield return null;
+                continue;
             }
 
             _itemsAnimation.Update();
@@ -55,8 +58,13 @@ public class GameLoopState : IState
 
             if (attackTimer <= 0)
             {
-                _enemyAttackService.StartAttack();
+                _battleService.Start(AttackWindowType.EnemyAttack);
                 attackTimer = _staticData.GameData.AttackTimer;
+            }
+
+            if (YG2.isTimerAdvCompleted && !YG2.nowAdsShow)
+            {
+                _interstitialAdvService.ShowAdv();
             }
 
             attackTimer -= UnityEngine.Time.deltaTime;
@@ -66,6 +74,6 @@ public class GameLoopState : IState
         }
     }
 
-    private void SaveProgress() => 
+    private void SaveProgress() =>
         _saveLoadService.SaveProgress();
 }

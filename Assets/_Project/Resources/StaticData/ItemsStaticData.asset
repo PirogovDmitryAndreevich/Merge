@@ -16,343 +16,344 @@ MonoBehaviour:
   Items:
   - ID: 1
     Sprite: {fileID: 21300000, guid: bbd53ffc88a587b4a821b60e802d4175, type: 3}
-    Profit: 1
-    Price: 1
+    Profit: 5
+    Price: 80
     Damage: 30
     Health: 100
     Luck: 10
   - ID: 2
     Sprite: {fileID: 21300000, guid: c6a42e14a93119f43bab32e970b510bc, type: 3}
-    Profit: 2
-    Price: 2
+    Profit: 10
+    Price: 160
     Damage: 50
     Health: 120
     Luck: 10
   - ID: 3
     Sprite: {fileID: 21300000, guid: 8de3c6cbad4dd7a4cab4a8871831b80c, type: 3}
-    Profit: 3
-    Price: 9
+    Profit: 15
+    Price: 240
     Damage: 70
     Health: 140
     Luck: 10
   - ID: 4
     Sprite: {fileID: 21300000, guid: 197474dd1e613de4e876ccc639d7fed5, type: 3}
-    Profit: 4
-    Price: 22
+    Profit: 30
+    Price: 480
     Damage: 90
     Health: 160
     Luck: 3.7117648
   - ID: 5
     Sprite: {fileID: 21300000, guid: fac75ddbb22870d498de0427ddc30d5f, type: 3}
-    Profit: 6
-    Price: 54
+    Profit: 60
+    Price: 960
     Damage: 110
     Health: 180
     Luck: 3.6294117
   - ID: 6
     Sprite: {fileID: 21300000, guid: bb8cd8293330a89418a413119e0446a7, type: 3}
-    Profit: 9
-    Price: 117
+    Profit: 100
+    Price: 1600
     Damage: 130
     Health: 200
     Luck: 3.5470588
   - ID: 7
     Sprite: {fileID: 21300000, guid: 8fbe4fe69f2f07041a6f5a72180bb31b, type: 3}
-    Profit: 13
-    Price: 231
+    Profit: 250
+    Price: 4000
     Damage: 150
     Health: 220
     Luck: 3.464706
   - ID: 8
     Sprite: {fileID: 21300000, guid: 6cf1267a02103a84a943f99be11d8665, type: 3}
-    Profit: 19
-    Price: 440
+    Profit: 295
+    Price: 7080
     Damage: 170
     Health: 240
     Luck: 3.3823528
   - ID: 9
     Sprite: {fileID: 21300000, guid: b4966ff3d5893af4983b18e2d2845470, type: 3}
-    Profit: 27
-    Price: 790
+    Profit: 348
+    Price: 8352
     Damage: 190
     Health: 260
     Luck: 3.3
   - ID: 10
     Sprite: {fileID: 21300000, guid: 223fa19a4cadcd946a90d270158466bd, type: 3}
-    Profit: 39
-    Price: 1402
+    Profit: 411
+    Price: 9864
     Damage: 210
     Health: 280
     Luck: 3.217647
   - ID: 11
     Sprite: {fileID: 21300000, guid: 458e4de378a8df646bf227437212233f, type: 3}
-    Profit: 55
-    Price: 2379
+    Profit: 485
+    Price: 11640
     Damage: 230
     Health: 300
     Luck: 3.1352942
   - ID: 12
     Sprite: {fileID: 21300000, guid: 83b55e733f1eacd4380054140a1e123a, type: 3}
-    Profit: 77
-    Price: 3939
+    Profit: 572
+    Price: 13728
     Damage: 250
     Health: 320
     Luck: 3.052941
   - ID: 13
     Sprite: {fileID: 21300000, guid: 94c034b12d3e6364385e99f137dc872e, type: 3}
-    Profit: 107
-    Price: 6379
+    Profit: 675
+    Price: 16200
     Damage: 270
     Health: 340
     Luck: 2.9705882
   - ID: 14
     Sprite: {fileID: 21300000, guid: 66ff958f0f52a1845a74ab70c9921123, type: 3}
-    Profit: 147
-    Price: 10089
+    Profit: 796
+    Price: 19104
     Damage: 290
     Health: 360
     Luck: 2.8882353
   - ID: 15
     Sprite: {fileID: 21300000, guid: 69c3bcfc689d3e14f991e3bd52e7cc9d, type: 3}
-    Profit: 201
-    Price: 15711
+    Profit: 940
+    Price: 22560
     Damage: 310
     Health: 380
     Luck: 2.8058822
   - ID: 16
     Sprite: {fileID: 21300000, guid: f37ac97a817aa9f44bf3862ad824bc68, type: 3}
-    Profit: 274
-    Price: 24168
+    Profit: 1109
+    Price: 26616
     Damage: 330
     Health: 400
     Luck: 2.7235293
   - ID: 17
     Sprite: {fileID: 21300000, guid: d69aa073834476249a2637dc30cbb5a7, type: 3}
-    Profit: 370
-    Price: 36528
+    Profit: 1308
+    Price: 47088
     Damage: 350
     Health: 420
     Luck: 2.6411765
   - ID: 18
     Sprite: {fileID: 21300000, guid: f4916a330554e864689419d4d3b5d6a9, type: 3}
-    Profit: 497
-    Price: 54524
+    Profit: 1544
+    Price: 55584
     Damage: 370
     Health: 440
     Luck: 2.5588236
   - ID: 19
     Sprite: {fileID: 21300000, guid: ef941504dd1dd7c4da36a20232272416, type: 3}
-    Profit: 664
-    Price: 80432
+    Profit: 1822
+    Price: 65592
     Damage: 390
     Health: 460
     Luck: 2.4764705
   - ID: 20
     Sprite: {fileID: 21300000, guid: 4263f9651c4705a48876952970e15c49, type: 3}
-    Profit: 883
-    Price: 117420
+    Profit: 2150
+    Price: 77400
     Damage: 410
     Health: 480
     Luck: 2.3941176
   - ID: 21
     Sprite: {fileID: 21300000, guid: 89d4371b9e88b674fbdd236703a454e9, type: 3}
-    Profit: 1168
-    Price: 169621
+    Profit: 2537
+    Price: 91332
     Damage: 430
     Health: 500
     Luck: 2.3117647
   - ID: 22
     Sprite: {fileID: 21300000, guid: ea76fb5ac20a980408d2644c766ff123, type: 3}
-    Profit: 1538
-    Price: 242771
+    Profit: 2993
+    Price: 107748
     Damage: 450
     Health: 520
     Luck: 2.2294116
   - ID: 23
     Sprite: {fileID: 21300000, guid: 1d61ab509b12b6f47b856a126a0c56a2, type: 3}
-    Profit: 2017
-    Price: 344567
+    Profit: 3532
+    Price: 127152
     Damage: 470
     Health: 540
     Luck: 2.1470587
   - ID: 24
     Sprite: {fileID: 21300000, guid: ec0cf70979da418458d3630cb39d9a79, type: 3}
-    Profit: 2635
-    Price: 485241
+    Profit: 4168
+    Price: 150048
     Damage: 490
     Health: 560
     Luck: 2.0647058
   - ID: 25
     Sprite: {fileID: 21300000, guid: 5a814d44e49f96f4883154ce032904b0, type: 3}
-    Profit: 3428
-    Price: 678023
+    Profit: 4918
+    Price: 177048
     Damage: 510
     Health: 580
     Luck: 1.9823529
   - ID: 26
     Sprite: {fileID: 21300000, guid: 1af5f1b1a6aa2284ea2b562043a73182, type: 3}
-    Profit: 4444
-    Price: 940898
+    Profit: 5804
+    Price: 208944
     Damage: 530
     Health: 600
     Luck: 1.8999999
   - ID: 27
     Sprite: {fileID: 21300000, guid: e8c11e94cdaff9f4693a7a21c994ebad, type: 3}
-    Profit: 5741
-    Price: 1297076
+    Profit: 6848
+    Price: 246528
     Damage: 550
     Health: 620
     Luck: 1.817647
   - ID: 28
     Sprite: {fileID: 21300000, guid: be506bbddc43648489b7316a1ba95e5f, type: 3}
-    Profit: 7393
-    Price: 1777241
+    Profit: 8081
+    Price: 290916
     Damage: 570
     Health: 640
     Luck: 1.7352941
   - ID: 29
     Sprite: {fileID: 21300000, guid: 2f21efbff587baa46a71efe5628dc836, type: 3}
-    Profit: 9491
-    Price: 2421077
+    Profit: 9536
+    Price: 343296
     Damage: 590
     Health: 660
     Luck: 1.6529411
   - ID: 30
     Sprite: {fileID: 21300000, guid: b86ddff77298aae47bf08574c01d285c, type: 3}
-    Profit: 12150
-    Price: 3280517
+    Profit: 11252
+    Price: 607608
     Damage: 610
     Health: 680
     Luck: 1.5705881
   - ID: 31
     Sprite: {fileID: 21300000, guid: 837c0444a1a43894bb6f4d6fd1fc851c, type: 3}
-    Profit: 15511
-    Price: 4422233
+    Profit: 13277
+    Price: 716958
     Damage: 630
     Health: 700
     Luck: 1.4882352
   - ID: 32
     Sprite: {fileID: 21300000, guid: 83e4ad752b0e6a047804679b8b940110, type: 3}
-    Profit: 19749
-    Price: 5932123
+    Profit: 15667
+    Price: 846018
     Damage: 650
     Health: 720
     Luck: 1.4058824
   - ID: 33
     Sprite: {fileID: 21300000, guid: 192f04eac8a975146938b8f4f1193e1a, type: 3}
-    Profit: 25081
-    Price: 7920560
+    Profit: 18487
+    Price: 998298
     Damage: 670
     Health: 740
     Luck: 1.3235294
   - ID: 34
     Sprite: {fileID: 21300000, guid: 2b090eec475887d44970d87a575f668e, type: 3}
-    Profit: 31778
-    Price: 10529709
+    Profit: 21815
+    Price: 1178010
     Damage: 690
     Health: 760
     Luck: 1.2411764
   - ID: 35
     Sprite: {fileID: 21300000, guid: 87a157f4cdab0ee4ebf6877c0d348e6c, type: 3}
-    Profit: 40172
-    Price: 13940250
+    Profit: 25742
+    Price: 1390068
     Damage: 710
     Health: 780
     Luck: 1.1588235
   - ID: 36
     Sprite: {fileID: 21300000, guid: 1d507b9030280e041b10ed8cfb7221c3, type: 3}
-    Profit: 50671
-    Price: 18381616
+    Profit: 30375
+    Price: 1640250
     Damage: 730
     Health: 800
     Luck: 1.0764706
   - ID: 37
     Sprite: {fileID: 21300000, guid: f97a5be3871f8a746bb63c8ea4fa3511, type: 3}
-    Profit: 63781
-    Price: 24146290
+    Profit: 35843
+    Price: 1935522
     Damage: 750
     Health: 820
     Luck: 0.9941176
   - ID: 38
     Sprite: {fileID: 21300000, guid: 66d1fff80bedcca49bd0b6549fba5a84, type: 3}
-    Profit: 80123
-    Price: 31604116
+    Profit: 42294
+    Price: 2283876
     Damage: 770
     Health: 840
     Luck: 0.9117647
   - ID: 39
     Sprite: {fileID: 21300000, guid: edb4a2322265baa4091b887ace4ffa82, type: 3}
-    Profit: 100457
-    Price: 41220972
+    Profit: 49907
+    Price: 2694978
     Damage: 790
     Health: 860
     Luck: 0.82941175
   - ID: 40
     Sprite: {fileID: 21300000, guid: 3dfcedb6173c2b94d9fc328fad306f47, type: 3}
-    Profit: 125719
-    Price: 53585072
+    Profit: 58891
+    Price: 3180114
     Damage: 810
     Health: 880
     Luck: 0.7470588
   - ID: 41
     Sprite: {fileID: 21300000, guid: e5e144157079d484693e2d0d7e0f093a, type: 3}
-    Profit: 157055
-    Price: 69435192
+    Profit: 69491
+    Price: 3752514
     Damage: 830
     Health: 900
     Luck: 0.6647059
   - ID: 42
     Sprite: {fileID: 21300000, guid: 7afb12236c3fa0b4b8990e846f9f2710, type: 3}
-    Profit: 195864
-    Price: 89695792
+    Profit: 81999
+    Price: 4427946
     Damage: 850
     Health: 920
     Luck: 0.58235294
   - ID: 43
     Sprite: {fileID: 21300000, guid: 58372c85d2070704fa9ef1b6865cdeff, type: 3}
-    Profit: 243859
-    Price: 115524264
+    Profit: 96759
+    Price: 5224986
     Damage: 870
     Health: 940
     Luck: 0.5
-  StartProfit: 1
   StartHealth: 100
   MaxLuck: 5
   MinLuck: 0.5
   ProfitGrowth: 1.18
-  StartUnlockTime: 6
-  TimeGrowth: 1.27
-  AverageComboMultiplier: 5
-  DifficultyCurve:
+  FirstPackProfits: 050000000a0000000f0000001e0000003c00000064000000fa000000
+  PackSizeGrowth: 1.35
+  StartPriceMultiplier: 8
+  PackPriceGrowth: 1.5
+  PriceMultiplierCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 0.9767241
-      outSlope: 0.9767241
+      value: 8
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.55773944
+      outWeight: 0
     - serializedVersion: 3
-      time: 1.8322473
-      value: 27.615005
-      inSlope: 0.4389866
-      outSlope: 0.4389866
+      time: 0.30045447
+      value: 177.04065
+      inSlope: 1797.5724
+      outSlope: 1797.5724
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.8077437
-      outWeight: 0.09762469
+      inWeight: 0.33333334
+      outWeight: 0.12899373
     - serializedVersion: 3
-      time: 80
-      value: 43
-      inSlope: -0.0013254376
-      outSlope: -0.0013254376
+      time: 0.57214355
+      value: 802.5569
+      inSlope: 792
+      outSlope: 792
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.09188559
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  AverageComboMultiplier: 5

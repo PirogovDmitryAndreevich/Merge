@@ -3,51 +3,41 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class  EndBattleWindow : MonoBehaviour
+public class  EndBattleWindow : MonoBehaviour
 {
     [SerializeField] private BattleResultType _resultType;
     [SerializeField] private Button _acceptButton;
     [SerializeField] private RewardSlider _rewardSlider;
     [SerializeField] private TMP_Text _scoreText;
 
-    protected IBattleRunner BattleRunner;
-    private AttackWindow _attackWindow;
     private Transform _buttonTransform;
     private IProgressService _progress;
+    private IBattleService _battleService;
     private ICoinsCounterService _coinsService;
     private int _reward;
     private int _score;
 
-
     private void OnDestroy()
     {        
         _rewardSlider.RewardButtonClicked -= OnRewardButtonClicked;
+        _battleService.BattleEnded -= Show;
         _acceptButton.onClick.RemoveListener(OnAcceptButtonClick);
-
-        Unsubscribes();
     }
 
-    public void Construct(IProgressService progressService, 
-        IBattleRunner battleRunner, AttackWindow attackWindow,
+    public void Construct(IProgressService progressService, IBattleService battleService,
         ICoinsCounterService coinsCounterService)
     {
         _progress = progressService;
-        BattleRunner = battleRunner;
-        _attackWindow = attackWindow;
+        _battleService = battleService;
         _coinsService = coinsCounterService;
         _buttonTransform = _acceptButton.transform;
 
         _rewardSlider.RewardButtonClicked += OnRewardButtonClicked;
+        _battleService.BattleEnded += Show;
         _acceptButton.onClick.AddListener(OnAcceptButtonClick);
-
-        Subscribes();
 
         Hide();
     }
-
-    protected abstract void Subscribes();
-
-    protected abstract void Unsubscribes();
 
     protected void Show(BattleResultType type)
     {
@@ -76,6 +66,7 @@ public abstract class  EndBattleWindow : MonoBehaviour
 
     private void Hide()
     {
+        _battleService.ClosingBattel();
         gameObject.SetActive(false);
     }
 
@@ -85,7 +76,6 @@ public abstract class  EndBattleWindow : MonoBehaviour
         _coinsService.AddScore(_score, _buttonTransform.position);
 
         Hide();
-        _attackWindow.Hide();
     }
 
     private void OnRewardButtonClicked(int reward)
@@ -94,7 +84,6 @@ public abstract class  EndBattleWindow : MonoBehaviour
         _coinsService.AddScore(_score, _buttonTransform.position);
 
         Hide();
-        _attackWindow.Hide();
     }
 }
 

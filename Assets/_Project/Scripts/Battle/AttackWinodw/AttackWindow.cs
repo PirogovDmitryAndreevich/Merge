@@ -10,37 +10,43 @@ public class AttackWindow : MonoBehaviour
     [SerializeField] private FailWindow _failWindow;
     [SerializeField] private UIImpactShake _impactShake;
 
-    private IStartBattleService _battleService;
-
-    private List<AttackItem> _playerItems;
-    private List<AttackItem> _enemyItems;
+    private IBattleService _battleService;
 
     public Arrow[] Arrows => _arrows;
     public WinWindow WinWindow => _winWindow;
     public FailWindow FailWindow => _failWindow;
 
-    public void Construct(IStartBattleService battleService, IPoolService poolService)
+    private void OnDestroy()
+    {
+        _battleService.StartedBattle -= Show;
+        _battleService.CloseBattel -= Hide;
+    }
+
+    public void Construct(IBattleService battleService, IPoolService poolService)
     {
         _battleService = battleService;
         _enemyFrame.Construct(poolService, _impactShake);
         _playerFrames.Construct(poolService, _impactShake);
 
+        _battleService.StartedBattle += Show;
+        _battleService.CloseBattel += Hide;
+
         Hide();
     }
 
-    public void Show()
+    private void Show()
     {
-        _enemyItems = _enemyFrame.Initialize(_battleService.EnemyItems.ToArray());
-        _playerItems = _playerFrames.Initialize(_battleService.SelectedItems.ToArray());
+        List<AttackItem> enemyItems =
+            _enemyFrame.Initialize(_battleService.EnemyItems.ToArray());
+
+        List<AttackItem> playerItems =
+            _playerFrames.Initialize(_battleService.SelectedItems.ToArray());
 
         gameObject.SetActive(true);
 
-        _battleService.StartBattle(_playerItems, _enemyItems);
+        _battleService.BattleRun(playerItems, enemyItems);
     }
 
-    public void Hide()
-    {
-        _battleService.Cleanup();
+    public void Hide() => 
         gameObject.SetActive(false);
-    }
 }

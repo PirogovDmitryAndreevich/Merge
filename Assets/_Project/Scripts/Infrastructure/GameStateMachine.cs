@@ -29,8 +29,8 @@ public class GameStateMachine
                 allServices.Single<ISaveLoadService>(),
                 allServices.Single<IItemsAnimation>(),
                 allServices.Single<IStaticData>(),
-                allServices.Single<IBattleRunner>(),
-                allServices.Single<IEnemyAttackService>()),
+                allServices.Single<IBattleService>(),
+                allServices.Single<IInterstitialAdvService>()),
         };
     }
 

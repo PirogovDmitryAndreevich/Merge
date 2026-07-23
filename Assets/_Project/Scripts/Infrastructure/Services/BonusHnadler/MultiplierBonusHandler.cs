@@ -4,6 +4,7 @@ public class MultiplierBonusHandler : IBonusHandler
 {
     private readonly IProgressService _progressService;
     private readonly ICoinsCounterService _coinsCounterService;
+    private readonly ICursorHandler _cursorHandler;
 
     public event Action BonusCounterChanger;
 
@@ -13,10 +14,13 @@ public class MultiplierBonusHandler : IBonusHandler
     public int MultiplierCount => _progressService.Progress.
             BonusItemsData.MultiplierCount;
 
-    public MultiplierBonusHandler(IProgressService progressService, ICoinsCounterService coinsCounterService)
+    public MultiplierBonusHandler(IProgressService progressService,
+        ICoinsCounterService coinsCounterService,
+        ICursorHandler cursorHandler)
     {
         _progressService = progressService;
         _coinsCounterService = coinsCounterService;
+        _cursorHandler = cursorHandler;
     }
 
     public void AddBonus()
@@ -35,6 +39,7 @@ public class MultiplierBonusHandler : IBonusHandler
 
     private void PlayMultiplayer()
     {
+        _cursorHandler.ShowMaxItem();
         _progressService.Progress.BonusItemsData.MultiplierCount--;
         _coinsCounterService.AddMultiplier();
         BonusCounterChanger?.Invoke();

@@ -7,7 +7,7 @@ public class SelectableItem : MonoBehaviour
     [SerializeField] private Button _button;
     [SerializeField] private Toggle _toggle;
 
-    private IStartBattleService _battleService;
+    private IBattleService _battleService;
     private ItemData _itemData;
     private bool _isSelected;
 
@@ -16,7 +16,7 @@ public class SelectableItem : MonoBehaviour
         _button.onClick.RemoveListener(OnButtonClicked);
     }
 
-    public void Construct(IStartBattleService battleService)
+    public void Construct(IBattleService battleService)
     {
         _battleService = battleService;
         _button.onClick.AddListener(OnButtonClicked);

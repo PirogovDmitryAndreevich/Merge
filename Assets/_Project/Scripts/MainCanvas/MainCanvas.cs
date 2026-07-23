@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class MainCanvas : MonoBehaviour
 {
-    [SerializeField] private Button _attackButton;
     [SerializeField] private Button _collectionButton;
     [SerializeField] private SpawnButton _spawnButton;    
     [SerializeField] private Canvas _canvas;
@@ -14,8 +13,10 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private Leaderboard _leaderboard;
     [SerializeField] private UIImpactShake _impactShake;
     [SerializeField] private CursorPointer _cursorPointer;
+    [SerializeField] private InterstitialTimer _interstitialTimer;
 
     [Header("Buttons")]
+    [SerializeField] private AttackButton _attackButton;
     [SerializeField] private MultiplayerButton _multiplayerButton;
     [SerializeField] private RewardButton _rewardButton;
     [SerializeField] private LBButton _leaderboardButton;
@@ -30,9 +31,11 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private BonusView _bonusView;
     [SerializeField] private AwardWindow _awardWindow;
 
+    public InterstitialTimer InterstitialTimer => _interstitialTimer;
     public MultiplayerButton MultiplayerButton => _multiplayerButton;
     public UIImpactShake ImpactShake => _impactShake;
     public Leaderboard Leaderboard => _leaderboard;
+    public AttackButton AttackButton => _attackButton;
     public SpawnButton SpawnButton => _spawnButton;
     public RewardButton RewardButton => _rewardButton;
     public LBButton LBButton => _leaderboardButton;
@@ -49,21 +52,14 @@ public class MainCanvas : MonoBehaviour
     public Transform ParentForItems => _itemParent;
     public CursorPointer CursorPointer => _cursorPointer;
 
-    private void Awake()
-    {
-        _collectionButton.onClick.AddListener(ShowCollection);
-        _attackButton.onClick.AddListener(StartAttack);
-    }
+    private void Awake() => 
+        _collectionButton.onClick
+        .AddListener(ShowCollection);
 
-    private void OnDestroy()
-    {
-        _collectionButton.onClick.RemoveListener(ShowCollection);
-        _attackButton.onClick.RemoveListener(StartAttack);
-    }
+    private void OnDestroy() => 
+        _collectionButton.onClick
+        .RemoveListener(ShowCollection);
 
     private void ShowCollection() =>
         _collectionWindow.Show();
-
-    private void StartAttack() =>
-        _startBattleWindow.Show(AttackWindowType.PlayerAttack);
 }
