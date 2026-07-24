@@ -1,4 +1,5 @@
 using System;
+using YG;
 
 public class MultiplierBonusHandler : IBonusHandler
 {
@@ -45,8 +46,6 @@ public class MultiplierBonusHandler : IBonusHandler
         BonusCounterChanger?.Invoke();
     }
 
-    private void ShowRewardAdv()
-    {
-
-    }
+    private void ShowRewardAdv() =>
+        YG2.RewardedAdvShow(RewardType.Multiplayer.ToString());
 }

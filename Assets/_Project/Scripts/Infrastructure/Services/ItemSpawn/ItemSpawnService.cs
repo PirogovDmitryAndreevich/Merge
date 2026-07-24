@@ -42,11 +42,15 @@ public class ItemSpawnService : IItemSpawnService
         _progressService.Progress.Items.Items.Add(item.SaveData);
         _progressService.Progress.Player.SpendCoins(itemData.Price);
 
-        if (_bonusSpawnService.ShouldSpawn(item.ItemData))
-        {
-            BonusItem bonus = _itemsPool.GetItem<BonusItem>();
-            MoveItem(bonus);
-        }
+        if (_bonusSpawnService.ShouldSpawn(item.ItemData))        
+            SpawnBonusItem();        
+    }
+
+    public void SpawnBonusItem()
+    {
+        BonusItem bonus = _itemsPool.GetItem<BonusItem>();
+        bonus.Init();
+        MoveItem(bonus);
     }
 
     private void MoveItem(IMoveableItem itemTransform)

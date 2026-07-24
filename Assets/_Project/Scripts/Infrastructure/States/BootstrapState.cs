@@ -58,6 +58,8 @@ public class BootstrapState : IState
             _allServices.Single<ICoinsCounterService>(),
             _allServices.Single<ICursorHandler>()));
 
+        _allServices.RegisterSingle<IRewardAdvService>(new RewardAdvService(_allServices.Single<IBonusHandler>()));
+
         RegisterBattleServices();
 
         _allServices.RegisterSingle<IItemsAnimation>(new ItemsAnimation(_allServices.Single<IItemsPoolService>(),
@@ -96,7 +98,8 @@ public class BootstrapState : IState
             _allServices.Single<ILBRewardHandler>(),
             _allServices.Single<ICursorHandler>(),
             _allServices.Single<ISpawnButtonService>(),
-            _allServices.Single<IInterstitialAdvService>()));
+            _allServices.Single<IInterstitialAdvService>(),
+            _allServices.Single<IItemSpawnService>()));
     }
 
     private void RegisterStaticData()

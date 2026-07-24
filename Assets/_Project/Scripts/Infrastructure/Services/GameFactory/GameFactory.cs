@@ -17,6 +17,7 @@ public class GameFactory : IGameFactory
     private readonly ICursorHandler _cursorHandler;
     private readonly ISpawnButtonService _spawnButtonService;
     private readonly IInterstitialAdvService _interstitialAdvService;
+    private readonly IItemSpawnService _itemSpawnService;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
@@ -26,7 +27,7 @@ public class GameFactory : IGameFactory
         ICoinsCounterService coinsCounterService, IBonusHandler bonusHandler,
         IAwardHandler awardHandler, ILBRewardHandler lbRewardHandler,
         ICursorHandler cursorHandler, ISpawnButtonService spawnButtonService,
-        IInterstitialAdvService interstitialAdvService)
+        IInterstitialAdvService interstitialAdvService, IItemSpawnService itemSpawnService)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -43,6 +44,7 @@ public class GameFactory : IGameFactory
         _cursorHandler = cursorHandler;
         _spawnButtonService = spawnButtonService;
         _interstitialAdvService = interstitialAdvService;
+        _itemSpawnService = itemSpawnService;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -90,7 +92,7 @@ public class GameFactory : IGameFactory
     {
         var test = _assets.Instantiate(AssetsPath.TestPath).GetComponent<Test>();
 
-        test.Construct(_coinsCounterService, _progress);
+        test.Construct(_coinsCounterService, _progress, _itemSpawnService);
     }
 
     private Item CreateItem()
@@ -179,7 +181,9 @@ public class GameFactory : IGameFactory
         BonusItem bonusItem = _assets.Instantiate(AssetsPath.BonusItemPath, _mainCanvas.ParentForItems)
             .GetComponent<BonusItem>();
 
-        bonusItem.Construct(_itemsPool, _mainCanvas.ImpactShake, _bonusHandler);
+        RectTransform rect = _mainCanvas.MultiplayerButton.GetComponent<RectTransform>();
+
+        bonusItem.Construct(_itemsPool, _mainCanvas.ImpactShake, _bonusHandler, rect);
         bonusItem.Spawner.Construct(_poolService);
 
         return bonusItem;

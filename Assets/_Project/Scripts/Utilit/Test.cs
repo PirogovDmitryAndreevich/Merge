@@ -6,11 +6,14 @@ public class Test : MonoBehaviour
 
     private ICoinsCounterService _coinsService;
     private IProgressService _progress;
+    private IItemSpawnService _itemSpawn;
 
-    public void Construct(ICoinsCounterService coinsCounterService, IProgressService progressService)
+    public void Construct(ICoinsCounterService coinsCounterService, IProgressService progressService,
+        IItemSpawnService itemSpawnService)
     {
         _coinsService = coinsCounterService;
         _progress = progressService;
+        _itemSpawn = itemSpawnService;
     }
 
     private void Update()
@@ -20,5 +23,8 @@ public class Test : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))
             _progress.Progress.Player.SpendCoins(_coins);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            _itemSpawn.SpawnBonusItem();
     }
 }
