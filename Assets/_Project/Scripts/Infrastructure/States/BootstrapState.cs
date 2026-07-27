@@ -39,7 +39,7 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IPoolService>(new PoolService());
         _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
         _allServices.RegisterSingle<IBonusSpawnService>(new BonusSpawnService());
-        _allServices.RegisterSingle<IInterstitialAdvService>(new InterstitialAdvService());
+        _allServices.RegisterSingle<IInterstitialAdvService>(new InterstitialAdvService());        
 
         _allServices.RegisterSingle<ICursorHandler>(new CursorHandler(_allServices.Single<IItemsPoolService>()));
 
@@ -58,8 +58,6 @@ public class BootstrapState : IState
             _allServices.Single<ICoinsCounterService>(),
             _allServices.Single<ICursorHandler>()));
 
-        _allServices.RegisterSingle<IRewardAdvService>(new RewardAdvService(_allServices.Single<IBonusHandler>()));
-
         RegisterBattleServices();
 
         _allServices.RegisterSingle<IItemsAnimation>(new ItemsAnimation(_allServices.Single<IItemsPoolService>(),
@@ -75,6 +73,13 @@ public class BootstrapState : IState
             _allServices.Single<IProgressService>(),
             _allServices.Single<IStaticData>(),
             _allServices.Single<ICursorHandler>()));
+
+        _allServices.RegisterSingle<IRewardAdvService>(new RewardAdvService(
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<IBonusHandler>(),
+            _allServices.Single<ISpawnButtonService>()));
+
+        _allServices.RegisterSingle<IReviewHandler>(new ReviewHandler(_allServices.Single<ISpawnButtonService>()));
 
         _allServices.RegisterSingle<IMergeService>(new MergeService(
             _allServices.Single<IStaticData>(),
@@ -99,7 +104,8 @@ public class BootstrapState : IState
             _allServices.Single<ICursorHandler>(),
             _allServices.Single<ISpawnButtonService>(),
             _allServices.Single<IInterstitialAdvService>(),
-            _allServices.Single<IItemSpawnService>()));
+            _allServices.Single<IItemSpawnService>(),
+            _allServices.Single<IReviewHandler>()));
     }
 
     private void RegisterStaticData()

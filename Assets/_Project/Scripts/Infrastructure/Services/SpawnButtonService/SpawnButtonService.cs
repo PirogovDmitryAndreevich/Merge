@@ -8,6 +8,7 @@ public class SpawnButtonService : ISpawnButtonService
     private readonly ICursorHandler _cursorHandler;
 
     public ItemData CurrentItem { get; private set; }
+    public ItemData BonusItem { get; private set; }
     public bool IsActive { get; private set; }
 
     public event Action<bool> ViewChanged;
@@ -41,10 +42,15 @@ public class SpawnButtonService : ISpawnButtonService
             _cursorHandler.HideCursor();
     }
 
+    public void BonusSpawn() => 
+        _itemSpawn.Spawn(BonusItem);
+
     public void UpdateItemData()
     {
         CurrentItem = _staticData.
             ForItem(_progressService.Progress.Items.SpawnItemID);
+
+        BonusItem = _staticData.ForItem(CurrentItem.ID + 1);
 
         CheckView();
 

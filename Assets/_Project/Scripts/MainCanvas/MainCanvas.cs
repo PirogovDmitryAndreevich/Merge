@@ -20,6 +20,8 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private MultiplayerButton _multiplayerButton;
     [SerializeField] private RewardButton _rewardButton;
     [SerializeField] private LBButton _leaderboardButton;
+    [SerializeField] private ReviewButton _reviewButton;
+    [SerializeField] private RewardSpawnButton _rewardSpawnButton;
 
     [Header("Windows")]
     [SerializeField] private NewItemWindow _newItemWindow;
@@ -35,6 +37,8 @@ public class MainCanvas : MonoBehaviour
     public MultiplayerButton MultiplayerButton => _multiplayerButton;
     public UIImpactShake ImpactShake => _impactShake;
     public Leaderboard Leaderboard => _leaderboard;
+    public RewardSpawnButton RewardSpawnButton => _rewardSpawnButton;
+    public ReviewButton ReviewButton => _reviewButton;
     public AttackButton AttackButton => _attackButton;
     public SpawnButton SpawnButton => _spawnButton;
     public RewardButton RewardButton => _rewardButton;

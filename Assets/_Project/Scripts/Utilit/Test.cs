@@ -7,13 +7,15 @@ public class Test : MonoBehaviour
     private ICoinsCounterService _coinsService;
     private IProgressService _progress;
     private IItemSpawnService _itemSpawn;
+    private IReviewHandler _reviewHandler;
 
     public void Construct(ICoinsCounterService coinsCounterService, IProgressService progressService,
-        IItemSpawnService itemSpawnService)
+        IItemSpawnService itemSpawnService, IReviewHandler reviewHandler)
     {
         _coinsService = coinsCounterService;
         _progress = progressService;
         _itemSpawn = itemSpawnService;
+        _reviewHandler = reviewHandler;
     }
 
     private void Update()
@@ -26,5 +28,8 @@ public class Test : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Q))
             _itemSpawn.SpawnBonusItem();
+
+        if(Input.GetKeyDown(KeyCode.O))
+            _reviewHandler.UpdateData();
     }
 }

@@ -6,22 +6,26 @@ public class GameLoopState : IState
     private readonly ICoroutineRunner _coroutine;
     private readonly ISaveLoadService _saveLoadService;
     private readonly IItemsAnimation _itemsAnimation;
+    private readonly IProgressService _progressService;
     private readonly IStaticData _staticData;
     private readonly IBattleService _battleService;
     private readonly IInterstitialAdvService _interstitialAdvService;
+    private readonly IReviewHandler _reviewHandler;
     private bool _isGame;
 
     public GameLoopState(ICoroutineRunner coroutine, ISaveLoadService saveLoadService,
-        IItemsAnimation itemsAnimation,
+        IItemsAnimation itemsAnimation, IProgressService progressService,
         IStaticData staticData, IBattleService battleService,
-        IInterstitialAdvService interstitialAdvService)
+        IInterstitialAdvService interstitialAdvService, IReviewHandler reviewHandler)
     {
         _coroutine = coroutine;
         _saveLoadService = saveLoadService;
         _itemsAnimation = itemsAnimation;
+        _progressService = progressService;
         _staticData = staticData;
         _battleService = battleService;
         _interstitialAdvService = interstitialAdvService;
+        _reviewHandler = reviewHandler;
     }
 
     public void Enter()
@@ -44,9 +48,12 @@ public class GameLoopState : IState
         {
             if (_battleService.IsPlaying)
             {
-                attackTimer = _staticData.GameData.AttackTimer;
+                yield return null;
                 continue;
             }
+
+            if (_progressService.Progress.Items.SpawnItemID > 3)
+                _reviewHandler.UpdateData();
 
             _itemsAnimation.Update();
 
@@ -56,18 +63,20 @@ public class GameLoopState : IState
                 saveTimer = _staticData.GameData.SaveTimer;
             }
 
-            if (attackTimer <= 0)
+            attackTimer -= UnityEngine.Time.deltaTime;
+
+            if (attackTimer <= 0 && !_battleService.IsPlaying)
             {
                 _battleService.Start(AttackWindowType.EnemyAttack);
                 attackTimer = _staticData.GameData.AttackTimer;
             }
 
-            if (YG2.isTimerAdvCompleted && !YG2.nowAdsShow)
+            if (!_interstitialAdvService.IsShowing && !_battleService.IsPlaying
+                && YG2.isTimerAdvCompleted && !YG2.nowAdsShow)
             {
                 _interstitialAdvService.ShowAdv();
             }
 
-            attackTimer -= UnityEngine.Time.deltaTime;
             saveTimer -= UnityEngine.Time.deltaTime;
 
             yield return null;

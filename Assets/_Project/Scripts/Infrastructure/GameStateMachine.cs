@@ -28,9 +28,11 @@ public class GameStateMachine
                 coroutineRunner, 
                 allServices.Single<ISaveLoadService>(),
                 allServices.Single<IItemsAnimation>(),
+                allServices.Single<IProgressService>(),
                 allServices.Single<IStaticData>(),
                 allServices.Single<IBattleService>(),
-                allServices.Single<IInterstitialAdvService>()),
+                allServices.Single<IInterstitialAdvService>(),
+                allServices.Single<IReviewHandler>()),
         };
     }
 

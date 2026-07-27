@@ -18,6 +18,7 @@ public class GameFactory : IGameFactory
     private readonly ISpawnButtonService _spawnButtonService;
     private readonly IInterstitialAdvService _interstitialAdvService;
     private readonly IItemSpawnService _itemSpawnService;
+    private readonly IReviewHandler _reviewHandler;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
@@ -27,7 +28,7 @@ public class GameFactory : IGameFactory
         ICoinsCounterService coinsCounterService, IBonusHandler bonusHandler,
         IAwardHandler awardHandler, ILBRewardHandler lbRewardHandler,
         ICursorHandler cursorHandler, ISpawnButtonService spawnButtonService,
-        IInterstitialAdvService interstitialAdvService, IItemSpawnService itemSpawnService)
+        IInterstitialAdvService interstitialAdvService, IItemSpawnService itemSpawnService, IReviewHandler reviewHandler)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -45,6 +46,7 @@ public class GameFactory : IGameFactory
         _spawnButtonService = spawnButtonService;
         _interstitialAdvService = interstitialAdvService;
         _itemSpawnService = itemSpawnService;
+        _reviewHandler = reviewHandler;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -80,6 +82,8 @@ public class GameFactory : IGameFactory
         _mainCanvas.CursorPointer.Construct(_cursorHandler, _mainCanvas.SpawnButton.transform);
         _mainCanvas.AttackButton.Construct(_battleService);
         _mainCanvas.InterstitialTimer.Construct(_interstitialAdvService);
+        _mainCanvas.ReviewButton.Construct(_reviewHandler);
+        _mainCanvas.RewardSpawnButton.Construct(_spawnButtonService, _progress);
 
         _attackAnimator.SetBullets(_mainCanvas.PlayerAttackWindow.Arrows);
 
@@ -92,7 +96,7 @@ public class GameFactory : IGameFactory
     {
         var test = _assets.Instantiate(AssetsPath.TestPath).GetComponent<Test>();
 
-        test.Construct(_coinsCounterService, _progress, _itemSpawnService);
+        test.Construct(_coinsCounterService, _progress, _itemSpawnService, _reviewHandler);
     }
 
     private Item CreateItem()

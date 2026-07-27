@@ -9,6 +9,7 @@ public class PlayerSaveData
     public int TargetScoreToReward;
     public int AvailableAwards;
     public int RewardLevel;
+    public int ViewedAdv;
 
     public PlayerSaveData()
     {
@@ -18,11 +19,13 @@ public class PlayerSaveData
         AvailableAwards = 0;
         RewardLevel = 1;
         TargetScoreToReward = 10;
+        ViewedAdv = 0;
     }
 
     public event Action CoinsChanged;
     public event Action ScoreChanged;
     public event Action TargetScoreChanged;
+    public event Action ViewedAdvChanged;
 
     public void AddCoins(int value)
     {
@@ -66,5 +69,17 @@ public class PlayerSaveData
     {
         AvailableAwards--;
         ScoreChanged?.Invoke();
+    }
+
+    public void OnAdvViewed()
+    {
+        ViewedAdv++;
+        ViewedAdvChanged?.Invoke();
+    }
+
+    public void ResetAdvViewed()
+    {
+        ViewedAdv = 0;
+        ViewedAdvChanged?.Invoke();
     }
 }

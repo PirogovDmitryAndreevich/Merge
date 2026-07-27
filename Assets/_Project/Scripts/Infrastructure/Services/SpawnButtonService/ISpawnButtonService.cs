@@ -3,6 +3,7 @@
 public interface ISpawnButtonService : IService
 {
     ItemData CurrentItem { get; }
+    ItemData BonusItem { get; }
     bool IsActive { get; }
 
     event Action ItemChanged;
@@ -10,5 +11,6 @@ public interface ISpawnButtonService : IService
 
     void CheckView();
     void Spawn();
+    void BonusSpawn();
     void UpdateItemData();
 }

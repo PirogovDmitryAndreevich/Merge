@@ -17,6 +17,7 @@ public class InterstitialTimer : MonoBehaviour
     private Coroutine timerAdShowCoroutine;
     private Coroutine backupTimerClosureCoroutine;
     private int objSecCounter;
+    private bool _isShowing;
 
     private void OnDestroy()
     {
@@ -31,14 +32,19 @@ public class InterstitialTimer : MonoBehaviour
 
     private void ShowTimerAndAdv()
     {
+        if (_isShowing)
+            return;
+
+        _isShowing = true;
+
         RestartTimer();
 
         if (secondsPanelObject)
             secondsPanelObject.SetActive(true);
 
-        YG2.PauseGame(true);
-
         timerAdShowCoroutine = StartCoroutine(TimerAdShow());
+
+        YG2.PauseGame(true);
     }
 
     private IEnumerator TimerAdShow()
@@ -79,6 +85,7 @@ public class InterstitialTimer : MonoBehaviour
             RestartTimer();
             YG2.PauseGame(false);
             _interstitialService.OnHideTimer();
+            _isShowing = false;
         }
 
         backupTimerClosureCoroutine = null;
