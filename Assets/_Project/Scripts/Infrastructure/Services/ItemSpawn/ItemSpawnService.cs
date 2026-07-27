@@ -55,10 +55,15 @@ public class ItemSpawnService : IItemSpawnService
 
     private void MoveItem(IMoveableItem itemTransform)
     {
+        Vector3[] itemCorners = new Vector3[4];
+        itemTransform.RectTransform.GetWorldCorners(itemCorners);
+
         itemTransform.RectTransform.position = _spawnButton.transform.position;
 
-        Vector3 min = _corners[0];
-        Vector3 max = _corners[2];
+        Vector3 halfSize = (itemCorners[2] - itemCorners[0]) * 0.5f;
+
+        Vector3 min = _corners[0] + halfSize;
+        Vector3 max = _corners[2] - halfSize;
 
         Vector2 targetPosition = new(
             Random.Range(min.x, max.x),

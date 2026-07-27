@@ -8,7 +8,9 @@ public class CursorPointer : MonoBehaviour
     private ICursorHandler _cursorHandler;
     private Transform _buttonTransform;
     private CursorAnimation _cursorAnimation;
-    private Coroutine _animation;
+
+    private bool _isClickAnimation;
+    //private bool _isMergeAnimation;
 
     private void OnDestroy()
     {
@@ -32,6 +34,7 @@ public class CursorPointer : MonoBehaviour
 
     private void OnShowMaxItem(Item item)
     {
+        _isClickAnimation = true;
         gameObject.SetActive(true);
         transform.position = item.transform.position;
         StartClickAnimation();
@@ -39,6 +42,7 @@ public class CursorPointer : MonoBehaviour
 
     private void OnShowButton()
     {
+        _isClickAnimation = true;
         gameObject.SetActive(true);
         transform.position = _buttonTransform.position;
         StartClickAnimation();
@@ -46,10 +50,13 @@ public class CursorPointer : MonoBehaviour
 
     private void Hide()
     {
-        if (_animation != null)
-            StopCoroutine(_animation);
-
         gameObject.SetActive(false);
+
+        if(_isClickAnimation)
+        {
+            _isClickAnimation = false;
+            _cursorAnimation.StopClickAnimation();
+        }
     }
 
     private void StartClickAnimation()

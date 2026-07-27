@@ -6,9 +6,23 @@ public class CursorAnimation
 {
     private Sequence _animation;
 
+    private Transform _currentCursor;
+    private Quaternion _startRotation;
+
     public void ClickAnimation(Transform cursor, CanvasGroup text)
     {
-        _animation?.Kill();
+        if (_currentCursor == cursor)
+        {
+            _animation?.Kill();
+            cursor.localRotation = _startRotation;
+        }
+        else
+        {
+            _animation?.Kill();
+
+            _currentCursor = cursor;
+            _startRotation = cursor.localRotation;
+        }
 
         Vector3 startRotation = cursor.localEulerAngles;
 
@@ -16,9 +30,9 @@ public class CursorAnimation
 
         _animation
         .Append(
-            cursor.DOLocalRotate(
-                startRotation + new Vector3(0f, 0f, -15f),
-                0.5f)
+            cursor.DOLocalRotateQuaternion(
+                 _startRotation * Quaternion.Euler(0f, 0f, -15f),
+                    0.5f)
             .SetEase(Ease.InOutSine)
         )
         .Join(
@@ -33,6 +47,14 @@ public class CursorAnimation
         )
         .SetLoops(-1, LoopType.Yoyo)
         .Play();
+    }
+
+    public void StopClickAnimation()
+    {
+        _animation?.Kill();
+
+        if (_currentCursor != null)
+            _currentCursor.localRotation = _startRotation;
     }
 
     public IEnumerator MergeAnimation()
