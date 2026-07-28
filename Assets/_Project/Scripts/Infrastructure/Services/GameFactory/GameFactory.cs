@@ -19,6 +19,7 @@ public class GameFactory : IGameFactory
     private readonly IInterstitialAdvService _interstitialAdvService;
     private readonly IItemSpawnService _itemSpawnService;
     private readonly IReviewHandler _reviewHandler;
+    private readonly IAudioHandler _audioHandler;
     private MainCanvas _mainCanvas;
     private Canvas _canvas;
 
@@ -28,7 +29,8 @@ public class GameFactory : IGameFactory
         ICoinsCounterService coinsCounterService, IBonusHandler bonusHandler,
         IAwardHandler awardHandler, ILBRewardHandler lbRewardHandler,
         ICursorHandler cursorHandler, ISpawnButtonService spawnButtonService,
-        IInterstitialAdvService interstitialAdvService, IItemSpawnService itemSpawnService, IReviewHandler reviewHandler)
+        IInterstitialAdvService interstitialAdvService, IItemSpawnService itemSpawnService,
+        IReviewHandler reviewHandler, IAudioHandler audioHandler)
     {
         _assets = assets;
         _mergeService = mergeService;
@@ -47,6 +49,7 @@ public class GameFactory : IGameFactory
         _interstitialAdvService = interstitialAdvService;
         _itemSpawnService = itemSpawnService;
         _reviewHandler = reviewHandler;
+        _audioHandler = audioHandler;
     }
 
     public MainCanvas CreateMainCanvas()
@@ -85,6 +88,8 @@ public class GameFactory : IGameFactory
         _mainCanvas.InterstitialTimer.Construct(_interstitialAdvService);
         _mainCanvas.ReviewButton.Construct(_reviewHandler);
         _mainCanvas.RewardSpawnButton.Construct(_spawnButtonService, _progress);
+        _mainCanvas.AudioButtons.Construct(_audioHandler);
+        _mainCanvas.AudioPlayer.Construct(_audioHandler);
 
         _attackAnimator.SetBullets(_mainCanvas.PlayerAttackWindow.Arrows);
 

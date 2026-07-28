@@ -15,6 +15,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private UIImpactShake _impactShake;
     [SerializeField] private CursorPointer _cursorPointer;
     [SerializeField] private InterstitialTimer _interstitialTimer;
+    [SerializeField] private AudioPlayer _audioPlayer;
 
     [Header("Buttons")]
     [SerializeField] private AttackButton _attackButton;
@@ -23,6 +24,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private LBButton _leaderboardButton;
     [SerializeField] private ReviewButton _reviewButton;
     [SerializeField] private RewardSpawnButton _rewardSpawnButton;
+    [SerializeField] private AudioButtons _audioButtons;
 
     [Header("Windows")]
     [SerializeField] private NewItemWindow _newItemWindow;
@@ -34,6 +36,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private BonusView _bonusView;
     [SerializeField] private AwardWindow _awardWindow;
 
+    public AudioPlayer AudioPlayer => _audioPlayer;
     public InterstitialTimer InterstitialTimer => _interstitialTimer;
     public MultiplayerButton MultiplayerButton => _multiplayerButton;
     public UIImpactShake ImpactShake => _impactShake;
@@ -44,6 +47,7 @@ public class MainCanvas : MonoBehaviour
     public SpawnButton SpawnButton => _spawnButton;
     public RewardButton RewardButton => _rewardButton;
     public LBButton LBButton => _leaderboardButton;
+    public AudioButtons AudioButtons => _audioButtons;
     public NewItemWindow NewItemWindow => _newItemWindow;
     public CollectionWindow Collection => _collectionWindow;
     public StartBattleWindow StartBattleWindow => _startBattleWindow;

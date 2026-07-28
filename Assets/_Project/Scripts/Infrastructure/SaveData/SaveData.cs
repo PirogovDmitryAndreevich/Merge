@@ -7,6 +7,7 @@ public class SaveData
     public PlayerSaveData Player;
     public BonusItemsData BonusItemsData;
     public LBRewardData LBRewardData;
+    public AudioSaveData Audio;
 
     public SaveData()
     {
@@ -14,5 +15,6 @@ public class SaveData
         Player = new PlayerSaveData();
         BonusItemsData = new BonusItemsData();
         LBRewardData = new LBRewardData();
+        Audio = new AudioSaveData();
     }
 }

@@ -39,7 +39,11 @@ public class BootstrapState : IState
         _allServices.RegisterSingle<IPoolService>(new PoolService());
         _allServices.RegisterSingle<IItemsPoolService>(new ItemsPoolService());
         _allServices.RegisterSingle<IBonusSpawnService>(new BonusSpawnService());
-        _allServices.RegisterSingle<IInterstitialAdvService>(new InterstitialAdvService());        
+        _allServices.RegisterSingle<IInterstitialAdvService>(new InterstitialAdvService());
+
+        _allServices.RegisterSingle<IAudioHandler>(new AudioHandler(
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<ISaveLoadService>()));
 
         _allServices.RegisterSingle<ICursorHandler>(new CursorHandler(_allServices.Single<IItemsPoolService>()));
 
@@ -105,7 +109,8 @@ public class BootstrapState : IState
             _allServices.Single<ISpawnButtonService>(),
             _allServices.Single<IInterstitialAdvService>(),
             _allServices.Single<IItemSpawnService>(),
-            _allServices.Single<IReviewHandler>()));
+            _allServices.Single<IReviewHandler>(),
+            _allServices.Single<IAudioHandler>()));
     }
 
     private void RegisterStaticData()
