@@ -65,6 +65,7 @@ public class GameFactory : IGameFactory
         _canvas = _mainCanvas.GetComponent<Canvas>();
 
         _mainCanvas.CoinsCounter.Construct(_progress);
+        _mainCanvas.ScoreCounter.Construct(_progress);
         _mainCanvas.NewItemWindow.Construct(_mergeService);
         _mainCanvas.StartBattleWindow.Construct(_battleService);
         _mainCanvas.EnemyAttackWindow.Construct(_battleService);

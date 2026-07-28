@@ -19,7 +19,7 @@ public class RewardButton : MonoBehaviour
     private void OnDestroy()
     {
         _button.onClick.RemoveListener(OnButtonClicked);
-        _data.ScoreChanged -= SetView;
+        _data.UnspentScoreChanged -= SetView;
     }
 
     public void Construct(IProgressService progress, IAwardHandler awardHandler, AwardWindow awardWindow)
@@ -30,7 +30,7 @@ public class RewardButton : MonoBehaviour
         _awardWindow = awardWindow;
 
         _button.onClick.AddListener(OnButtonClicked);
-        _data.ScoreChanged += SetView;
+        _data.UnspentScoreChanged += SetView;
 
         _slider.minValue = 0f;
         _slider.maxValue = 1f;

@@ -23,6 +23,7 @@ public class PlayerSaveData
     }
 
     public event Action CoinsChanged;
+    public event Action UnspentScoreChanged;
     public event Action ScoreChanged;
     public event Action TargetScoreChanged;
     public event Action ViewedAdvChanged;
@@ -44,12 +45,13 @@ public class PlayerSaveData
         Score += value;
         UnspentScores += value;
         ScoreChanged?.Invoke();
+        UnspentScoreChanged?.Invoke();
     }
 
     public void SpendScore(int value)
     {
         UnspentScores -= value;
-        ScoreChanged?.Invoke();
+        UnspentScoreChanged?.Invoke();
     }
 
     public void SetNextTargetScore(int score)
@@ -62,13 +64,13 @@ public class PlayerSaveData
     public void AddAward()
     {
         AvailableAwards++;
-        ScoreChanged?.Invoke();
+        UnspentScoreChanged?.Invoke();
     }
 
     public void SpendAward()
     {
         AvailableAwards--;
-        ScoreChanged?.Invoke();
+        UnspentScoreChanged?.Invoke();
     }
 
     public void OnAdvViewed()

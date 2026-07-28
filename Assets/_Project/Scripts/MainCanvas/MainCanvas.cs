@@ -7,6 +7,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private SpawnButton _spawnButton;    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private CoinsCounter _coinsCounter;
+    [SerializeField] private ScoreCounter _scoreCounter;
     [SerializeField] private RectTransform _spawnFrame;
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private Transform _itemParent;
@@ -52,6 +53,7 @@ public class MainCanvas : MonoBehaviour
     public AttackWindow PlayerAttackWindow => _attackWindow;
     public BonusView BonusView => _bonusView;
     public CoinsCounter CoinsCounter => _coinsCounter;
+    public ScoreCounter ScoreCounter => _scoreCounter;
     public RectTransform SpawnFrame => _spawnFrame;
     public Transform ParentForItems => _itemParent;
     public CursorPointer CursorPointer => _cursorPointer;

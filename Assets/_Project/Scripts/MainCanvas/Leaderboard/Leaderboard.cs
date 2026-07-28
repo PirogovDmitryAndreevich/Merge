@@ -27,7 +27,7 @@ public class Leaderboard : MonoBehaviour
 
     private void OnDestroy()
     {
-        _progressService.Progress.Player.ScoreChanged -= SetNewValueLB;
+        _progressService.Progress.Player.UnspentScoreChanged -= SetNewValueLB;
         _closeButton.onClick.AddListener(Hide);
         _rewardButton.onClick.RemoveListener(OnRewardButtonClicked);
 
@@ -39,7 +39,7 @@ public class Leaderboard : MonoBehaviour
         _rewardHandler = rewardHandler;
         _awardWindow = awardWindow;
 
-        _progressService.Progress.Player.ScoreChanged += SetNewValueLB;
+        _progressService.Progress.Player.UnspentScoreChanged += SetNewValueLB;
         _closeButton.onClick.AddListener(Hide);
         _rewardButton.onClick.AddListener(OnRewardButtonClicked);
 
