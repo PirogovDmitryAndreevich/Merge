@@ -24,7 +24,7 @@ public class MergeService : IMergeService
         _itemsPool = itemsPool;
     }
 
-    public void TryMerge(Item item)
+    public bool TryMerge(Item item)
     {
         int count = item.Collider.OverlapCollider(item.ContactFilter, _overlapResults);
 
@@ -36,8 +36,10 @@ public class MergeService : IMergeService
             if (other == item || other.ID != item.ID) continue;
 
             Merge(item, other);
-            return;
+            return true;
         }
+
+        return false;
     }
 
     private void Merge(Item item, Item other)

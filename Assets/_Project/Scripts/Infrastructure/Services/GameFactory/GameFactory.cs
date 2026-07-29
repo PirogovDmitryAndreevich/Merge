@@ -73,7 +73,7 @@ public class GameFactory : IGameFactory
         _mainCanvas.StartBattleWindow.Construct(_battleService);
         _mainCanvas.EnemyAttackWindow.Construct(_battleService);
         _mainCanvas.SelectWindow.Construct(_itemsPool, _battleService);
-        _mainCanvas.PlayerAttackWindow.Construct(_battleService, _poolService);
+        _mainCanvas.PlayerAttackWindow.Construct(_battleService, _poolService, _mainCanvas.AudioPlayer);
         _mainCanvas.PlayerAttackWindow.WinWindow.Construct(_progress, _battleService, _coinsCounterService);
         _mainCanvas.PlayerAttackWindow.FailWindow.Construct(_progress, _battleService, _coinsCounterService);
         _mainCanvas.LBButton.Construct(_lbRewardHandler, _mainCanvas.Leaderboard);
@@ -90,6 +90,10 @@ public class GameFactory : IGameFactory
         _mainCanvas.RewardSpawnButton.Construct(_spawnButtonService, _progress);
         _mainCanvas.AudioButtons.Construct(_audioHandler);
         _mainCanvas.AudioPlayer.Construct(_audioHandler);
+        _mainCanvas.CollectionButton.Construct(
+            _mainCanvas.Collection,
+            _progress,
+            _staticData.AllItems().Count);
 
         _attackAnimator.SetBullets(_mainCanvas.PlayerAttackWindow.Arrows);
 
@@ -111,7 +115,8 @@ public class GameFactory : IGameFactory
             .GetComponent<Item>();
 
         item.Construct(_canvas, _mainCanvas.SpawnFrame, _mergeService,
-            _coinsCounterService, _mainCanvas.ImpactShake, _cursorHandler);
+            _coinsCounterService, _mainCanvas.ImpactShake,
+            _cursorHandler, _mainCanvas.AudioPlayer);
 
         item.Spawner.Construct(_poolService);
 
@@ -193,7 +198,7 @@ public class GameFactory : IGameFactory
 
         RectTransform rect = _mainCanvas.MultiplayerButton.GetComponent<RectTransform>();
 
-        bonusItem.Construct(_itemsPool, _mainCanvas.ImpactShake, _bonusHandler, rect);
+        bonusItem.Construct(_itemsPool, _mainCanvas.ImpactShake, _bonusHandler, rect, _mainCanvas.AudioPlayer);
         bonusItem.Spawner.Construct(_poolService);
 
         return bonusItem;

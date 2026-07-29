@@ -9,6 +9,8 @@ public class MultiplayerButton : MonoBehaviour
     [SerializeField] private Image _advIcon;
     [SerializeField] private Image _alert;
     [SerializeField] private TMP_Text _alertCounter;
+    [SerializeField] private AudioPlayer _audioPlayer;
+    [SerializeField] private AudioClip _clickSound;
 
     private IBonusHandler _bonusHandle;
     private bool _isActive;
@@ -31,8 +33,11 @@ public class MultiplayerButton : MonoBehaviour
         UpdateView();
     }
 
-    private void OnButtonClicked() => 
+    private void OnButtonClicked()
+    {
+        _audioPlayer.PlaySound(_clickSound);
         _bonusHandle.OnClickedBonus();
+    }
 
     private void UpdateView()
     {

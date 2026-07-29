@@ -110,6 +110,8 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 0
     maxNormalAngle: 0
+  _clickSound: {fileID: 8300000, guid: 624877dd5abfca549b42f74b94b43024, type: 3}
+  _mergeSound: {fileID: 8300000, guid: 1670fec9b01beae4ab4653dff38569c3, type: 3}
 --- !u!61 &2731839712163220428
 BoxCollider2D:
   m_ObjectHideFlags: 0

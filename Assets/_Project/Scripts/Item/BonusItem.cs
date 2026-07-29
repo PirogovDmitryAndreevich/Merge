@@ -6,6 +6,7 @@ public class BonusItem : MonoBehaviour, IPointerDownHandler, IMoveableItem
 {
     [SerializeField] private RectTransform _rectTransform;
     [SerializeField] private ParticleSpawner _particle;
+    [SerializeField] private AudioClip _clickSound;
 
     private UIImpactShake _impactShake;
     private Sequence _moveAnimation;
@@ -13,6 +14,7 @@ public class BonusItem : MonoBehaviour, IPointerDownHandler, IMoveableItem
     private IBonusHandler _bonusHandler;
     private Vector2 _targetPosition;
     private Vector2 _targetSize;
+    private AudioPlayer _audioPlayer;
     private bool _isClicked;
     private Vector2 _startSize;
     private Vector3 _startScale;
@@ -22,13 +24,14 @@ public class BonusItem : MonoBehaviour, IPointerDownHandler, IMoveableItem
 
     public void Construct(IItemsPoolService poolService, UIImpactShake impactShake,
         IBonusHandler bonusHandler,
-        RectTransform multiplayerButton)
+        RectTransform multiplayerButton, AudioPlayer audioPlayer)
     {
         _impactShake = impactShake;
         _pool = poolService;
         _bonusHandler = bonusHandler;
         _targetPosition = multiplayerButton.TransformPoint(multiplayerButton.rect.center);
         _targetSize = multiplayerButton.rect.size;
+        _audioPlayer = audioPlayer;
 
         _startSize = _rectTransform.sizeDelta;
         _startScale = _rectTransform.localScale;
@@ -46,7 +49,8 @@ public class BonusItem : MonoBehaviour, IPointerDownHandler, IMoveableItem
             return;
 
         _isClicked = true;
-        
+
+        _audioPlayer.PlaySound(_clickSound);
         _impactShake.Play();
         _particle.PlayClick(eventData.position);    
         OnClicked();

@@ -12,11 +12,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
     [SerializeField] private Collider2D _collider;
     [SerializeField] private CanvasGroup _canvasGroup;
     [SerializeField] private ContactFilter2D _contactFilter;
+    [SerializeField] private AudioClip _clickSound;
+    [SerializeField] private AudioClip _mergeSound;
 
     private Canvas _canvas;
     private ItemData _data;
     private ItemSaveData _saveData;
     private ICursorHandler _cursorHandler;
+    private AudioPlayer _audioPlayer;
     private IMergeService _merge;
     private RectTransform _frame;
     private ICoinsCounterService _coinsService;
@@ -34,7 +37,8 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
     public ContactFilter2D ContactFilter => _contactFilter;
 
     public void Construct(Canvas canvas, RectTransform frame, IMergeService mergeService,
-        ICoinsCounterService coinsCounterService, UIImpactShake impactShake, ICursorHandler cursorHandler)
+        ICoinsCounterService coinsCounterService, UIImpactShake impactShake,
+        ICursorHandler cursorHandler, AudioPlayer audio)
     {
         _canvas = canvas;
         _merge = mergeService;
@@ -42,6 +46,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
         _coinsService = coinsCounterService;
         _impactShake = impactShake;
         _cursorHandler = cursorHandler;
+        _audioPlayer = audio;
 
         CacheFrameBounds();
     }
@@ -55,6 +60,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
         _saveData.ID = ID;
         _image.sprite = _data.Sprite;
         _profit = _data.Profit;
+        _canvasGroup.alpha = 1;
 
         _rectTransform.SetAsLastSibling();
     }
@@ -78,10 +84,15 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        _merge.TryMerge(this);
-
-        _canvasGroup.alpha = 1;
-        SavePosition();
+        if (_merge.TryMerge(this))
+        {
+            _audioPlayer.PlaySound(_mergeSound);
+        }
+        else
+        {
+            _canvasGroup.alpha = 1;
+            SavePosition();
+        } 
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -92,6 +103,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
             _cursorHandler.HideCursor();
         }
 
+        _audioPlayer.PlaySound(_clickSound);
         _coinsService.AddCoins(_profit, eventData.position, withMultiplier: true);
         _impactShake.Play();
         _particle.PlayClick( eventData.position);

@@ -5,6 +5,8 @@ public class NewItemWindow : MonoBehaviour
 {
     [SerializeField] private Button _acceptButton;
     [SerializeField] private Image _itemIcon;
+    [SerializeField] private AudioPlayer _audioPlayer;
+    [SerializeField] private AudioClip _showSound;
 
     private IMergeService _mergeService;
 
@@ -25,6 +27,7 @@ public class NewItemWindow : MonoBehaviour
 
     public void Show(Sprite itemIcon)
     {
+        _audioPlayer.PlaySound(_showSound);
         _itemIcon.sprite = itemIcon;
         gameObject.SetActive(true);
     }

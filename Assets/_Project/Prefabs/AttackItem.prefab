@@ -75,6 +75,8 @@ MonoBehaviour:
   _image: {fileID: 3017274704129715788}
   _healthBar: {fileID: 8951606094750077168}
   _particleSpawner: {fileID: 1733778481134667676}
+  _damageSound: {fileID: 8300000, guid: d8d8541841fc8f6488856f4d161728fb, type: 3}
+  _deathSound: {fileID: 8300000, guid: f267b62a27976654ebf442a19c4031b6, type: 3}
 --- !u!1 &2269227221119608256
 GameObject:
   m_ObjectHideFlags: 0

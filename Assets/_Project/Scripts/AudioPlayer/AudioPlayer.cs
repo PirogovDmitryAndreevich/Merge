@@ -5,6 +5,10 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField] private AudioSource _musicSource;
     [SerializeField] private AudioSource _soundsSource;
 
+    [Header("Background music")]
+    [SerializeField] private AudioClip _mainMusic;
+    [SerializeField] private AudioClip _battleMusic;
+
     private IAudioHandler _audioHandler;
 
     private void OnDestroy()
@@ -20,17 +24,24 @@ public class AudioPlayer : MonoBehaviour
 
         SettingSources();
         ResetVolume();
+        PlayMainMusic();
     }
 
-    public void PlayMusic(AudioClip clip)
+    public void PlayMainMusic() =>
+        PlayMusic(_mainMusic);
+
+    public void PlayBattleMusic() => 
+        PlayMusic(_battleMusic);
+
+    public void PlaySound(AudioClip clip) =>
+        _soundsSource.PlayOneShot(clip);
+
+    private void PlayMusic(AudioClip clip)
     {
         _musicSource.Stop();
         _musicSource.clip = clip;
         _musicSource.Play();
     }
-
-    public void PlaySound(AudioClip clip) =>
-        _soundsSource.PlayOneShot(clip);
 
     private void ResetVolume()
     {

@@ -152,3 +152,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 1403118894993871029}
   _particle: {fileID: 4249236724098864288}
+  _clickSound: {fileID: 8300000, guid: ed26c1f92cdc600408b7f531fa6f3e4e, type: 3}

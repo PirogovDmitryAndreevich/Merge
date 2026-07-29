@@ -9,6 +9,7 @@ public class AttackWindow : MonoBehaviour
     [SerializeField] private WinWindow _winWindow;
     [SerializeField] private FailWindow _failWindow;
     [SerializeField] private UIImpactShake _impactShake;
+    [SerializeField] private AudioPlayer _audioPlayer;
 
     private IBattleService _battleService;
 
@@ -22,11 +23,11 @@ public class AttackWindow : MonoBehaviour
         _battleService.CloseBattel -= Hide;
     }
 
-    public void Construct(IBattleService battleService, IPoolService poolService)
+    public void Construct(IBattleService battleService, IPoolService poolService, AudioPlayer audioPlayer)
     {
         _battleService = battleService;
-        _enemyFrame.Construct(poolService, _impactShake);
-        _playerFrames.Construct(poolService, _impactShake);
+        _enemyFrame.Construct(poolService, _impactShake, audioPlayer);
+        _playerFrames.Construct(poolService, _impactShake, audioPlayer);
 
         _battleService.StartedBattle += Show;
         _battleService.CloseBattel += Hide;
@@ -36,6 +37,8 @@ public class AttackWindow : MonoBehaviour
 
     private void Show()
     {
+        _audioPlayer.PlayBattleMusic();
+
         List<AttackItem> enemyItems =
             _enemyFrame.Initialize(_battleService.EnemyItems.ToArray());
 
@@ -47,6 +50,9 @@ public class AttackWindow : MonoBehaviour
         _battleService.BattleRun(playerItems, enemyItems);
     }
 
-    public void Hide() => 
+    public void Hide()
+    {
         gameObject.SetActive(false);
+        _audioPlayer.PlayMainMusic();
+    }
 }

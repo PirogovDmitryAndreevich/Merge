@@ -1,9 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MainCanvas : MonoBehaviour
 {
-    [SerializeField] private Button _collectionButton;
     [SerializeField] private SpawnButton _spawnButton;    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private CoinsCounter _coinsCounter;
@@ -18,6 +16,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private AudioPlayer _audioPlayer;
 
     [Header("Buttons")]
+    [SerializeField] private CollectionButton _collectionButton;
     [SerializeField] private AttackButton _attackButton;
     [SerializeField] private MultiplayerButton _multiplayerButton;
     [SerializeField] private RewardButton _rewardButton;
@@ -41,6 +40,7 @@ public class MainCanvas : MonoBehaviour
     public MultiplayerButton MultiplayerButton => _multiplayerButton;
     public UIImpactShake ImpactShake => _impactShake;
     public Leaderboard Leaderboard => _leaderboard;
+    public CollectionButton CollectionButton => _collectionButton;
     public RewardSpawnButton RewardSpawnButton => _rewardSpawnButton;
     public ReviewButton ReviewButton => _reviewButton;
     public AttackButton AttackButton => _attackButton;
@@ -61,15 +61,4 @@ public class MainCanvas : MonoBehaviour
     public RectTransform SpawnFrame => _spawnFrame;
     public Transform ParentForItems => _itemParent;
     public CursorPointer CursorPointer => _cursorPointer;
-
-    private void Awake() => 
-        _collectionButton.onClick
-        .AddListener(ShowCollection);
-
-    private void OnDestroy() => 
-        _collectionButton.onClick
-        .RemoveListener(ShowCollection);
-
-    private void ShowCollection() =>
-        _collectionWindow.Show();
 }

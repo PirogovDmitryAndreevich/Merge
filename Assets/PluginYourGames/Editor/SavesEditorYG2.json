@@ -7,39 +7,23 @@
         false,
         false
     ],
-    "idSave": 835,
+    "idSave": 26,
     "Saves": {
         "Items": {
             "Items": [
                 {
-                    "ID": 13,
+                    "ID": 3,
                     "Position": {
-                        "X": 819.2017822265625,
-                        "Y": 684.563720703125,
+                        "X": 552.9307250976563,
+                        "Y": 713.9010620117188,
                         "Z": 0.0
                     }
                 },
                 {
-                    "ID": 4,
+                    "ID": 2,
                     "Position": {
-                        "X": 986.4134521484375,
-                        "Y": 655.8401489257813,
-                        "Z": 0.0
-                    }
-                },
-                {
-                    "ID": 5,
-                    "Position": {
-                        "X": 1247.1602783203125,
-                        "Y": 655.8401489257813,
-                        "Z": 0.0
-                    }
-                },
-                {
-                    "ID": 10,
-                    "Position": {
-                        "X": 1272.702880859375,
-                        "Y": 742.62744140625,
+                        "X": 967.90673828125,
+                        "Y": 799.5103149414063,
                         "Z": 0.0
                     }
                 }
@@ -47,37 +31,33 @@
             "OpenedItems": [
                 1,
                 2,
-                3,
-                4,
-                5,
-                6,
-                7,
-                8,
-                9,
-                10,
-                11,
-                12,
-                13
+                3
             ],
-            "MaxItemID": 13,
-            "SpawnItemID": 6
+            "MaxItemID": 3,
+            "SpawnItemID": 1
         },
         "Player": {
-            "Coins": 90549,
-            "Score": 30,
+            "Coins": 255,
+            "Score": 0,
             "UnspentScores": 0,
-            "TargetScoreToReward": 13,
+            "TargetScoreToReward": 10,
             "AvailableAwards": 0,
-            "RewardLevel": 3,
+            "RewardLevel": 1,
             "ViewedAdv": 0
         },
         "BonusItemsData": {
-            "MultiplierCount": 6
+            "MultiplierCount": 0
         },
         "LBRewardData": {
             "CurrentRank": 5,
             "AvailableReward": 0,
             "IsFirst": false
+        },
+        "Audio": {
+            "SoundValue": 0.5,
+            "MusicValue": 0.5,
+            "IsSoundMute": false,
+            "IsMusicMute": false
         }
     }
 }
