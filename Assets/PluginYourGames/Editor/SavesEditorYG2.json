@@ -7,12 +7,12 @@
         false,
         false
     ],
-    "idSave": 26,
+    "idSave": 144,
     "Saves": {
         "Items": {
             "Items": [
                 {
-                    "ID": 3,
+                    "ID": 4,
                     "Position": {
                         "X": 552.9307250976563,
                         "Y": 713.9010620117188,
@@ -20,10 +20,10 @@
                     }
                 },
                 {
-                    "ID": 2,
+                    "ID": 1,
                     "Position": {
-                        "X": 967.90673828125,
-                        "Y": 799.5103149414063,
+                        "X": 829.210693359375,
+                        "Y": 506.4680480957031,
                         "Z": 0.0
                     }
                 }
@@ -31,13 +31,14 @@
             "OpenedItems": [
                 1,
                 2,
-                3
+                3,
+                4
             ],
-            "MaxItemID": 3,
+            "MaxItemID": 4,
             "SpawnItemID": 1
         },
         "Player": {
-            "Coins": 255,
+            "Coins": 125,
             "Score": 0,
             "UnspentScores": 0,
             "TargetScoreToReward": 10,
@@ -57,7 +58,7 @@
             "SoundValue": 0.5,
             "MusicValue": 0.5,
             "IsSoundMute": false,
-            "IsMusicMute": false
+            "IsMusicMute": true
         }
     }
 }

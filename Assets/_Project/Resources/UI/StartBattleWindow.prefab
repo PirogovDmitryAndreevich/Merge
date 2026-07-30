@@ -252,7 +252,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -50}
-  m_SizeDelta: {x: -200, y: 50}
+  m_SizeDelta: {x: -200, y: 64.2744}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &7476424198217800812
 CanvasRenderer:
@@ -285,8 +285,8 @@ MonoBehaviour:
   m_text: "\u041D\u0430\u043F\u0430\u0441\u0442\u044C \u043D\u0430 \u0438\u0433\u0440\u043E\u043A\u0430
     ?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
-  m_sharedMaterial: {fileID: 6239379306351389260, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d68d4b1241dc1cd46915d1e7f0f77d6d, type: 2}
+  m_sharedMaterial: {fileID: 1247254036207447332, guid: d68d4b1241dc1cd46915d1e7f0f77d6d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -310,8 +310,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 110
-  m_fontSizeBase: 110
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -718,7 +718,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8853342109518940048
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1148,8 +1148,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
-  m_sharedMaterial: {fileID: 6239379306351389260, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d68d4b1241dc1cd46915d1e7f0f77d6d, type: 2}
+  m_sharedMaterial: {fileID: 1247254036207447332, guid: d68d4b1241dc1cd46915d1e7f0f77d6d, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1312,7 +1312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.937523, b: 0.3075471, a: 1}
+  m_Color: {r: 0.6679245, g: 0, b: 0.012395042, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

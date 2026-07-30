@@ -9,6 +9,8 @@ public class AwardWindow : MonoBehaviour
     [SerializeField] private Button _button;
     [SerializeField] private CanvasGroup _buttonCanvasGroup;
     [SerializeField] private RectTransform _targetTransform;
+    [SerializeField] private AudioPlayer _audioPlayer;
+    [SerializeField] private AudioClip _showSound;
 
     private Sequence _appearanceAnimation;
     private Sequence _moveAnimation;
@@ -47,10 +49,12 @@ public class AwardWindow : MonoBehaviour
 
         _appearanceAnimation = DOTween.Sequence();
 
+        _audioPlayer.PlaySound(_showSound);
+
         _appearanceAnimation.
-            Append(_itemIcon.transform.DOScale(1, 1f).From(0)
+            Append(_itemIcon.transform.DOScale(1, _showSound.length).From(0)
             .SetEase(Ease.InOutBounce))
-            .Append(_buttonCanvasGroup.DOFade(1, 0.5f).From(0));
+            .Append(_buttonCanvasGroup.DOFade(1, _showSound.length).From(0));
     }
 
     private void OnButtonClick()

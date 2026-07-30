@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class MainCanvas : MonoBehaviour
 {
-    [SerializeField] private SpawnButton _spawnButton;    
     [SerializeField] private Canvas _canvas;
     [SerializeField] private CoinsCounter _coinsCounter;
     [SerializeField] private ScoreCounter _scoreCounter;
@@ -16,6 +15,7 @@ public class MainCanvas : MonoBehaviour
     [SerializeField] private AudioPlayer _audioPlayer;
 
     [Header("Buttons")]
+    [SerializeField] private SpawnButton _spawnButton;    
     [SerializeField] private CollectionButton _collectionButton;
     [SerializeField] private AttackButton _attackButton;
     [SerializeField] private MultiplayerButton _multiplayerButton;

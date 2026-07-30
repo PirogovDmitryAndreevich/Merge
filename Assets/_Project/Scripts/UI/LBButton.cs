@@ -40,7 +40,7 @@ public class LBButton : MonoBehaviour
 
     private void OnGetLeaderboard(LBData data)
     {
-        _rank.text = data.currentPlayer.rank.ToString();
+        _rank.text = $"#{data.currentPlayer.rank}";
         _rewardHandler.OnGetLeaderboard(data);
     }
 

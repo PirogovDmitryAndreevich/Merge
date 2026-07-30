@@ -40,7 +40,7 @@ public class SpawnButton : MonoBehaviour
         _spawnService.CheckView();
 
     private void ChangeView(bool isActive) => 
-        _price.color = isActive ? Color.white : Color.red;
+        _price.color = isActive ? Color.black : Color.red;
 
     private void OnButtonPressed()
     {
