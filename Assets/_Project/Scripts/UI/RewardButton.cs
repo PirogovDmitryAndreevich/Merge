@@ -53,6 +53,7 @@ public class RewardButton : MonoBehaviour
         {
             _isAvailableView = _awardHandler.HaveAvailable;
             _alert.gameObject.SetActive(_isAvailableView);
+            _button.gameObject.SetActive(_isAvailableView);
             _button.interactable = _isAvailableView;
         }
 

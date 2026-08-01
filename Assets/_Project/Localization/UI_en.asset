@@ -22,6 +22,108 @@ MonoBehaviour:
     m_Localized: Collection
     m_Metadata:
       m_Items: []
+  - m_Id: 18310866395136
+    m_Localized: 'Free
+
+      Toys'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18346278903808
+    m_Localized: Attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18372640104448
+    m_Localized: TAP
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18403950583808
+    m_Localized: New Toy in Collection
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18436955561984
+    m_Localized: OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18553733373952
+    m_Localized: Attack this player?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18704992559104
+    m_Localized: Fight!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18745526312960
+    m_Localized: Run Away
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18792330551296
+    m_Localized: A Player Attacked You
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18876929662976
+    m_Localized: Choose up to 5 Mascots
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18919501848576
+    m_Localized: Start Battle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 18966046040064
+    m_Localized: Close
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19011839451136
+    m_Localized: Victory
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19039492497408
+    m_Localized: Defeat...
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19085390766080
+    m_Localized: Double your reward by watching an ad?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19173274017792
+    m_Localized: No Thanks
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19194501390336
+    m_Localized: 'Bring higher-level toys
+
+      into battle to win.'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19258565189632
+    m_Localized: Accept
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437485841670144
+    m_Localized: Are you enjoying the game?
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437599490531328
+    m_Localized: Rate
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437644755460096
+    m_Localized: Later
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437674266583040
+    m_Localized: +10 Toys
+    m_Metadata:
+      m_Items: []
+  - m_Id: 437776980893696
+    m_Localized: 'LEADER
+
+      BOARD'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 463485770129408
+    m_Localized: Ad in...
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds: []

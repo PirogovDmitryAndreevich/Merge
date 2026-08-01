@@ -20,7 +20,7 @@ public class AttackWindow : MonoBehaviour
     private void OnDestroy()
     {
         _battleService.StartedBattle -= Show;
-        _battleService.CloseBattel -= Hide;
+        _battleService.CloseBattle -= Hide;
     }
 
     public void Construct(IBattleService battleService, IPoolService poolService, AudioPlayer audioPlayer)
@@ -30,9 +30,9 @@ public class AttackWindow : MonoBehaviour
         _playerFrames.Construct(poolService, _impactShake, audioPlayer);
 
         _battleService.StartedBattle += Show;
-        _battleService.CloseBattel += Hide;
+        _battleService.CloseBattle += Hide;
 
-        Hide();
+        Hide(AttackWindowType.PlayerAttack);
     }
 
     private void Show()
@@ -50,7 +50,7 @@ public class AttackWindow : MonoBehaviour
         _battleService.BattleRun(playerItems, enemyItems);
     }
 
-    public void Hide()
+    public void Hide(AttackWindowType type)
     {
         gameObject.SetActive(false);
         _audioPlayer.PlayMainMusic();

@@ -14,11 +14,12 @@ public class LoadSceneState : IPayloadState<string>
     private readonly IProgressService _progressService;
     private readonly IItemsPoolService _itemsPoolService;
     private readonly ISpawnButtonService _spawnButtonService;
+    private readonly ICoroutineRunner _coroutineRunner;
 
     public LoadSceneState(GameStateMachine gameStateMachine, SceneLoader sceneLoader,
         IGameFactory gameFactory, IItemSpawnService itemSpawnService,
         IStaticData staticData, IProgressService progressService, IItemsPoolService itemsPoolService,
-        ISpawnButtonService spawnButtonService)
+        ISpawnButtonService spawnButtonService, ICoroutineRunner coroutineRunner)
     {
         _gameStateMachine = gameStateMachine;
         _sceneLoader = sceneLoader;
@@ -28,6 +29,7 @@ public class LoadSceneState : IPayloadState<string>
         _progressService = progressService;
         _itemsPoolService = itemsPoolService;
         _spawnButtonService = spawnButtonService;
+        _coroutineRunner = coroutineRunner;
     }
 
     public void Enter(string sceneName) => 
@@ -47,7 +49,8 @@ public class LoadSceneState : IPayloadState<string>
 
     private void InitGameObject()
     {
-        InitMainCanvas();        
+        InitMainCanvas();
+        SetLanguage();
     }
 
     private void InitMainCanvas()
@@ -76,7 +79,7 @@ public class LoadSceneState : IPayloadState<string>
     {
         try
         {
-            //_coroutineRunner.StartCoroutine(LoadLocale(YG2.lang));
+            _coroutineRunner.StartCoroutine(LoadLocale(YG2.lang));
         }
         catch (System.Exception) { }
     }

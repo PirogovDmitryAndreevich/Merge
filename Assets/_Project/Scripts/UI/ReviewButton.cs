@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class ReviewButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
+    [SerializeField] private ReviewWindow _window;
 
     private IReviewHandler _reviewHandler;
 
@@ -22,6 +23,8 @@ public class ReviewButton : MonoBehaviour
         _reviewHandler.ReviewNotAvailable += HideButton;
         _button.onClick.AddListener(OnButtonClicked);
 
+        _window.Construct(_reviewHandler);
+
         HideButton();
     }
 
@@ -32,5 +35,5 @@ public class ReviewButton : MonoBehaviour
         gameObject.SetActive(false);
 
     private void OnButtonClicked() =>
-        _reviewHandler.ShowReview();
+       _window.Show();
 }

@@ -28,6 +28,7 @@ public class Leaderboard : MonoBehaviour
     private void OnDestroy()
     {
         _progressService.Progress.Player.UnspentScoreChanged -= SetNewValueLB;
+        _rewardHandler.RewardCountChanged -= UpdateRewardButton;
         _closeButton.onClick.AddListener(Hide);
         _rewardButton.onClick.RemoveListener(OnRewardButtonClicked);
 
@@ -40,10 +41,12 @@ public class Leaderboard : MonoBehaviour
         _awardWindow = awardWindow;
 
         _progressService.Progress.Player.UnspentScoreChanged += SetNewValueLB;
+        _rewardHandler.RewardCountChanged += UpdateRewardButton;
         _closeButton.onClick.AddListener(Hide);
         _rewardButton.onClick.AddListener(OnRewardButtonClicked);
 
         SetNewValueLB();
+        UpdateRewardButton();
         _isInitialize = true;
         gameObject.SetActive(false);
     }
@@ -71,10 +74,14 @@ public class Leaderboard : MonoBehaviour
         _leaderboard.UpdateLB();
     }
 
+    private void UpdateRewardButton()
+    {
+        _rewardButton.gameObject.SetActive(_rewardHandler.HaveAvailableRewards);
+    }
+
     private void OnRewardButtonClicked()
     {
         _awardWindow.Show();
-        _rewardHandler.SpendReward();
-        _rewardButton.gameObject.SetActive(_rewardHandler.HaveAvailableRewards);
+        _rewardHandler.SpendReward();       
     }
 }

@@ -22,6 +22,7 @@ public class ArrowAttackAnimator : IAttackAnimator
         arrowTransform.right = (targetPosition - startPosition).normalized;
 
         arrow.SetAlpha(1f);
+        arrow.PlayAttackSound();
 
         return arrowTransform
             .DOMove(targetPosition, 0.5f)

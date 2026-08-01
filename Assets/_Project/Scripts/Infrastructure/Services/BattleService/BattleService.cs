@@ -8,6 +8,8 @@ public class BattleService : IBattleService
     private readonly IBattleRunner _battleRunner;
     private readonly IEnemyItemsSelector _enemyItemsSelector;
 
+    private AttackWindowType _currentAttackType;
+
     public List<ItemData> SelectedItems { get; private set; }
     public List<ItemData> EnemyItems { get; private set; }
     public bool IsPlaying { get; private set; }
@@ -17,7 +19,7 @@ public class BattleService : IBattleService
     public event Action StartSelectingItems;
     public event Action StartedBattle;
     public event Action<BattleResultType> BattleEnded;
-    public event Action CloseBattel;
+    public event Action<AttackWindowType> CloseBattle;
 
     public BattleService(IBattleRunner battleRunner,
         IEnemyItemsSelector enemyItemsSelector)
@@ -31,6 +33,7 @@ public class BattleService : IBattleService
     public void Start(AttackWindowType type)
     {
         IsPlaying = true;
+        _currentAttackType = type;
         BattleStarted?.Invoke(type);
     }
 
@@ -55,7 +58,7 @@ public class BattleService : IBattleService
 
     public void ClosingBattel()
     {
-        CloseBattel?.Invoke();
+        CloseBattle?.Invoke(_currentAttackType);
         IsPlaying = false;
         Cleanup();
     }

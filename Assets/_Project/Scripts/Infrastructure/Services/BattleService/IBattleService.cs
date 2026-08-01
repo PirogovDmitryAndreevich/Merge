@@ -12,7 +12,7 @@ public interface IBattleService : IService
     event Action StartSelectingItems;
     event Action StartedBattle;
     event Action<BattleResultType> BattleEnded;
-    event Action CloseBattel;
+    event Action<AttackWindowType> CloseBattle;
 
     void Start(AttackWindowType type);
     void StartSelecting();

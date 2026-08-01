@@ -11,6 +11,7 @@ public class AwardWindow : MonoBehaviour
     [SerializeField] private RectTransform _targetTransform;
     [SerializeField] private AudioPlayer _audioPlayer;
     [SerializeField] private AudioClip _showSound;
+    [SerializeField] private RectTransform _glows;
 
     private Sequence _appearanceAnimation;
     private Sequence _moveAnimation;
@@ -46,15 +47,23 @@ public class AwardWindow : MonoBehaviour
         gameObject.SetActive(true);
 
         _appearanceAnimation?.Kill();
+        _glows.DOKill();
 
         _appearanceAnimation = DOTween.Sequence();
 
         _audioPlayer.PlaySound(_showSound);
 
-        _appearanceAnimation.
-            Append(_itemIcon.transform.DOScale(1, _showSound.length).From(0)
+        _glows.DOLocalRotate(
+            new Vector3(0, 0, 360),
+            4f,
+            RotateMode.FastBeyond360)
+        .SetEase(Ease.Linear)
+        .SetLoops(-1, LoopType.Restart);
+
+        _appearanceAnimation
+            .Append(_itemIcon.transform.DOScale(1, 0.5f).From(0)
             .SetEase(Ease.InOutBounce))
-            .Append(_buttonCanvasGroup.DOFade(1, _showSound.length).From(0));
+            .Append(_buttonCanvasGroup.DOFade(1, 0.3f).From(0));
     }
 
     private void OnButtonClick()
@@ -64,6 +73,8 @@ public class AwardWindow : MonoBehaviour
         _moveAnimation = DOTween.Sequence();
 
         _background.SetActive(false);
+        _glows.gameObject.SetActive(false);
+        _button.gameObject.SetActive(false);
 
         _moveAnimation
             .Join(_itemIcon.rectTransform.DOMove(_targetTransform.position, 1f)
@@ -91,5 +102,7 @@ public class AwardWindow : MonoBehaviour
 
         _buttonCanvasGroup.alpha = 0;
         _background.SetActive(true);
+        _glows.gameObject.SetActive(true);
+        _button.gameObject.SetActive(true);
     }
 }

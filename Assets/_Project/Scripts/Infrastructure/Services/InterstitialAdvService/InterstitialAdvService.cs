@@ -1,14 +1,17 @@
 using System;
-using System.Diagnostics;
 
 public class InterstitialAdvService : IInterstitialAdvService
 {
+    private const float TimerForInterstitial = 60f;
+
     public InterstitialAdvService()
     {
         IsShowing = false;
+        Timer = TimerForInterstitial;
     }
 
     public bool IsShowing { get; private set; }
+    public float Timer { get; set; }
 
     public event Action ShowInterstitial;
 
@@ -21,5 +24,6 @@ public class InterstitialAdvService : IInterstitialAdvService
     public void OnHideTimer()
     {
         IsShowing = false;
+        Timer = TimerForInterstitial;
     }
 }

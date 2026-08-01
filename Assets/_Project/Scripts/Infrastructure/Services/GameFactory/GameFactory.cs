@@ -106,7 +106,8 @@ public class GameFactory : IGameFactory
     {
         var test = _assets.Instantiate(AssetsPath.TestPath).GetComponent<Test>();
 
-        test.Construct(_coinsCounterService, _progress, _itemSpawnService, _reviewHandler);
+        test.Construct(_coinsCounterService, _progress, _itemSpawnService, _reviewHandler,
+            _mainCanvas.AwardWindow);
     }
 
     private Item CreateItem()

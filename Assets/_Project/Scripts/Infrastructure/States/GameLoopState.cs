@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Diagnostics;
-using YG;
 
 public class GameLoopState : IState
 {
@@ -73,11 +71,12 @@ public class GameLoopState : IState
             }
 
             if (!_interstitialAdvService.IsShowing && !_battleService.IsPlaying
-                && YG2.isTimerAdvCompleted && !YG2.nowAdsShow)
+                && _interstitialAdvService.Timer <= 0)
             {
                 _interstitialAdvService.ShowAdv();
             }
 
+            _interstitialAdvService.Timer -= UnityEngine.Time.deltaTime;
             saveTimer -= UnityEngine.Time.deltaTime;
 
             yield return null;

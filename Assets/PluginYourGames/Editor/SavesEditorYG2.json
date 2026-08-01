@@ -7,7 +7,7 @@
         false,
         false
     ],
-    "idSave": 144,
+    "idSave": 219,
     "Saves": {
         "Items": {
             "Items": [
@@ -20,10 +20,10 @@
                     }
                 },
                 {
-                    "ID": 1,
+                    "ID": 3,
                     "Position": {
-                        "X": 829.210693359375,
-                        "Y": 506.4680480957031,
+                        "X": 854.167236328125,
+                        "Y": 706.7979736328125,
                         "Z": 0.0
                     }
                 }
@@ -38,16 +38,16 @@
             "SpawnItemID": 1
         },
         "Player": {
-            "Coins": 125,
-            "Score": 0,
-            "UnspentScores": 0,
+            "Coins": 290,
+            "Score": 12,
+            "UnspentScores": 2,
             "TargetScoreToReward": 10,
             "AvailableAwards": 0,
-            "RewardLevel": 1,
-            "ViewedAdv": 0
+            "RewardLevel": 2,
+            "ViewedAdv": 1
         },
         "BonusItemsData": {
-            "MultiplierCount": 0
+            "MultiplierCount": 5
         },
         "LBRewardData": {
             "CurrentRank": 5,
