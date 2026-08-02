@@ -49,7 +49,7 @@ public class CursorAnimation
         .Play();
     }
 
-    public void StopClickAnimation()
+    public void StopAnimation()
     {
         _animation?.Kill();
 
@@ -57,8 +57,20 @@ public class CursorAnimation
             _currentCursor.localRotation = _startRotation;
     }
 
-    public IEnumerator MergeAnimation()
+    public void MergeAnimation(Transform cursor, Transform first, Transform second)
     {
-        yield return null;
+        _animation?.Kill();
+
+        cursor.position = first.position;
+
+        _animation = DOTween.Sequence();
+
+        _animation
+            .Append(cursor.DOMove(second.position, 0.8f).SetEase(Ease.InOutSine))
+            .Join(cursor.DOScale(0.9f, 0.2f).SetLoops(4, LoopType.Yoyo))
+            .AppendInterval(0.2f)
+            .Append(cursor.DOMove(first.position, 0.8f).SetEase(Ease.InOutSine))
+            .SetLoops(-1)
+            .Play();
     }
 }

@@ -33,7 +33,8 @@ public class GameStateMachine
                 allServices.Single<IStaticData>(),
                 allServices.Single<IBattleService>(),
                 allServices.Single<IInterstitialAdvService>(),
-                allServices.Single<IReviewHandler>()),
+                allServices.Single<IReviewHandler>(),
+                allServices.Single<IHintService>()),
         };
     }
 

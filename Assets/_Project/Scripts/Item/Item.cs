@@ -97,20 +97,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (_isCursorView)
-        {
-            _isCursorView = false;
-            _cursorHandler.HideCursor();
-        }
+        if (_cursorHandler.IsEnableCursor)        
+            _cursorHandler.HideCursor();        
 
         _audioPlayer.PlaySound(_clickSound);
         _coinsService.AddCoins(_profit, eventData.position, withMultiplier: true);
         _impactShake.Play();
         _particle.PlayClick( eventData.position);
     }
-
-    public void EnableCursor() => 
-        _isCursorView = true;
 
     private Vector2 GetNewPosition(Vector2 newPosition)
     {

@@ -8,7 +8,7 @@ public class CoinsCounterService : ICoinsCounterService
     private readonly IPoolService _pool;
     private readonly ICoroutineRunner _coroutineRunner;
     private readonly GameData _data;
-
+    private readonly IHintService _hintService;
     private bool IsMultiplier;
     float _timer;
 
@@ -16,12 +16,14 @@ public class CoinsCounterService : ICoinsCounterService
     public event Action MultiplierStopped;
     public event Action<float> MultiplierTimeChanged;
 
-    public CoinsCounterService(IProgressService progress, IPoolService pool, ICoroutineRunner coroutineRunner, GameData data)
+    public CoinsCounterService(IProgressService progress, IPoolService pool,
+        ICoroutineRunner coroutineRunner, GameData data, IHintService hintService)
     {
         _progress = progress;
         _pool = pool;
         _coroutineRunner = coroutineRunner;
         _data = data;
+        _hintService = hintService;
     }
 
     public void AddCoins(int amount, Vector2 position, bool withMultiplier = false)
@@ -31,6 +33,7 @@ public class CoinsCounterService : ICoinsCounterService
 
         _progress.Progress.Player.AddCoins(amount);
         PlayCoins(amount, position);
+        _hintService.ResetTimer();
     }
 
     public void AddScore(int score, Vector2 position)

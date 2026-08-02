@@ -44,7 +44,7 @@ public class SpawnButton : MonoBehaviour
 
     private void OnButtonPressed()
     {
-        if (_spawnService.IsActive)
+        if (_spawnService.HaveCoinsForBuyItem)
             _spawnService.Spawn();
         else
             _spawnService.CheckView();

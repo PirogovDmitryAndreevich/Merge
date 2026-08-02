@@ -10,12 +10,14 @@ public class GameLoopState : IState
     private readonly IBattleService _battleService;
     private readonly IInterstitialAdvService _interstitialAdvService;
     private readonly IReviewHandler _reviewHandler;
+    private readonly IHintService _hintService;
     private bool _isGame;
 
     public GameLoopState(ICoroutineRunner coroutine, ISaveLoadService saveLoadService,
         IItemsAnimation itemsAnimation, IProgressService progressService,
         IStaticData staticData, IBattleService battleService,
-        IInterstitialAdvService interstitialAdvService, IReviewHandler reviewHandler)
+        IInterstitialAdvService interstitialAdvService, IReviewHandler reviewHandler,
+        IHintService hintService)
     {
         _coroutine = coroutine;
         _saveLoadService = saveLoadService;
@@ -25,6 +27,7 @@ public class GameLoopState : IState
         _battleService = battleService;
         _interstitialAdvService = interstitialAdvService;
         _reviewHandler = reviewHandler;
+        _hintService = hintService;
     }
 
     public void Enter()
@@ -47,6 +50,7 @@ public class GameLoopState : IState
         {
             if (_battleService.IsPlaying)
             {
+                _hintService.ResetTimer();
                 yield return null;
                 continue;
             }
@@ -76,6 +80,7 @@ public class GameLoopState : IState
                 _interstitialAdvService.ShowAdv();
             }
 
+            _hintService.UpdateTimer(UnityEngine.Time.deltaTime);
             _interstitialAdvService.Timer -= UnityEngine.Time.deltaTime;
             saveTimer -= UnityEngine.Time.deltaTime;
 

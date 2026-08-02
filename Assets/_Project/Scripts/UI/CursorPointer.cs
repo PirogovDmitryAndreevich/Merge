@@ -10,12 +10,13 @@ public class CursorPointer : MonoBehaviour
     private CursorAnimation _cursorAnimation;
 
     private bool _isClickAnimation;
-    //private bool _isMergeAnimation;
+    private bool _isMergeAnimation;
 
     private void OnDestroy()
     {
         _cursorHandler.ShowingItemCursor -= OnShowMaxItem;
         _cursorHandler.ShowingButtonCursor -= OnShowButton;
+        _cursorHandler.ShowingMergeItemsCursor -= OnShowMerge;
         _cursorHandler.HidingCursor -= Hide;
     }
 
@@ -27,6 +28,7 @@ public class CursorPointer : MonoBehaviour
 
         _cursorHandler.ShowingItemCursor += OnShowMaxItem;
         _cursorHandler.ShowingButtonCursor += OnShowButton;
+        _cursorHandler.ShowingMergeItemsCursor += OnShowMerge;
         _cursorHandler.HidingCursor += Hide;
 
         Hide();
@@ -48,19 +50,35 @@ public class CursorPointer : MonoBehaviour
         StartClickAnimation();
     }
 
+    private void OnShowMerge(Item first, Item second)
+    {
+        _isMergeAnimation = true;
+        gameObject.SetActive(true);
+        StartMergeAnimation(first.transform, second.transform);
+    }
+
     private void Hide()
     {
         gameObject.SetActive(false);
 
-        if(_isClickAnimation)
-        {
-            _isClickAnimation = false;
-            _cursorAnimation.StopClickAnimation();
-        }
+        if(_isClickAnimation)        
+            _isClickAnimation = false;        
+        
+        if (_isMergeAnimation)        
+            _isMergeAnimation = false;        
+
+            _cursorAnimation.StopAnimation();
     }
 
     private void StartClickAnimation()
     {
+        _text.gameObject.SetActive(true);
         _cursorAnimation.ClickAnimation(_iconTransform, _text);
+    }
+
+    private void StartMergeAnimation(Transform first, Transform second)
+    {
+        _text.gameObject.SetActive(false);
+        _cursorAnimation.MergeAnimation(transform, first, second);
     }
 }

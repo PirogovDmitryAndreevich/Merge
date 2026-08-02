@@ -9,7 +9,8 @@ public class SpawnButtonService : ISpawnButtonService
 
     public ItemData CurrentItem { get; private set; }
     public ItemData BonusItem { get; private set; }
-    public bool IsActive { get; private set; }
+    public bool HaveCoinsForBuyItem =>
+        _progressService.Progress.Player.Coins >= CurrentItem.Price;
 
     public event Action<bool> ViewChanged;
     public event Action ItemChanged;
@@ -25,13 +26,10 @@ public class SpawnButtonService : ISpawnButtonService
 
     public void CheckView()
     {
-        IsActive =
-            _progressService.Progress.Player.Coins >= CurrentItem.Price;
-
-        if (!IsActive)
+        if (!HaveCoinsForBuyItem)
             _cursorHandler.ShowMaxItem();
 
-        ViewChanged?.Invoke(IsActive);
+        ViewChanged?.Invoke(HaveCoinsForBuyItem);
     }
 
     public void Spawn()

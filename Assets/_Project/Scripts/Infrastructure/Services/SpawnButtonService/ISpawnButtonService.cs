@@ -4,7 +4,7 @@ public interface ISpawnButtonService : IService
 {
     ItemData CurrentItem { get; }
     ItemData BonusItem { get; }
-    bool IsActive { get; }
+    bool HaveCoinsForBuyItem { get; }
 
     event Action ItemChanged;
     event Action<bool> ViewChanged;

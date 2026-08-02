@@ -7,23 +7,31 @@
         false,
         false
     ],
-    "idSave": 231,
+    "idSave": 274,
     "Saves": {
         "Items": {
             "Items": [
                 {
-                    "ID": 4,
+                    "ID": 5,
                     "Position": {
-                        "X": 561.758056640625,
-                        "Y": 719.6810913085938,
+                        "X": 545.0,
+                        "Y": 716.366455078125,
                         "Z": 0.0
                     }
                 },
                 {
                     "ID": 3,
                     "Position": {
-                        "X": 854.167236328125,
-                        "Y": 706.7979736328125,
+                        "X": 916.817626953125,
+                        "Y": 691.571533203125,
+                        "Z": 0.0
+                    }
+                },
+                {
+                    "ID": 2,
+                    "Position": {
+                        "X": 546.0545654296875,
+                        "Y": 338.6048583984375,
                         "Z": 0.0
                     }
                 }
@@ -32,15 +40,16 @@
                 1,
                 2,
                 3,
-                4
+                4,
+                5
             ],
-            "MaxItemID": 4,
+            "MaxItemID": 5,
             "SpawnItemID": 1
         },
         "Player": {
-            "Coins": 5065,
-            "Score": 14,
-            "UnspentScores": 4,
+            "Coins": 85,
+            "Score": 16,
+            "UnspentScores": 6,
             "TargetScoreToReward": 10,
             "AvailableAwards": 0,
             "RewardLevel": 2,
