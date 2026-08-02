@@ -145,8 +145,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Value
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
+  m_sharedMaterial: {fileID: 6239379306351389260, guid: 30cc3baab62b3394a9774bf22cad2132, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -231,6 +231,9 @@ MonoBehaviour:
   _coinsSprite: {fileID: 21300000, guid: 9920f88c1ae538b4c8a7c528748f67a2, type: 3}
   _damageSprite: {fileID: 21300000, guid: 4469cdc69034a504dab6f8a846ce6abe, type: 3}
   _scoreSprite: {fileID: 21300000, guid: d78d8f279ecd47b4da1ef8d7ade0c46d, type: 3}
+  _coinsColor: {r: 0.8945511, g: 0.93962264, b: 0.2180633, a: 1}
+  _damageColor: {r: 0.7207546, g: 0, b: 0, a: 1}
+  _scoreColor: {r: 0.26981127, g: 0.52179796, b: 1, a: 1}
 --- !u!225 &382379673775205060
 CanvasGroup:
   m_ObjectHideFlags: 0

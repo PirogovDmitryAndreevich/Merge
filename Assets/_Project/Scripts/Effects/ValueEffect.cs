@@ -15,6 +15,12 @@ public class ValueEffect : MonoBehaviour
     [SerializeField] private Sprite _damageSprite;
     [SerializeField] private Sprite _scoreSprite;
 
+    [Header("Colors")]
+    [SerializeField] private Color _coinsColor;
+    [SerializeField] private Color _damageColor;
+    [SerializeField] private Color _scoreColor;
+
+    private Color _color;
     private IPoolService _pool;
     private Sequence _sequence;
 
@@ -26,8 +32,10 @@ public class ValueEffect : MonoBehaviour
         _sequence?.Kill();
 
         string symbol = SetType(type);
+        string numberFormat = NumberFormatter.NumberAsString(value);
 
-        _text.text = $"{symbol}{value}";
+        _text.color = _color;
+        _text.text = $"{symbol}{numberFormat}";
 
         _rectTransform.position = startPoint;
         _rectTransform.localScale = Vector3.zero;
@@ -64,12 +72,15 @@ public class ValueEffect : MonoBehaviour
         {
             case ValueType.Coins:
                 _icon.sprite = _coinsSprite;
+                _color = _coinsColor;
                 return "+";
             case ValueType.Damage:
                 _icon.sprite = _damageSprite;
+                _color = _damageColor;
                 return "-";
             case ValueType.Score:
                 _icon.sprite = _scoreSprite;
+                _color = _scoreColor;
                 return "+";
             default:
                 return "+";

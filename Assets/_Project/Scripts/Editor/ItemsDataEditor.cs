@@ -134,18 +134,6 @@ public class ItemsDataEditor : Editor
             packMultiplier;
 
 
-        // Кривая задаёт рост внутри пачки.
-        //
-        // curve = 0:
-        // multiplier = base multiplier
-        //
-        // curve = 1:
-        // multiplier = base multiplier * 2
-        //
-        // При желании коэффициент роста
-        // внутри пачки можно изменить.
-
-
         float finalMultiplier =
             priceMultiplier *
             Mathf.Lerp(

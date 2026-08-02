@@ -7,15 +7,15 @@
         false,
         false
     ],
-    "idSave": 219,
+    "idSave": 231,
     "Saves": {
         "Items": {
             "Items": [
                 {
                     "ID": 4,
                     "Position": {
-                        "X": 552.9307250976563,
-                        "Y": 713.9010620117188,
+                        "X": 561.758056640625,
+                        "Y": 719.6810913085938,
                         "Z": 0.0
                     }
                 },
@@ -38,9 +38,9 @@
             "SpawnItemID": 1
         },
         "Player": {
-            "Coins": 290,
-            "Score": 12,
-            "UnspentScores": 2,
+            "Coins": 5065,
+            "Score": 14,
+            "UnspentScores": 4,
             "TargetScoreToReward": 10,
             "AvailableAwards": 0,
             "RewardLevel": 2,

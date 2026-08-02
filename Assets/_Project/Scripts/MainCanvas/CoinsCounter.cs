@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 
@@ -17,6 +16,9 @@ public class CoinsCounter : MonoBehaviour
         UpdateCounter();
     }
 
-    private void UpdateCounter() => 
-        _coinsText.text = _progress.Progress.Player.Coins.ToString();
+    private void UpdateCounter()
+    {
+        int value = _progress.Progress.Player.Coins;
+        _coinsText.text = NumberFormatter.NumberAsString(value);
+    }
 }

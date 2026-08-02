@@ -16,6 +16,9 @@ public class ScoreCounter : MonoBehaviour
         UpdateCounter();
     }
 
-    private void UpdateCounter() =>
-        _coinsText.text = _progress.Progress.Player.Score.ToString();
+    private void UpdateCounter()
+    {
+        int value = _progress.Progress.Player.Score;
+       _coinsText.text = NumberFormatter.NumberAsString(value);
+    }
 }
