@@ -71,7 +71,7 @@ public class LoadSceneState : IPayloadState<string>
             ItemData itemData = _staticData.ForItem(item.ID);
 
             loadItem.Initialize(itemData, item);
-            loadItem.transform.position = item.Position.AsUnityVector();
+            loadItem.transform.localPosition = item.Position.AsUnityVector();
         }
     }
 

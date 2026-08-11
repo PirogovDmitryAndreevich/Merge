@@ -66,7 +66,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler,
     }
 
     public void SavePosition() =>
-        _saveData.Position = _rectTransform.position.AsVectorData();
+        _saveData.Position = _rectTransform.localPosition.AsVectorData();
 
     public void OnBeginDrag(PointerEventData eventData)
     {

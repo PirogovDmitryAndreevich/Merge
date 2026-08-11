@@ -115,6 +115,14 @@ MonoBehaviour:
     m_Key: AdIn
     m_Metadata:
       m_Items: []
+  - m_Id: 4333586953003008
+    m_Key: PerClick
+    m_Metadata:
+      m_Items: []
+  - m_Id: 4333680670531584
+    m_Key: Bonus
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

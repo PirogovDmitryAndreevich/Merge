@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -15,6 +14,7 @@ public class StartBattleWindow : MonoBehaviour
 
     private LBData _lbData;
     private IBattleService _battleService;
+    private bool _isLeaderboardEnable;
 
     private void OnDestroy()
     {
@@ -41,19 +41,15 @@ public class StartBattleWindow : MonoBehaviour
         if (_type != type)
             return;
 
-        if (_lbData == null || _lbData.players == null || _lbData.players.Length == 0)
+        if (YG2.player.auth)
         {
-            if (_lbData == null)
-                Debug.LogWarning("Leaderboard data is null");
-            else if (_lbData.players == null)
-                Debug.LogWarning("Leaderboard players array is null");
-            else if (_lbData.players.Length == 0)
-                Debug.LogWarning("Leaderboard players array is empty");
-
-            return;
+            _name.gameObject.SetActive(true);
+            UpdateEnemyName();
         }
-
-        _name.text = GetEnemyName();
+        else
+        {
+            _name.gameObject.SetActive(false);
+        }
 
         gameObject.SetActive(true);
     }
@@ -73,27 +69,50 @@ public class StartBattleWindow : MonoBehaviour
     private void Hide() =>
         gameObject.SetActive(false);
 
+    private void UpdateEnemyName()
+    {
+        if (!_isLeaderboardEnable || _lbData == null)
+        {
+            _name.gameObject.SetActive(false);
+            return;
+        }
+
+        string enemyName = GetEnemyName();
+
+        if (string.IsNullOrEmpty(enemyName))
+        {
+            _name.gameObject.SetActive(false);
+            return;
+        }
+
+        _name.text = enemyName;
+        _name.gameObject.SetActive(true);
+    }
+
     private string GetEnemyName()
     {
+        if (_lbData?.players == null)
+            return null;
+
         LBPlayerData[] enemies = _lbData.players
-        .Where(x => x != null && x.rank != _lbData.currentPlayer.rank)
-        .ToArray();
+            .Where(x => x != null && x.rank != _lbData.currentPlayer.rank)
+            .ToArray();
 
         if (enemies.Length == 0)
             return null;
 
-        int randomIndex = UnityEngine.Random.Range(0, enemies.Length);
+        int randomIndex = Random.Range(0, enemies.Length);
 
         return enemies[randomIndex].name;
     }
 
-    private void OnGetLeaderboard(LBData data) => 
+    private void OnGetLeaderboard(LBData data)
+    {
         _lbData = data;
-}
 
-[Serializable]
-public enum AttackWindowType
-{
-    PlayerAttack,
-    EnemyAttack,
+        _isLeaderboardEnable =
+            _lbData != null &&
+            _lbData.players != null &&
+            _lbData.players.Length > 0;
+    }
 }

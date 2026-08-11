@@ -38,13 +38,15 @@ public class GameLoopState : IState
 
     public void Exit()
     {
-
+        _isGame = false;
     }
 
     private IEnumerator Gameplay()
     {
         float saveTimer = _staticData.GameData.SaveTimer;
         float attackTimer = _staticData.GameData.AttackTimer;
+
+        _isGame = true;
 
         while (_isGame)
         {

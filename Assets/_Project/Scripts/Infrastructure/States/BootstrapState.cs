@@ -51,11 +51,6 @@ public class BootstrapState : IState
 
         _allServices.RegisterSingle<IAwardHandler>(new AwardHandler(_allServices.Single<IProgressService>()));
 
-        _allServices.RegisterSingle<IBonusHandler>(new MultiplierBonusHandler(
-            _allServices.Single<IProgressService>(),
-            _allServices.Single<ICoinsCounterService>(),
-            _allServices.Single<ICursorHandler>()));
-
         RegisterBattleServices();
 
         _allServices.RegisterSingle<IItemsAnimation>(new ItemsAnimation(_allServices.Single<IItemsPoolService>(),
@@ -83,6 +78,11 @@ public class BootstrapState : IState
             _coroutineRunner,
             _allServices.Single<IStaticData>().GameData,
             _allServices.Single<IHintService>()));
+
+        _allServices.RegisterSingle<IBonusHandler>(new MultiplierBonusHandler(
+            _allServices.Single<IProgressService>(),
+            _allServices.Single<ICoinsCounterService>(),
+            _allServices.Single<ICursorHandler>()));
 
         _allServices.RegisterSingle<IRewardAdvService>(new RewardAdvService(
             _allServices.Single<IProgressService>(),

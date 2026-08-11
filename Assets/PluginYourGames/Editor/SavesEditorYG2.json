@@ -7,31 +7,39 @@
         false,
         false
     ],
-    "idSave": 274,
+    "idSave": 408,
     "Saves": {
         "Items": {
             "Items": [
                 {
+                    "ID": 7,
+                    "Position": {
+                        "X": -337.0233154296875,
+                        "Y": 214.70965576171876,
+                        "Z": 0.0
+                    }
+                },
+                {
                     "ID": 5,
                     "Position": {
-                        "X": 545.0,
-                        "Y": 716.366455078125,
+                        "X": -397.7902526855469,
+                        "Y": -212.5,
                         "Z": 0.0
                     }
                 },
                 {
-                    "ID": 3,
+                    "ID": 4,
                     "Position": {
-                        "X": 916.817626953125,
-                        "Y": 691.571533203125,
+                        "X": 364.290283203125,
+                        "Y": 212.5,
                         "Z": 0.0
                     }
                 },
                 {
-                    "ID": 2,
+                    "ID": 1,
                     "Position": {
-                        "X": 546.0545654296875,
-                        "Y": 338.6048583984375,
+                        "X": 460.427734375,
+                        "Y": 114.03070068359375,
                         "Z": 0.0
                     }
                 }
@@ -41,15 +49,17 @@
                 2,
                 3,
                 4,
-                5
+                5,
+                6,
+                7
             ],
-            "MaxItemID": 5,
+            "MaxItemID": 7,
             "SpawnItemID": 1
         },
         "Player": {
-            "Coins": 85,
-            "Score": 16,
-            "UnspentScores": 6,
+            "Coins": 83,
+            "Score": 18,
+            "UnspentScores": 8,
             "TargetScoreToReward": 10,
             "AvailableAwards": 0,
             "RewardLevel": 2,
